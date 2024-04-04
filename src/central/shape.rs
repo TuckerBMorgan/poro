@@ -64,11 +64,8 @@ impl Shape {
             },
             Indexable::Double(a, b) => {
                 panic!("Not implemented");
-                assert!(a < self.number_of_indices);
-                assert!(b < self.number_of_indices);
-                self.indices[a] * self.indices[b]
             },
-            Indexable::Range(a, b, c) => {
+            Indexable::Mixed(range_start, range_end, tensor_id) => {
                 panic!("Not implemented");
             }
         }
@@ -96,8 +93,16 @@ impl Shape {
                 Shape::new(new_indices)
 
             },
-            Indexable::Range(a, b, c) => {
-                panic!("Not implemented");
+            Indexable::Mixed(range_start, range_end, tensor_id) => {
+                return Shape::new(self.indices.to_vec());
+                let mut new_indices = vec![];
+                for j in 0..range_start {
+                    new_indices.push(self.indices[j]);
+                }
+                for j in range_end..self.number_of_indices {
+                    new_indices.push(self.indices[j]);
+                }
+                Shape::new(new_indices)
             }
         }
     

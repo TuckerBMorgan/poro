@@ -9,7 +9,7 @@ mod shape;
 mod internal_tensor;
 mod indexable;
 
-pub use tensor::Tensor;
+pub use tensor::{Tensor, TensorID};
 pub use equation::Equation;
 pub use shape::Shape;
 pub use indexable::Indexable;

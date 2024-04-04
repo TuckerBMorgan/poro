@@ -348,7 +348,7 @@ impl Equation {
                 // this is for now, as I dont' have a good way to handle the case of more then 
                 // a two indices being indexed in this manner
                 assert!(internal_tensor.shape.number_of_indices == 2);
-                let offset = internal_tensor.data_start_index + i * internal_tensor.shape.indices[0] + j;
+                let offset = internal_tensor.data_start_index + i * internal_tensor.shape.indices[1] + j;
                 self.data_store[offset] = data[0];
             },
             _ => panic!("Wrong Indexable")

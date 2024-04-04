@@ -1,9 +1,10 @@
+use core::slice;
 use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Shl, Sub};
-use ndarray::prelude::*;
+use ndarray::{prelude::*, Slice};
 
 use super::{operation::Operation, shape::Shape, indexable::Indexable};
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+#[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
 pub struct TensorID {
     pub id: usize
 }
@@ -226,8 +227,24 @@ impl Tensor {
                     name: ['a';10]
                 }
             },
-            Indexable::Range(start, end, step) => {
-                panic!("Not implemented yet");
+            Indexable::Mixed(a, b, tensor_id) => {
+                let ashape = self.shape.as_ndarray_shape();
+                let data_as_array = ArrayD::from_shape_vec(ashape, data.clone()).unwrap();
+                let data_as_array = data_as_array.slice(s![a..b, ..]).to_owned();
+                let picker_indices = singleton.get_item(tensor_id);
+                let picker_indices = picker_indices.clone().into_iter().map(|x| x as usize).collect::<Vec<usize>>();
+                let mut final_data = vec![];
+                for (enu, index) in picker_indices.iter().enumerate() {
+                    let data = data_as_array[[enu, *index]];
+                    final_data.push(data);
+                }
+                let tensor_id = singleton.allocate_tensor(vec![b - a, picker_indices.len()].into(), final_data, Operation::View(self.tensor_id, index));
+                return Tensor {
+                    tensor_id,
+                    shape: new_shape,
+                    operation: Operation::View(self.tensor_id, index),
+                    name: ['a';10]
+                }
             }
 
         }

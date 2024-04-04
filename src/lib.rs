@@ -589,16 +589,15 @@ mod tests {
     
         // Prepare a batch of data
         let combined = xs.iter().take(TEST_BATCH).zip(ys.iter().take(TEST_BATCH));
-        let mut inputs = vec![];
+        let mut inputs = Tensor::zeroes(Shape::new(vec![TEST_BATCH, NUMBER_OF_CHARACTERS]));
         let mut targets = vec![];
+        let mut index = 0;
         for (x, y) in combined {
-            let mut input = Tensor::zeroes(Shape::new(vec![1, NUMBER_OF_CHARACTERS]));
-            input.set_index([0, *x].into(), vec![1.0].into());
-            inputs.push(input);
-            let mut target = Tensor::zeroes(Shape::new(vec![1, NUMBER_OF_CHARACTERS]));
-            target.set_index([0, *y].into(), vec![1.0].into());
-            targets.push(target);
+            inputs.set_index([index, *x].into(), vec![1.0].into());
+            targets.push(*y);
+            index += 1;
         }
+        println!("inputs: {:?}", inputs.item());
     
         // Assuming we have only one batch, so no need for an outer epoch loop
         for _ in 0..3 {
@@ -607,17 +606,15 @@ mod tests {
                 let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
                 singleton.zero_all_grads();
             }
-            for (input, target) in inputs.iter().zip(&targets) {
-                let prediction = *input << weights;
+
+                let prediction = inputs << weights;
                 let counts = prediction.exp();
                 let counts_sum = counts.sum();
                 let probabilities = counts / counts_sum;
-                let target_index = target.item().iter().position(|&x| x == 1.0).unwrap();
-                let view = probabilities.view([0, target_index].into());
+                let view = probabilities.view(Indexable::Mixed(0, 5, TensorID { id: 0 }).into());
                 let logged = -(view.log());
                 logged.backward();
-                println!("Loss: {:?}", logged.item());
-            }
+
             
             let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
             singleton.update_parameters(-50.0);
