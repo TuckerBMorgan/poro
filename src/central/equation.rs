@@ -203,10 +203,9 @@ impl Equation {
                 let base_grad = self.get_tensor_grad(base);
 
                 let power = power_data[0] - 1.0;
-                //println!("Power: {:?}", power);
+
                 
                 let grad_update = power_data * base_data.mapv(|x| x.powf(power)) * grad.clone();
-                //println!("Grad Update: {:?}", grad_update);
                 self.set_tensor_grad(base, base_grad + grad_update);
             },
             Operation::MatMul(a, b) => {
@@ -236,15 +235,20 @@ impl Equation {
                 self.set_tensor_grad(a, grad_update);
             },
             Operation::Broadcast(a, _) => {
-                if data.shape() == grad.shape() {
-                    let mut new_grad = grad.clone();
-                    for _ in 0..data.ndim() {
-                        new_grad = new_grad.sum_axis(Axis(0));
-                    }
-                    self.set_tensor_grad(a, new_grad + self.get_tensor_grad(a));
-                } else {
-                    self.set_tensor_grad(a, grad + self.get_tensor_grad(a));
-                }
+                let mut new_grad = grad.clone();
+                // I need to sum the grad, as it is a broadcast
+                let mut collected = vec![];
+                let rows = new_grad.rows();
+                for row in rows {
+                    let sum : f32 = row.iter().sum();
+                    collected.push(sum);
+                }   
+                let left_hand_grad = self.get_tensor_grad(a);
+                let shape = left_hand_grad.shape();
+                new_grad = ArrayD::from_shape_vec(shape, collected).unwrap();
+
+                let grad_update = left_hand_grad + new_grad;
+                self.set_tensor_grad(a, grad_update);
             },
             Operation::Log(a) => {
                 let base_data = self.get_tensor_data(a);
@@ -359,6 +363,12 @@ impl Equation {
     }
 
     fn set_tensor_grad(&mut self, tensor_id: TensorID, grad: ArrayD<f32>) {
+        let data = grad.iter();
+        for datum in data {
+            if (*datum).abs().floor() == 49.0 {
+                println!("Datum: {:?}", datum);
+            }
+        }
 
         assert!(grad.shape() == self.internal_tensor_store.get(&tensor_id).unwrap().shape.as_ndarray_shape());
         let grad: Vec<f32> = grad.into_raw_vec();

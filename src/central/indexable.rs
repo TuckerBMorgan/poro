@@ -14,7 +14,7 @@ impl Indexable {
         match self {
             Indexable::Single(_) => 1,
             Indexable::Double(_, _) => 2,
-            Indexable::Mixed(_, _, _) => 2
+            Indexable::Mixed(_, _) => 2
 
         }
     }
@@ -51,7 +51,7 @@ impl From<Indexable> for Vec<usize> {
         match indexable {
             Indexable::Single(index) => vec![index],
             Indexable::Double(a, b) => vec![a, b],
-            Indexable::Mixed(a, b, _) => vec![a, b]
+            Indexable::Mixed(a, b) => vec![1, 1]
 
         }
     }

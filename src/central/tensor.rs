@@ -37,7 +37,18 @@ impl Tensor {
             name: ['a';10]
         }
     }
-
+    /*
+    pub fn load_from_weight_file(shape: Shape, path: String) -> Tensor {
+        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let tensor_id = singleton.allocate_tensor_from_weight_file(shape.clone(), path, Operation::Nop);
+        Tensor {
+            tensor_id,
+            shape,
+            operation: Operation::Nop,
+            name: ['a';10]
+        }
+    }
+ */
     pub fn get_id(&self) -> usize {
         self.tensor_id.id
     }
@@ -148,16 +159,48 @@ impl Tensor {
     }
 
     pub fn sum(&self) -> Tensor {
+
+        // I want to sum along the first axis
+        let data = self.item().sum_axis(Axis(1)).clone().into_iter().map(|x| x).collect();
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let data = singleton.get_item(self.tensor_id).clone().into_iter().sum();
-        let tensor_id = singleton.allocate_element_tensor(Shape::new(vec![1]), data, Operation::Sum(self.tensor_id));
+        let tensor_id = singleton.allocate_tensor(Shape::new(vec![self.shape.indices[0], 1]), data, Operation::Sum(self.tensor_id));
+
+        Tensor {
+            tensor_id,
+            shape: Shape::new(vec![ self.shape.indices[0], 1]),
+            operation: Operation::Sum(self.tensor_id),
+            name: ['a';10]
+        }
+    }
+    
+    pub fn mean(&self, ) -> Tensor {
+        // a mean is a sum and a div
+        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let data : f32 = singleton.get_item(self.tensor_id).clone().into_iter().sum();
+        let data = data / self.shape.size() as f32;
+        let tensor_id = singleton.allocate_element_tensor(Shape::new(vec![1]), data, Operation::Mean(self.tensor_id));
 
         Tensor {
             tensor_id,
             shape: Shape::new(vec![1]),
-            operation: Operation::Sum(self.tensor_id),
+            operation: Operation::Mean(self.tensor_id),
             name: ['a';10]
         }
+    }
+
+    pub fn t_mean(tensors: &Vec<Tensor>) -> Tensor {
+        for tensor in tensors {
+            if tensor.shape.size() != 1 {
+                panic!("All tensors must be of size 1");
+            }
+        }
+
+        let mut tensor = Tensor::element(vec![1].into(), 0.0);
+        for sum_tensor in tensors {
+            tensor = tensor + *sum_tensor;
+        }
+
+        return tensor / tensors.len() as f32;
     }
 
     pub fn log(&self) -> Tensor {
@@ -184,10 +227,12 @@ impl Tensor {
     }
 
     pub fn broadcast(&self, shape: Shape) -> Tensor {
+
+        let data: Vec<f32> = self.item().broadcast(shape.as_ndarray_shape()).unwrap().iter().map(|x|*x).collect();
+
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let data : Vec<f32> = singleton.get_item(self.tensor_id).clone().into_iter().collect();
         // We need to dubpilcate the data to match the new shape
-        let data = data.into_iter().cycle().take(shape.size()).collect();
+
         let tensor_id = singleton.allocate_tensor_from_operation(shape.clone(), data, Operation::Broadcast(self.tensor_id, shape));
 
         Tensor {
@@ -217,7 +262,7 @@ impl Tensor {
                 }
             },
             Indexable::Double(a, b) => {
-                let offset = a * self.shape.indices[0] + b;
+                let offset = a * self.shape.indices[1] + b;
                 let data = data[offset];
                 let tensor_id = singleton.allocate_element_tensor(new_shape, data, Operation::View(self.tensor_id, index));
                 return Tensor {
@@ -227,18 +272,16 @@ impl Tensor {
                     name: ['a';10]
                 }
             },
-            Indexable::Mixed(a, b, tensor_id) => {
-                let ashape = self.shape.as_ndarray_shape();
-                let data_as_array = ArrayD::from_shape_vec(ashape, data.clone()).unwrap();
-                let data_as_array = data_as_array.slice(s![a..b, ..]).to_owned();
-                let picker_indices = singleton.get_item(tensor_id);
-                let picker_indices = picker_indices.clone().into_iter().map(|x| x as usize).collect::<Vec<usize>>();
-                let mut final_data = vec![];
-                for (enu, index) in picker_indices.iter().enumerate() {
-                    let data = data_as_array[[enu, *index]];
-                    final_data.push(data);
+            Indexable::Mixed(a, b) => {
+                // Look up the A and B vectors, and then use the B vector to pick the indices from the A vector
+                let a_data = singleton.get_item(a);
+                let b_data = singleton.get_item(b);
+                let mut new_data = Vec::new();
+                for i in 0..b_data.len() {
+                    let index = b_data[i] as usize;
+                    new_data.push(a_data[index]);
                 }
-                let tensor_id = singleton.allocate_tensor(vec![b - a, picker_indices.len()].into(), final_data, Operation::View(self.tensor_id, index));
+                let tensor_id = singleton.allocate_tensor_from_operation(new_shape, new_data, Operation::View(self.tensor_id, index));
                 return Tensor {
                     tensor_id,
                     shape: new_shape,
@@ -355,7 +398,7 @@ impl Sub for Tensor {
 impl Div for Tensor {
     type Output = Self;
     fn div(self, rhs: Self) -> Self::Output {
-        // gonna use pow to let us use the mul operator to do the division
+
         let intermidiate = rhs.pow(-1.0);
         self * intermidiate
     }

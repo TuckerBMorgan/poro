@@ -585,7 +585,7 @@ mod tests {
         weights.set_requires_grad(true);
     
         let (_stoi, _itos, xs, ys) = generate_dataset();
-        const TEST_BATCH: usize = 5; // Using only one batch for simplicity
+        const TEST_BATCH: usize = 10; // Using only one batch for simplicity
     
         // Prepare a batch of data
         let combined = xs.iter().take(TEST_BATCH).zip(ys.iter().take(TEST_BATCH));
@@ -597,27 +597,43 @@ mod tests {
             targets.push(*y);
             index += 1;
         }
-        println!("inputs: {:?}", inputs.item());
-    
-        // Assuming we have only one batch, so no need for an outer epoch loop
-        for _ in 0..3 {
 
+        // convert targets into a tensor
+        let loops = 10;
+        // Assuming we have only one batch, so no need for an outer epoch loop
+        for _ in 0..loops {
             {
                 let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
                 singleton.zero_all_grads();
             }
 
                 let prediction = inputs << weights;
+
                 let counts = prediction.exp();
                 let counts_sum = counts.sum();
-                let probabilities = counts / counts_sum;
-                let view = probabilities.view(Indexable::Mixed(0, 5, TensorID { id: 0 }).into());
-                let logged = -(view.log());
-                logged.backward();
+                let counts_cum_inverted = counts_sum.pow(-1.0);
+                let probabilities = counts * counts_cum_inverted;
 
-            
-            let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
-            singleton.update_parameters(-50.0);
+
+                let mut logged = vec![];
+                for i in 0..TEST_BATCH {
+                    logged.push(probabilities.view([i, targets[i]].into()).log());
+                }
+
+                let mean = -(Tensor::t_mean(&logged));
+
+                println!("loss: {:?}", mean.item());
+                mean.backward();
+                /*
+                for log in logged.iter() {
+                    println!("log: {:?}", log.grad());
+                }
+                 */
+
+            {
+                let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
+                singleton.update_parameters(-50.0);
+            }
         }
 
     }
