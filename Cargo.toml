@@ -9,3 +9,5 @@ edition = "2021"
 lazy_static = "*"
 ndarray = { version =  "0.15.6", features = ["rayon"]}
 rand = "*"
+serde = "*"
+serde_json = "1.0.117"

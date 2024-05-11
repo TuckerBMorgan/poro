@@ -267,7 +267,7 @@ impl Equation {
                 match origin_index {
                     Indexable::Single(i) => {
                         //TODO: remove the 0, at some point as it is a "hack"
-                        new_view_grad[[0, i]] = grad[0];
+                        new_view_grad[[i]] = grad[0];
                     },
                     Indexable::Double(i, j) => {
                         new_view_grad[[i, j]] = grad[0];
@@ -289,6 +289,43 @@ impl Equation {
                 let grad_update = curent_grad + grad.clone() / (data.len() as f32);
                 self.set_tensor_grad(a, grad_update);
             },
+            Operation::Concat(a, b) => {
+                // break apart the incoming grad into the two parts
+                let left_hand_grad = self.get_tensor_grad(a);
+                let right_hand_grad = self.get_tensor_grad(b);
+                let mut left_hand_grad = left_hand_grad.clone();
+                let mut right_hand_grad = right_hand_grad.clone();
+                let mut grad = grad.clone();
+                let left_shape = left_hand_grad.shape();
+                let right_shape = right_hand_grad.shape();
+                let grad_shape = grad.shape();
+                let mut left_grad: ArrayD<f32> = ArrayD::zeros(left_shape);
+                let mut right_grad = ArrayD::zeros(right_shape);
+                let mut grad = ArrayD::zeros(grad_shape);
+                let mut left_index = 0;
+                let mut right_index = 0;
+                let mut grad_index = 0;
+                for i in 0..grad_shape[0] {
+                    if i < left_shape[0] {
+                        left_grad[left_index] = grad[grad_index];
+                        left_index += 1;
+                    } else {
+                        right_grad[right_index] = grad[grad_index];
+                        right_index += 1;
+                    }
+                    grad_index += 1;
+                }
+                left_hand_grad = left_hand_grad + left_grad;
+                right_hand_grad = right_hand_grad + right_grad;
+                self.set_tensor_grad(a, left_hand_grad);
+                self.set_tensor_grad(b, right_hand_grad);
+
+            },
+            Operation::Reshape(a, _) => {
+                let source_grad = self.get_tensor_grad(a);
+                let grad_update = source_grad.clone();
+                self.set_tensor_grad(a, grad_update);
+            }
         }
     }
 

@@ -34,6 +34,8 @@ impl InternalTensor {
             Operation::Log(a) => vec![a],
             Operation::View(a, _index) => vec![a],
             Operation::Mean(a) => vec![a],
+            Operation::Concat(a, b) => vec![a, b],
+            Operation::Reshape(a, _) => vec![a],
         }
     }
 }

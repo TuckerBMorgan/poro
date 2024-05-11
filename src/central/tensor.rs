@@ -1,7 +1,11 @@
 use core::slice;
 use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Shl, Sub};
 use ndarray::{prelude::*, Slice};
-
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+use serde_json::Value;
+use std::fs;
+use std::path::Path;
 use super::{operation::Operation, shape::Shape, indexable::Indexable};
 
 #[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
@@ -37,18 +41,44 @@ impl Tensor {
             name: ['a';10]
         }
     }
-    /*
-    pub fn load_from_weight_file(shape: Shape, path: String) -> Tensor {
+
+    pub fn load_from_weight_file<P: AsRef<Path>>(path: P) ->Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let tensor_id = singleton.allocate_tensor_from_weight_file(shape.clone(), path, Operation::Nop);
+        
+        // Load the file at path into a string, as it is a JSON file
+        let file_content = fs::read_to_string(path).unwrap();
+        
+        // Parse the JSON file content
+        let json: Value = serde_json::from_str(&file_content).unwrap();
+        
+        let data_array = json["data"].as_array().ok_or("Expected 'data' field to be an array").unwrap();
+        let data: Vec<f32> = data_array
+            .iter()
+            .map(|x| x.as_f64().ok_or("Expected floating point numbers"))
+            .collect::<Vec<_>>()
+            .into_iter()
+            .map(|x| x.unwrap() as f32)
+            .collect();
+
+        let shape_aray = json["shape"].as_array().ok_or("Expected 'data' field to be an array").unwrap();
+        let shape: Vec<usize> = shape_aray
+            .iter()
+            .map(|x| x.as_f64().ok_or("Expected floating point numbers"))
+            .collect::<Vec<_>>()
+            .into_iter()
+            .map(|x| x.unwrap() as usize)
+            .collect();
+
+        // Allocate tensor from the loaded data
+        let tensor_id = singleton.allocate_tensor_from_operation(shape.clone().into(), data, Operation::Nop);
         Tensor {
             tensor_id,
-            shape,
+            shape: shape.into(),
             operation: Operation::Nop,
-            name: ['a';10]
+            name: ['a'; 10], // Note: Adjust as necessary
         }
     }
- */
+ 
     pub fn get_id(&self) -> usize {
         self.tensor_id.id
     }
@@ -149,7 +179,22 @@ impl Tensor {
             name: ['a';10]
         }
     }
+    /*
+    pub fn softmax(&self) -> Tensor {
+        let exp = self.exp();
+        let sum = exp.sum();
+        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let data = singleton.get_item(exp.tensor_id).clone().into_iter().map(|x| x / sum.item()[[0]]).collect();
+        let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data, Operation::Softmax(self.tensor_id));
 
+        Tensor {
+            tensor_id,
+            shape: self.shape,
+            operation: Operation::Softmax(self.tensor_id),
+            name: ['a';10]
+        }
+    }
+ */
     pub fn tanh(&self) -> Tensor {
         let hold = Tensor::element(Shape::new(vec![1]), 2.0);
         let k = *self * hold;
@@ -201,6 +246,16 @@ impl Tensor {
         }
 
         return tensor / tensors.len() as f32;
+    }
+
+    pub fn multi_concat(tensors: &Vec<Tensor>) -> Tensor {
+        let mut tensor = tensors[0];
+        for sum_tensor in tensors.iter().skip(1) {
+            tensor = tensor.concat(sum_tensor.clone());
+        }
+
+
+        return tensor;
     }
 
     pub fn log(&self) -> Tensor {
@@ -291,16 +346,49 @@ impl Tensor {
             }
 
         }
-        /*
-        let tensor_id = singleton.allocate_tensor(self.shape.subshape_from_indexable(index), vec![], Operation::View(self.tensor_id));
+    }
+
+    pub fn reshape(&self, new_shape: Shape) -> Tensor {
+        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let data = singleton.get_item(self.tensor_id).clone();
+        let tensor_id = singleton.allocate_tensor_from_operation(new_shape.clone(), data, Operation::Reshape(self.tensor_id, new_shape));
 
         Tensor {
             tensor_id,
-            shape:vec![1].into(),
-            operation: Operation::View(self.tensor_id),
+            shape: new_shape,
+            operation: Operation::Reshape(self.tensor_id, new_shape),
             name: ['a';10]
         }
- */
+
+    }
+
+    
+    pub fn concat(&self, other: Tensor) -> Tensor {
+        if other.shape.number_of_indices != 1 {
+            panic!("The tensor to concat must be a 1D tensor");
+        }
+
+        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let data = singleton.get_item(self.tensor_id).clone();
+        let other_data = singleton.get_item(other.tensor_id).clone();
+        let mut new_data = Vec::new();
+        for i in 0..data.len() {
+            new_data.push(data[i]);
+        }
+        for i in 0..other_data.len() {
+            new_data.push(other_data[i]);
+        }
+        let new_shape = Shape::new(vec![data.len() + other_data.len()]);
+        let tensor_id = singleton.allocate_tensor_from_operation(new_shape.clone(), new_data, Operation::Concat(self.tensor_id, other.tensor_id));
+
+        Tensor {
+            tensor_id,
+            shape: new_shape,
+            operation: Operation::Concat(self.tensor_id, other.tensor_id),
+            name: ['a';10]
+        }
+
+        
     }
 }
 
@@ -452,8 +540,8 @@ impl Shl for Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
 
         let result_data = singleton.matmul(self.tensor_id, rhs.tensor_id);
-
-        let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), result_data.into_raw_vec(), Operation::MatMul(self.tensor_id, rhs.tensor_id));
+        let resultant_shape = self.shape.matmul_shape(&rhs.shape);
+        let tensor_id = singleton.allocate_tensor_from_operation(resultant_shape, result_data.into_raw_vec(), Operation::MatMul(self.tensor_id, rhs.tensor_id));
         let matmul_shape = self.shape.matmul_shape(&rhs.shape);
         
         Tensor {

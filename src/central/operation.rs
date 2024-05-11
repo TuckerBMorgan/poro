@@ -16,6 +16,8 @@ pub enum Operation {
     Log(TensorID),
     View(TensorID, Indexable),
     Mean(TensorID),
+    Concat(TensorID, TensorID),
+    Reshape(TensorID, Shape),
 }
 
 impl Operation {
@@ -32,6 +34,8 @@ impl Operation {
             Operation::Log(a) => Some(*a),
             Operation::View(a, _index) => Some(*a),
             Operation::Mean(a) => Some(*a),
+            Operation::Concat(a, _) => Some(*a),
+            Operation::Reshape(a, _) => Some(*a),
         }
     }
 }
