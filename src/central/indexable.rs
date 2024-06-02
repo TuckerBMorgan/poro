@@ -6,7 +6,8 @@ use super::{shape, tensor::TensorID};
 pub enum Indexable {
     Single(usize),
     Double(usize, usize),
-    Mixed(TensorID, TensorID)
+    Mixed(TensorID, TensorID),
+    FromTensor(TensorID)
 }
 
 impl Indexable {
@@ -14,7 +15,8 @@ impl Indexable {
         match self {
             Indexable::Single(_) => 1,
             Indexable::Double(_, _) => 2,
-            Indexable::Mixed(_, _) => 2
+            Indexable::Mixed(_, _) => 2,
+            Indexable::FromTensor(_) => 1
 
         }
     }
@@ -30,6 +32,9 @@ impl Indexable {
             },
             Indexable::Mixed(a, b) => {
                 panic!("Mixed index not implemented");
+            },
+            Indexable::FromTensor(a) => {
+                panic!("Mixed index not implemented");
             }
         }
     
@@ -41,7 +46,8 @@ impl From<Indexable> for Shape {
         match indexable {
             Indexable::Single(a) => vec![a].into(),
             Indexable::Double(a, b) => vec![a, b].into(),
-            Indexable::Mixed(a, b) => panic!("Mixed index not implemented")
+            Indexable::Mixed(a, b) => panic!("Mixed index not implemented"),
+            Indexable::FromTensor(_) => panic!("Mixed index not implemented")
         }
     }
 }
@@ -51,7 +57,8 @@ impl From<Indexable> for Vec<usize> {
         match indexable {
             Indexable::Single(index) => vec![index],
             Indexable::Double(a, b) => vec![a, b],
-            Indexable::Mixed(a, b) => vec![1, 1]
+            Indexable::Mixed(a, b) => vec![1, 1],
+            Indexable::FromTensor(_) => vec![1]
 
         }
     }

@@ -29,7 +29,7 @@ impl InternalTensor {
             Operation::Exp(a) => vec![a],
             Operation::Pow(base, power) => vec![base, power],
             Operation::MatMul(a, b) => vec![a, b],
-            Operation::Sum(a) => vec![a],
+            Operation::Sum(a, _) => vec![a],
             Operation::Broadcast(a, _) => vec![a],
             Operation::Log(a) => vec![a],
             Operation::View(a, _index) => vec![a],

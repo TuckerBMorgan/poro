@@ -39,13 +39,30 @@ impl Shape {
     }
 
     pub fn matmul_shape(&self, other: &Shape) -> Shape {
-        assert!(self.number_of_indices == 2);
-        assert!(other.number_of_indices == 2);
-        assert!(self.indices[1] == other.indices[0]);
-        let mut new_indices = Vec::new();
-        new_indices.push(self.indices[0]);
-        new_indices.push(other.indices[1]);
-        Shape::new(new_indices)
+        if self.number_of_indices == 2 && other.number_of_indices == 2 {
+            assert!(self.indices[1] == other.indices[0]);
+            let mut new_indices = Vec::new();
+            new_indices.push(self.indices[0]);
+            new_indices.push(other.indices[1]);
+            return Shape::new(new_indices);
+        }
+        if self.number_of_indices == 3 && other.number_of_indices == 2 {
+            assert!(self.indices[2] == other.indices[0]);
+            let mut new_indices = Vec::new();
+            new_indices.push(self.indices[0]);
+            new_indices.push(self.indices[1]);
+            new_indices.push(other.indices[1]);
+            return Shape::new(new_indices);
+        }
+        if self.number_of_indices == 3 && other.number_of_indices == 3 {
+            assert!(self.indices[2] == other.indices[1]);
+            let mut new_indices = Vec::new();
+            new_indices.push(self.indices[0]);
+            new_indices.push(self.indices[1]);
+            new_indices.push(other.indices[2]);
+            return Shape::new(new_indices);
+        }
+        panic!("Not implemented");
     }
 
     pub fn size(&self) -> usize {
@@ -66,6 +83,9 @@ impl Shape {
                 panic!("Not implemented");
             },
             Indexable::Mixed(range_start, range_end) => {
+                panic!("Not implemented");
+            },
+            Indexable::FromTensor(_) => {
                 panic!("Not implemented");
             }
         }
@@ -95,6 +115,10 @@ impl Shape {
             },
             Indexable::Mixed(range_start, range_end) => {
                 return Shape::new(self.indices.to_vec());
+            },
+            Indexable::FromTensor(tensor) => {
+                return Shape::new(self.indices.to_vec());
+
             }
         }
     

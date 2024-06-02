@@ -351,10 +351,11 @@ mod tests {
         println!("{:?}", total_loss);
     }
 
-    use core::f32;
+    use core::{f32, time};
     use std::f32::consts::E;
     use std::fs::read_to_string;
     use std::collections::{HashMap, HashSet};
+    use std::process::Output;
 
     fn read_lines(filename: &str) -> Vec<String> {
         let mut result = Vec::new();
@@ -408,6 +409,53 @@ mod tests {
     }
 
     #[test]
+    fn three_dimension_matmul_test() {
+        let a = Tensor::randn(Shape::new(vec![3, 2, 2]));
+        let b = Tensor::randn(Shape::new(vec![2, 2]));
+        let c = a << b;
+        let result = c.item();
+        println!("{:?}", result);
+    }
+
+    #[test]
+    fn array_indexing_testbed() {
+        let mut a = ArrayD::from_elem(vec![27, 10], 0.0);
+        let mut b = ArrayD::from_elem(vec![32, 3], 0.0);
+        let mut c = ArrayD::from_elem(vec![32, 3, 10], 0.0);
+        // Ok now I want to index A with b
+        // roughly in the same way I would do in numpy
+        // Fill A with some random values
+
+        for i in 0..27 {
+            for j in 0..10 {
+                a[[i, j]] = i as f32 + j as f32;
+            }
+        }
+
+        // Fill B with some random values, between 0 and 27
+        let mut rng = rand::thread_rng();
+        for i in 0..32 {
+            for j in 0..3 {
+                b[[i, j]] = rng.gen_range(0..27) as f32;
+            }
+        }
+
+
+        //
+        for i in 0..32 {
+            for j in 0..3 { 
+                for k in 0..10 {
+                    let test = [i, j, k];
+                    c[test] = a[[b[[i, j]] as usize, k]];
+                }
+            }
+        }
+
+        println!("{:?}", c);
+
+    }
+
+    #[test]
     fn bigram_test_single_pass() {
         let mut weights = Tensor::load_from_weight_file("./data/bigram/weight_file.json");
         let NUMBER_OF_CHARACTERS = 27;
@@ -440,7 +488,7 @@ mod tests {
                 let prediction = inputs << weights;
 
                 let counts = prediction.exp();
-                let counts_sum = counts.sum();
+                let counts_sum = counts.sum(0);
                 let counts_cum_inverted = counts_sum.pow(-1.0);
                 let probabilities = counts * counts_cum_inverted;
 
@@ -463,43 +511,36 @@ mod tests {
 
     }
 
-    fn build_dataset_from_subset(words: &[String], stoi: &HashMap<char, usize>) -> (Vec<[usize;3]>, Vec<[usize;3]>) {
-        
-        let mut x: Vec<[usize;3]> = vec![];
-        let mut y: Vec<[usize;3]>= vec![];
-
+    fn build_dataset_from_subset(words: &[String], stoi: &HashMap<char, usize>) -> (Vec<[usize;3]>, Vec<usize>) {
+        let mut xs = vec![];
+        let mut ys = vec![];
         for word in words {
-            let mut word_chars = word.chars();
-            let mut prev_char = '.';
-            let mut next_char = word_chars.next().unwrap();
-            for c in word_chars {
-                let mut input = [0;3];
-                input[0] = stoi[&prev_char];
-                input[1] = stoi[&next_char];
-                input[2] = stoi[&c];
-                x.push(input);
-                prev_char = next_char;
-                next_char = c;
+            let fixed = String::from("...") + word + ".";
+            let chars: Vec<char> = fixed.chars().collect();
+            for i in 0..chars.len() - 3 {
+                let pair = (chars[i], chars[i + 1], chars[i + 2], chars[i + 3]);
+                xs.push([stoi[&pair.0], stoi[&pair.1], stoi[&pair.2]]);
+                ys.push(stoi[&pair.3]);
             }
-            let mut input = [0;3];
-            input[0] = stoi[&prev_char];
-            input[1] = stoi[&next_char];
-            input[2] = stoi[&'.'];
-            x.push(input);
-            y.push([stoi[&next_char], stoi[&'.'], stoi[&'.']]);
         }
-
-        return (x, y);
+        (xs, ys)
 
     }
+
+    use std::time::Instant;
+
     #[test]
     fn mm_mlp_test() {
-        let BATCH_SIZE = 1;
+       // let mut times = HashMap::new();
+
+        
+        let BATCH_SIZE = 32;
         let names = read_lines("./data/bigram/names.txt");
+
         let mut stoi = HashMap::new();
         let mut itos = HashMap::new();
         let mut i = 0;
-        for c in "abcdefghijklmnopqrstuvwxyz.".chars() {
+        for c in ".abcdefghijklmnopqrstuvwxyz".chars() {
             stoi.insert(c, i);
             itos.insert(i, c);
             i += 1;
@@ -510,56 +551,72 @@ mod tests {
         let (Xdev, Ydev) = build_dataset_from_subset(&names[n1..n2], &stoi);
         let (Xte, Yte) = build_dataset_from_subset(&names[n2..], &stoi);
 
-        let mut C = Tensor::randn(vec![27, 10].into());
-        let mut W1 = Tensor::randn(vec![30, 200].into());
+        let mut C = Tensor::load_from_weight_file("./data/bigram/tensor_C.json");
+      
+        C.set_requires_grad(true);
+        let mut W1 = Tensor::load_from_weight_file("./data/bigram/tensor_W1.json");
         W1.set_requires_grad(true);
-        let mut b1 = Tensor::randn(vec![1, 200].into());
+        let mut b1 = Tensor::load_from_weight_file("./data/bigram/tensor_b1.json");
         b1.set_requires_grad(true);
-        let mut W2 = Tensor::randn(vec![200, 27].into());
+        let mut W2 = Tensor::load_from_weight_file("./data/bigram/tensor_W2.json");
         W2.set_requires_grad(true);
-        let mut b2 = Tensor::randn(vec![1, 27].into());
+        let mut b2 = Tensor::load_from_weight_file("./data/bigram/tensor_b2.json");
         b2.set_requires_grad(true);
 
+        let EPOCH_COUNT = 50;
 
-        let contexts = Xtr[0];
-        let mut embbedings = vec![];
-        for token in contexts {
-            embbedings.push(C.view(token.into()));
+
+        for epoch in 0..10 {
+            println!("Epoch: {:?}", epoch);
+            {
+                let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
+                singleton.zero_all_grads();
+            }
+    
+
+            let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![BATCH_SIZE, 3]));
+            for b in 0..BATCH_SIZE {
+                test_index_tensor.set_index([b, 0].into(), vec![Xtr[b][0] as f32].into());
+                test_index_tensor.set_index([b, 1].into(), vec![Xtr[b][1] as f32].into());
+                test_index_tensor.set_index([b, 2].into(), vec![Xtr[b][2] as f32].into());
+            }
+
+            let test = C.view(Indexable::FromTensor(test_index_tensor.tensor_id));
+            let reshape = test.reshape(Shape::new(vec![BATCH_SIZE, 30]));
+            let test_mult = reshape << W1;
+            let test_add = test_mult + b1;
+            let test_tanh = test_add.tanh();
+            let test_output = test_tanh << W2;
+            let test_output = test_output + b2;
+
+            let test_max = test_output.max(1);
+            let test_counts = (test_output - test_max).exp();
+            let test_counts_sum = test_counts.sum(1);
+
+            let test_counts_cum_inverted = test_counts_sum.pow(-1.0);
+            let test_probabilities = test_counts * test_counts_cum_inverted;
+
+            let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![BATCH_SIZE, 27]), 0.0);
+            for b in 0..BATCH_SIZE {
+                test_ytrue_onehot.set_index([b, Ytr[b]].into(), vec![1.0].into());
+            }
+
+            let test_prob_log = test_probabilities.log();
+
+            let test_presum = test_ytrue_onehot * test_prob_log;
+            let test_sum = (-test_presum).sum(1);
+            let test_mean = test_sum.mean(0);
+
+            println!("Loss: {:?}", test_mean.item());
+            test_mean.backward();
+
+            {
+                let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
+                singleton.update_parameters(-0.1);
+            }
+
         }
-        
-        let mut concat = Tensor::multi_concat(&embbedings);
-        let mut concat_reshape = concat.reshape(Shape::new(vec![1, 30]));
-        let mut hidden = (concat_reshape << W1) + b1;
-        let mut hidden_tanh = hidden.tanh();
-        let mut output = (hidden_tanh << W2) + b2;
-        let counts = output.exp();
-        let counts_sum = counts.sum();
-        let counts_cum_inverted = counts_sum.pow(-1.0);
-        let probabilities = counts * counts_cum_inverted;
-
-        println!("probabilities: {:?}", probabilities.shape);
-
-     //   let mut logged = vec![];
-        let logged_loss = probabilities.view([0, Ytr[0][0]].into()).log();
-        logged_loss.backward();
-        /*
-        for i in 0..BATCH_SIZE {
-            println!("i: {:?}", i);
-            println!("Ytr[i][0]: {:?}", Ytr[i]);
-            logged.push();
-        }
- */
-       // let mean = -(Tensor::t_mean(&logged));
-
-     //   println!("loss: {:?}", mean.item());
-   //     mean.backward();
-
-        let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
-        singleton.update_parameters(-50.0);
-        
 
 
-        
-        
     }
 }
