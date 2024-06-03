@@ -2,6 +2,9 @@ use crate::Indexable;
 
 pub const MAX_NUMBER_OF_INDICES : usize = 10;
 
+
+
+/// Represents the shape of a tensor.
 #[derive(Hash, PartialEq, Eq, Copy, Clone, Debug)]
 pub struct Shape {
     pub number_of_indices: usize,
@@ -9,6 +12,15 @@ pub struct Shape {
 }
 
 impl Shape {
+    /// Creates a new `Shape` instance with the given indices.
+    ///
+    /// # Arguments
+    ///
+    /// * `indices` - A vector of indices representing the shape.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if the number of indices exceeds the maximum number of indices.
     pub fn new(indices: Vec<usize>) -> Shape {
         assert!(indices.len() <= MAX_NUMBER_OF_INDICES);
         let mut local_indices = [0; MAX_NUMBER_OF_INDICES];
@@ -22,6 +34,7 @@ impl Shape {
         }
     }
 
+    /// Returns the total size of the shape.
     pub fn total_size(&self) -> usize {
         let mut total = 1;
         for i in 0..self.number_of_indices {
@@ -30,6 +43,7 @@ impl Shape {
         total
     }
 
+    /// Returns the shape as a vector of usize values.
     pub fn as_ndarray_shape(&self) -> Vec<usize> {
         let mut shape = Vec::new();
         for i in 0..self.number_of_indices {
@@ -38,6 +52,15 @@ impl Shape {
         shape
     }
 
+    /// Returns the shape resulting from matrix multiplication with another shape.
+    ///
+    /// # Arguments
+    ///
+    /// * `other` - The shape to multiply with.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if the shapes are not compatible for matrix multiplication.
     pub fn matmul_shape(&self, other: &Shape) -> Shape {
         if self.number_of_indices == 2 && other.number_of_indices == 2 {
             assert!(self.indices[1] == other.indices[0]);
@@ -65,6 +88,7 @@ impl Shape {
         panic!("Not implemented");
     }
 
+    /// Returns the size of the shape.
     pub fn size(&self) -> usize {
         let mut size = 1;
         for i in 0..self.number_of_indices {
@@ -73,6 +97,15 @@ impl Shape {
         size
     }
 
+    /// Returns the index at the specified position.
+    ///
+    /// # Arguments
+    ///
+    /// * `index` - The index position.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if the index is out of range.
     pub fn get_index(&self, index: Indexable) -> usize {
         match index {
             Indexable::Single(i) => {
@@ -91,6 +124,11 @@ impl Shape {
         }
     }
 
+    /// Returns a subshape of the current shape based on the given index.
+    ///
+    /// # Arguments
+    ///
+    /// * `index` - The index to create the subshape from.
     pub fn subshape_from_indexable(&self, index: Indexable) -> Shape {
         match index {
             Indexable::Single(_i) => {
