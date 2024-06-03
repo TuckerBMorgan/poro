@@ -1,3 +1,6 @@
+#![feature(unboxed_closures)]
+#![feature(fn_traits)]
+
 mod central;
 pub use central::*;
 pub use ndarray::prelude::*;
@@ -455,62 +458,6 @@ mod tests {
 
     }
 
-    #[test]
-    fn bigram_test_single_pass() {
-        let mut weights = Tensor::load_from_weight_file("./data/bigram/weight_file.json");
-        let NUMBER_OF_CHARACTERS = 27;
-        // will need to do a "set_requires_grad" function
-        weights.set_requires_grad(true);
-    
-        let (_stoi, _itos, xs, ys) = generate_dataset();
-        const TEST_BATCH: usize = 100; // Using only one batch for simplicity
-    
-        // Prepare a batch of data
-        let combined = xs.iter().take(TEST_BATCH).zip(ys.iter().take(TEST_BATCH));
-        let mut inputs = Tensor::zeroes(Shape::new(vec![TEST_BATCH, NUMBER_OF_CHARACTERS]));
-        let mut targets = vec![];
-        let mut index = 0;
-        for (x, y) in combined {
-            inputs.set_index([index, *x].into(), vec![1.0].into());
-            targets.push(*y);
-            index += 1;
-        }
-
-        // convert targets into a tensor
-        let loops = 10;
-        // Assuming we have only one batch, so no need for an outer epoch loop
-        for _ in 0..loops {
-            {
-                let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
-                singleton.zero_all_grads();
-            }
-
-                let prediction = inputs << weights;
-
-                let counts = prediction.exp();
-                let counts_sum = counts.sum(0);
-                let counts_cum_inverted = counts_sum.pow(-1.0);
-                let probabilities = counts * counts_cum_inverted;
-
-
-                let mut logged = vec![];
-                for i in 0..TEST_BATCH {
-                    logged.push(probabilities.view([i, targets[i]].into()).log());
-                }
-
-                let mean = -(Tensor::t_mean(&logged));
-
-                println!("loss: {:?}", mean.item());
-                mean.backward();
-
-            {
-                let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
-                singleton.update_parameters(-50.0);
-            }
-        }
-
-    }
-
     fn build_dataset_from_subset(words: &[String], stoi: &HashMap<char, usize>) -> (Vec<[usize;3]>, Vec<usize>) {
         let mut xs = vec![];
         let mut ys = vec![];
@@ -526,8 +473,6 @@ mod tests {
         (xs, ys)
 
     }
-
-    use std::time::Instant;
 
     #[test]
     fn mm_mlp_test() {
@@ -618,5 +563,59 @@ mod tests {
         }
 
 
+    }
+
+    use crate::central::Linear;
+    use crate::central::{Model, LinearModel};
+
+    #[test]
+    fn linear_module() {
+        let mut linear = Linear::new(3, 1);
+
+        let inputs = vec![
+            vec![2.0f32, 3.0, -1.0],
+            vec![3.0, -1.0, 0.5],
+            vec![0.5, 1.0, 1.0],
+            vec![1.0, 1.0, -1.0],
+        ];
+
+        let inputs_as_tensor = Tensor::from_vec(inputs.iter().flatten().map(|x|*x).collect(), vec![4, 3].into());
+
+        let outputs = vec![1.0f32, -1.0, -1.0, 1.0];
+        let outputs_as_tensor = Tensor::from_vec(outputs.iter().map(|x| *x).collect(), vec![4, 1].into());
+
+        for _ in 0..50 {
+            zero_all_grads();
+            let prediction = linear.forward(&inputs_as_tensor);
+            let loss = (prediction - outputs_as_tensor).pow(2.0);
+            loss.backward();
+            update_parameters(-0.01);
+        }
+    }
+
+    #[test]
+    fn linear_model() {
+        let mut linear_model = LinearModel::new(vec![Box::new(Linear::new(3, 1))]);
+
+        let inputs = vec![
+            vec![2.0f32, 3.0, -1.0],
+            vec![3.0, -1.0, 0.5],
+            vec![0.5, 1.0, 1.0],
+            vec![1.0, 1.0, -1.0],
+        ];
+
+        let inputs_as_tensor = Tensor::from_vec(inputs.iter().flatten().map(|x|*x).collect(), vec![4, 3].into());
+
+        let outputs = vec![1.0f32, -1.0, -1.0, 1.0];
+
+        let outputs_as_tensor = Tensor::from_vec(outputs.iter().map(|x| *x).collect(), vec![4, 1].into());
+
+        for _ in 0..50 {
+            zero_all_grads();
+            let prediction = linear_model.forward(&inputs_as_tensor);
+            let loss = (prediction - outputs_as_tensor).pow(2.0);
+            loss.backward();
+            update_parameters(-0.01);
+        }
     }
 }
