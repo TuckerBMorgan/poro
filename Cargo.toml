@@ -2,6 +2,10 @@
 name = "poro"
 version = "0.1.0"
 edition = "2021"
+authors = ["tucker morgan tucker.bull.morgan@gmail.com"]
+description = "A simple toy neural network library"
+license = "MIT"
+repository = "https://github.com/tuckerbmorgan/hermes"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
