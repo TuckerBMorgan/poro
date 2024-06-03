@@ -50,44 +50,6 @@ fn main() {
 }
 ```
 
-## Modules
-
-### `equation.rs`
-
-Contains the implementation of various mathematical operations required for neural network computations.
-
-### `indexable.rs`
-
-Provides traits and implementations for indexing tensors and other data structures.
-
-### `internal_tensor.rs`
-
-Defines the internal representation of tensors and related operations.
-
-### `mod.rs`
-
-The main module that ties together all components of the Poro library.
-
-### `model.rs`
-
-Defines the structure and behavior of neural network models.
-
-### `module.rs`
-
-Contains the definitions of different layers and modules that can be used to build neural networks.
-
-### `operation.rs`
-
-Implements various operations that can be performed on tensors and within the neural network.
-
-### `shape.rs`
-
-Provides utilities for handling tensor shapes and dimensions.
-
-### `tensor.rs`
-
-Defines the tensor structure and provides methods for tensor manipulation.
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue to discuss any changes or additions.
