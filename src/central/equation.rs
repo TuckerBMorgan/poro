@@ -263,7 +263,7 @@ impl Equation {
             Operation::Add(_a, _b) => {
                 add_op::backward(backprop_packet);
             }
-            Operation::Mul(a, b) => {
+            Operation::Mul(_a, _b) => {
                 mul_op::backward(backprop_packet);
             }
             Operation::Exp(a) => {

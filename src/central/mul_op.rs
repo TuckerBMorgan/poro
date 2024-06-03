@@ -109,6 +109,8 @@ impl Neg for Tensor {
 impl Div for Tensor {
     type Output = Self;
     fn div(self, rhs: Self) -> Self::Output {
+        // we take advantage of the fact that a/b = a * b^-1
+        // to let us keep the code simplier
         let intermidiate = rhs.pow(-1.0);
         self * intermidiate
     }

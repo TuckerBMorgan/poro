@@ -1,7 +1,7 @@
 use super::{indexable::Indexable, operation::Operation, shape::Shape};
 use ndarray::parallel::prelude::{IntoParallelRefIterator, ParallelIterator};
 use serde_json::Value;
-use std::ops::{Add, Div, Mul, Neg, Shl, Sub};
+use std::ops::Shl;
 use std::path::Path;
 use std::{fs, vec};
 
