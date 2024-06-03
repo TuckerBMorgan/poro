@@ -1,4 +1,4 @@
-use super::add_op;
+use super::{add_op, mul_op};
 use super::{
     indexable::Indexable, internal_tensor::InternalTensor, operation::Operation, shape::Shape,
     tensor::TensorID,
@@ -17,6 +17,7 @@ pub struct BackpropagationPacket<'a> {
     pub data: ArrayD<f32>,
     pub equation: &'a mut Equation,
     pub operation: Operation,
+    pub advanced_logging: bool,
 }
 
 /// The main struct that holds the data and operations for the equation
@@ -247,12 +248,13 @@ impl Equation {
         }
 
         let operation = internal_tensor.operation.clone();
-
+        let advance_logging = self.advanced_logging;
         let backprop_packet = BackpropagationPacket {
             grad: grad.clone(),
             data: data.clone(),
             equation: self,
             operation: operation.clone(),
+            advanced_logging: advance_logging,
         };
         match operation {
             Operation::Nop => {
@@ -262,39 +264,7 @@ impl Equation {
                 add_op::backward(backprop_packet);
             }
             Operation::Mul(a, b) => {
-                if self.advanced_logging == true {
-                    println!("A: {:?}", a);
-                    println!("B: {:?}", b);
-                }
-                let left_hand_grad = self.get_tensor_grad(a);
-                let right_hand_grad = self.get_tensor_grad(b);
-                if self.advanced_logging == true {
-                    println!("Left Hand Grad: {:?}", left_hand_grad);
-                    println!("Right Hand Grad: {:?}", right_hand_grad);
-                }
-
-                let left_hand_data = self.get_tensor_data(a);
-                let right_hand_data = self.get_tensor_data(b);
-                if self.advanced_logging == true {
-                    println!("Left Hand Data: {:?}", left_hand_data);
-                    println!("Right Hand Data: {:?}", right_hand_data);
-                }
-
-                let new_left_hand_grad = right_hand_data * grad.clone();
-                let new_right_hand_grad = left_hand_data * grad;
-                if self.advanced_logging == true {
-                    println!("New Left Hand Grad: {:?}", new_left_hand_grad);
-                    println!("New Right Hand Grad: {:?}", new_right_hand_grad);
-                }
-                let right_hand_grad = right_hand_grad + new_right_hand_grad;
-                let left_hand_grad = left_hand_grad + new_left_hand_grad;
-                if self.advanced_logging == true {
-                    println!("Right Hand Grad: {:?}", right_hand_grad);
-                    println!("Left Hand Grad: {:?}", left_hand_grad);
-                }
-
-                self.set_tensor_grad(a, left_hand_grad);
-                self.set_tensor_grad(b, right_hand_grad);
+                mul_op::backward(backprop_packet);
             }
             Operation::Exp(a) => {
                 let power_grad = self.get_tensor_grad(a);

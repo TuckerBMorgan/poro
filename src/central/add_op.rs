@@ -1,4 +1,4 @@
-use std::ops::Add;
+use std::ops::{Add, Sub};
 use crate::central::tensor::Tensor;
 use crate::central::operation::Operation;
 #[allow(unused_imports)]
@@ -81,6 +81,36 @@ impl Add<f32> for Tensor {
     }
 }
 
+impl Sub for Tensor {
+    type Output = Self;
+    fn sub(self, rhs: Self) -> Self::Output {
+        self + -rhs
+    }
+}
+
+
+impl Sub<Tensor> for f32 {
+    type Output = Tensor;
+    fn sub(self, rhs: Tensor) -> Self::Output {
+        let right_hand_as_tesnor = Tensor::element(rhs.shape.clone(), self);
+        right_hand_as_tesnor - rhs
+    }
+}
+
+impl Sub<f32> for Tensor {
+    type Output = Tensor;
+    fn sub(self, rhs: f32) -> Self::Output {
+        let right_hand_as_tesnor = Tensor::element(self.shape.clone(), rhs);
+        self - right_hand_as_tesnor
+    }
+}
+
+impl Add<Tensor> for f32 {
+    type Output = Tensor;
+    fn add(self, rhs: Tensor) -> Self::Output {
+        rhs + self
+    }
+}
 
 #[test]
 fn add_test() {

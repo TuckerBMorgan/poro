@@ -10,6 +10,7 @@ mod module;
 mod operation;
 mod shape;
 mod tensor;
+mod mul_op;
 
 pub use equation::{Equation, BackpropagationPacket};
 pub use indexable::Indexable;
@@ -18,7 +19,6 @@ pub use module::{Linear, Module};
 pub use shape::Shape;
 pub use tensor::{Tensor, TensorID};
 pub use add_op::backward;
-
 
 lazy_static! {
     pub static ref SINGLETON_INSTANCE: Mutex<Equation> = Mutex::new(Equation::new());
