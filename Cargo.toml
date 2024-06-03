@@ -10,10 +10,10 @@ repository = "https://github.com/tuckerbmorgan/hermes"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-lazy_static = "*"
+lazy_static = "1.4.0"
 ndarray = { version =  "0.15.6", features = ["rayon"]}
-rand = "*"
-rand_distr = "*"
-serde = "*"
+rand = "0.8.5"
+rand_distr = "0.4.3"
+serde = "1.0.201"
 serde_json = "1.0.117"
 
