@@ -1,15 +1,19 @@
 use std::ops::Add;
 use crate::central::tensor::Tensor;
 use crate::central::operation::Operation;
+#[allow(unused_imports)]
 use crate::central::shape::Shape;
 pub use ndarray::prelude::*;
-use crate::central::equation::Equation;
 use crate::central::BackpropagationPacket;
 
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::Add(a, b) = backprop_packet.operation {
+        
+        // Get each of current tensor's gradient
         let left_hand_grad = backprop_packet.equation.get_tensor_grad(a);
         let right_hand_grad = backprop_packet.equation.get_tensor_grad(b);
+
+        // derivative of a + b is a' + b' * global_grad  
         backprop_packet.equation.set_tensor_grad(a, left_hand_grad + backprop_packet.grad.clone());
         backprop_packet.equation.set_tensor_grad(b, right_hand_grad + backprop_packet.grad);
     }
@@ -21,9 +25,14 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
 impl Add for Tensor {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
+        
+        // grab the data so we can do some shape checks
         let left_hand_item = self.item();
         let right_hand_item = rhs.item();
+
         if left_hand_item.shape() != right_hand_item.shape() {
+            // check if we need to broadcast the tensors, and then do so
+            // will only broadcast the right hand side tensor
             let right_hand_broadcasted = rhs.broadcast(self.shape);
             let result_data = self.item() + right_hand_broadcasted.item();
 
@@ -43,8 +52,8 @@ impl Add for Tensor {
                 name: ['a'; 10],
             }
         } else {
+            // If they are the same size, preform the add and then return the result tensor
             let result_data = self.item() + rhs.item();
-
             let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
 
             let data_as_vec = result_data.into_iter().collect();
@@ -75,6 +84,7 @@ impl Add<f32> for Tensor {
 
 #[test]
 fn add_test() {
+    // Test the add operation
     let a = Tensor::ones(Shape::new(vec![2, 2]));
     let b = Tensor::zeroes(Shape::new(vec![2, 2]));
     let c = a + b;
@@ -87,6 +97,8 @@ fn add_test_2() {
     let a = Tensor::zeroes(Shape::new(vec![2, 2]));
     let b = Tensor::zeroes(Shape::new(vec![2, 2]));
     let c = a + b;
+
+    // Test using the result of the add operation
     let d = c.clone() + c;
     let result = d.item();
     assert!(result == arr2(&[[0.0, 0.0], [0.0, 0.0]]).into_dyn());
@@ -94,6 +106,7 @@ fn add_test_2() {
 
 #[test]
 fn backward_add_test() {
+    // Basic verification of the backward pass
     let a = Tensor::ones(Shape::new(vec![1, 1]));
     let b = Tensor::element(Shape::new(vec![1, 1]), 2.0);
     let c = a + b;
@@ -108,6 +121,7 @@ fn backward_add_test() {
 
 #[test]
 fn sub_test() {
+    // sub is the same as add, but with a negative sign
     let a = Tensor::ones(Shape::new(vec![2, 2]));
     let b = Tensor::zeroes(Shape::new(vec![2, 2]));
     let c = a - b;

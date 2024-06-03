@@ -87,7 +87,7 @@ mod tests {
     #[test]
     fn basic_exp_test() {
         let a = Tensor::element(Shape::new(vec![1, 1]), 2.0);
-        let b = a.exp();
+        let b = a.exp(); 
         let result = b.item();
         assert!(result == arr2(&[[2.0f32.exp()]]).into_dyn());
     }

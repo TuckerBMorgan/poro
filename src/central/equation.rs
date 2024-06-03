@@ -256,17 +256,10 @@ impl Equation {
         };
         match operation {
             Operation::Nop => {
-
                 // Do nothing
             }
-            Operation::Add(a, b) => {
+            Operation::Add(_a, _b) => {
                 add_op::backward(backprop_packet);
-                /*
-                let left_hand_grad = self.get_tensor_grad(a);
-                let right_hand_grad = self.get_tensor_grad(b);
-                self.set_tensor_grad(a, left_hand_grad + grad.clone());
-                self.set_tensor_grad(b, right_hand_grad + grad);
-                 */
             }
             Operation::Mul(a, b) => {
                 if self.advanced_logging == true {
@@ -293,9 +286,6 @@ impl Equation {
                     println!("New Left Hand Grad: {:?}", new_left_hand_grad);
                     println!("New Right Hand Grad: {:?}", new_right_hand_grad);
                 }
-                // yahoo and yahoo_2 are not good name, what might be better ones
-                // is left_hand_grad and right_hand_grad
-                // but I am too lazy to change it
                 let right_hand_grad = right_hand_grad + new_right_hand_grad;
                 let left_hand_grad = left_hand_grad + new_left_hand_grad;
                 if self.advanced_logging == true {
