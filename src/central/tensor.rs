@@ -260,6 +260,15 @@ impl Tensor {
         }
     }
 
+    pub fn variance(&self, axis: usize) -> Tensor {
+        let mean = self.mean(axis);
+        let mean_broadcast = mean.broadcast(self.shape.clone());
+        let diff = *self - mean_broadcast;
+        let diff_squared = diff.pow(2.0);
+        let variance = diff_squared.mean(axis);
+        return variance;
+    }
+
     pub fn t_mean(tensors: &Vec<Tensor>) -> Tensor {
         for tensor in tensors {
             if tensor.shape.size() != 1 {
