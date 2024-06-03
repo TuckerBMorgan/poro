@@ -1,6 +1,7 @@
 use lazy_static::lazy_static;
 
 use std::sync::Mutex;
+mod add_op;
 mod equation;
 mod indexable;
 mod internal_tensor;
@@ -10,12 +11,14 @@ mod operation;
 mod shape;
 mod tensor;
 
-pub use equation::Equation;
+pub use equation::{Equation, BackpropagationPacket};
 pub use indexable::Indexable;
 pub use model::{LinearModel, Model};
 pub use module::{Linear, Module};
 pub use shape::Shape;
 pub use tensor::{Tensor, TensorID};
+pub use add_op::backward;
+
 
 lazy_static! {
     pub static ref SINGLETON_INSTANCE: Mutex<Equation> = Mutex::new(Equation::new());

@@ -1,3 +1,4 @@
+use super::add_op;
 use super::{
     indexable::Indexable, internal_tensor::InternalTensor, operation::Operation, shape::Shape,
     tensor::TensorID,
@@ -10,6 +11,13 @@ use std::{
     collections::{HashMap, HashSet},
     vec,
 };
+
+pub struct BackpropagationPacket<'a> {
+    pub grad: ArrayD<f32>,
+    pub data: ArrayD<f32>,
+    pub equation: &'a mut Equation,
+    pub operation: Operation,
+}
 
 /// The main struct that holds the data and operations for the equation
 /// This is the main struct that the user will interact with
@@ -239,16 +247,26 @@ impl Equation {
         }
 
         let operation = internal_tensor.operation.clone();
+
+        let backprop_packet = BackpropagationPacket {
+            grad: grad.clone(),
+            data: data.clone(),
+            equation: self,
+            operation: operation.clone(),
+        };
         match operation {
             Operation::Nop => {
 
                 // Do nothing
             }
             Operation::Add(a, b) => {
+                add_op::backward(backprop_packet);
+                /*
                 let left_hand_grad = self.get_tensor_grad(a);
                 let right_hand_grad = self.get_tensor_grad(b);
                 self.set_tensor_grad(a, left_hand_grad + grad.clone());
                 self.set_tensor_grad(b, right_hand_grad + grad);
+                 */
             }
             Operation::Mul(a, b) => {
                 if self.advanced_logging == true {
@@ -578,7 +596,7 @@ impl Equation {
         //self.data_store[offset] = data[0];
     }
 
-    fn set_tensor_grad(&mut self, tensor_id: TensorID, grad: ArrayD<f32>) {
+    pub fn set_tensor_grad(&mut self, tensor_id: TensorID, grad: ArrayD<f32>) {
         assert!(
             grad.shape()
                 == self

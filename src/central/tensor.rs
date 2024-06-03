@@ -542,59 +542,6 @@ impl Tensor {
     }
 }
 
-impl Add for Tensor {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self::Output {
-        let left_hand_item = self.item();
-        let right_hand_item = rhs.item();
-        if left_hand_item.shape() != right_hand_item.shape() {
-            let right_hand_broadcasted = rhs.broadcast(self.shape);
-            let result_data = self.item() + right_hand_broadcasted.item();
-
-            let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-
-            let data_as_vec = result_data.into_iter().collect();
-            let tensor_id = singleton.allocate_tensor_from_operation(
-                self.shape.clone(),
-                data_as_vec,
-                Operation::Add(self.tensor_id, right_hand_broadcasted.tensor_id),
-            );
-
-            Tensor {
-                tensor_id,
-                shape: self.shape,
-                operation: Operation::Add(self.tensor_id, right_hand_broadcasted.tensor_id),
-                name: ['a'; 10],
-            }
-        } else {
-            let result_data = self.item() + rhs.item();
-
-            let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-
-            let data_as_vec = result_data.into_iter().collect();
-            let tensor_id = singleton.allocate_tensor_from_operation(
-                self.shape.clone(),
-                data_as_vec,
-                Operation::Add(self.tensor_id, rhs.tensor_id),
-            );
-
-            Tensor {
-                tensor_id,
-                shape: self.shape,
-                operation: Operation::Add(self.tensor_id, rhs.tensor_id),
-                name: ['a'; 10],
-            }
-        }
-    }
-}
-
-impl Add<f32> for Tensor {
-    type Output = Self;
-    fn add(self, rhs: f32) -> Self::Output {
-        let right_hand_as_tesnor = Tensor::element(self.shape.clone(), rhs);
-        self + right_hand_as_tesnor
-    }
-}
 
 impl Mul for Tensor {
     type Output = Self;
