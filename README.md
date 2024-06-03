@@ -21,7 +21,7 @@ To use Poro, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-Poro = { path = "path/to/Poro" }
+poro = "0.1.0"
 ```
 
 ### Usage
