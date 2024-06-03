@@ -79,10 +79,10 @@ impl Shape {
                 assert!(i < self.number_of_indices);
                 self.indices[i]
             },
-            Indexable::Double(a, b) => {
+            Indexable::Double(_a, _b) => {
                 panic!("Not implemented");
             },
-            Indexable::Mixed(range_start, range_end) => {
+            Indexable::Mixed(_range_start, _range_end) => {
                 panic!("Not implemented");
             },
             Indexable::FromTensor(_) => {
@@ -101,7 +101,7 @@ impl Shape {
                 }
                 Shape::new(new_indices)
             },
-            Indexable::Double(a, b) => {
+            Indexable::Double(_a, _b) => {
                 if self.number_of_indices == 2 {
                     return Shape::new(vec![1]);
                 }
@@ -113,10 +113,10 @@ impl Shape {
                 Shape::new(new_indices)
 
             },
-            Indexable::Mixed(range_start, range_end) => {
+            Indexable::Mixed(_range_start, _range_end) => {
                 return Shape::new(self.indices.to_vec());
             },
-            Indexable::FromTensor(tensor) => {
+            Indexable::FromTensor(_tensor) => {
                 return Shape::new(self.indices.to_vec());
 
             }

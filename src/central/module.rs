@@ -1,10 +1,7 @@
-
-
-use std::collections::HashMap;
 // include tensor
 use crate::{central::Tensor, Shape};
 
-pub trait Module : FnMut(&Tensor) -> Tensor {
+pub trait Module {
     fn forward(&mut self, x: &Tensor) -> Tensor;
     fn get_parameters(&self) -> Vec<Tensor>;
 }
@@ -34,6 +31,7 @@ impl Module for Linear {
     }
 }
 
+/*
 impl FnOnce<(&Tensor,)> for Linear {
     type Output = Tensor;
 
@@ -53,3 +51,4 @@ impl Fn<(&Tensor,)> for Linear {
         panic!("This should never be called");
     }
 }
+ */

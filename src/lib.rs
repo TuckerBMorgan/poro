@@ -354,11 +354,10 @@ mod tests {
         println!("{:?}", total_loss);
     }
 
-    use core::{f32, time};
-    use std::f32::consts::E;
+    use core::f32;
+
     use std::fs::read_to_string;
-    use std::collections::{HashMap, HashSet};
-    use std::process::Output;
+    use std::collections::HashMap;
 
     fn read_lines(filename: &str) -> Vec<String> {
         let mut result = Vec::new();
@@ -368,47 +367,6 @@ mod tests {
         }
 
         result
-    }
-
-    fn generate_dataset() -> (HashMap<char, usize>, HashMap<usize, char>, Vec<usize>, Vec<usize>) {
-        let names = read_lines("./data/bigram/names.txt");
-
-        let chars: HashSet<char> = names.iter()
-        .flat_map(|word| word.chars())
-        .collect();    
-        let mut chars_vec: Vec<char> = chars.into_iter().collect();
-
-
-        chars_vec.sort_unstable();
-
-        let mut stoi: HashMap<char, usize> = HashMap::new();
-        for (i, &c) in chars_vec.iter().enumerate() {
-            stoi.insert(c, i + 1);
-        }
-        stoi.insert('.', 0);
-
-
-        let itos: HashMap<usize, char> = stoi.iter()
-            .map(|(&c, &i)| (i, c))
-            .collect();
-
-            let mut xs: Vec<usize> = vec![];
-            let mut ys = vec![];
-
-            // I BUILT MY DATASET WRONG
-            // Less tired, and with more time on your hand, this will be easy to solve
-            for name in names.iter() {
-                let fixed = String::from(".") + &name + ".";
-                let chars: Vec<char> = fixed.chars().collect();
-                for i in 0..chars.len() - 1 {
-                    let pair = (chars[i], chars[i + 1]);
-                    xs.push(stoi[&pair.0]);
-                    ys.push(stoi[&pair.1]);
-                }
-            }
-
-            let var_name: (HashMap<char, usize>, HashMap<usize, char>, Vec<usize>, Vec<usize>) = (stoi, itos, xs, ys);
-            return var_name;
     }
 
     #[test]
@@ -479,7 +437,7 @@ mod tests {
        // let mut times = HashMap::new();
 
         
-        let BATCH_SIZE = 32;
+        const BATCH_SIZE : usize = 32;
         let names = read_lines("./data/bigram/names.txt");
 
         let mut stoi = HashMap::new();
@@ -492,26 +450,26 @@ mod tests {
         }
         let n1 = (names.len() as f32 * 0.8f32) as usize;
         let n2 = (names.len() as f32 * 0.9f32) as usize;
-        let (Xtr, Ytr) = build_dataset_from_subset(&names[..n1], &stoi);
-        let (Xdev, Ydev) = build_dataset_from_subset(&names[n1..n2], &stoi);
-        let (Xte, Yte) = build_dataset_from_subset(&names[n2..], &stoi);
+        let (xtr, ytr) = build_dataset_from_subset(&names[..n1], &stoi);
+        let (_xdev, _ydev) = build_dataset_from_subset(&names[n1..n2], &stoi);
+        let (_cte, _yte) = build_dataset_from_subset(&names[n2..], &stoi);
 
-        let mut C = Tensor::load_from_weight_file("./data/bigram/tensor_C.json");
+        let mut c = Tensor::load_from_weight_file("./data/bigram/tensor_C.json");
       
-        C.set_requires_grad(true);
-        let mut W1 = Tensor::load_from_weight_file("./data/bigram/tensor_W1.json");
-        W1.set_requires_grad(true);
+        c.set_requires_grad(true);
+        let mut w1 = Tensor::load_from_weight_file("./data/bigram/tensor_W1.json");
+        w1.set_requires_grad(true);
         let mut b1 = Tensor::load_from_weight_file("./data/bigram/tensor_b1.json");
         b1.set_requires_grad(true);
-        let mut W2 = Tensor::load_from_weight_file("./data/bigram/tensor_W2.json");
-        W2.set_requires_grad(true);
+        let mut w2 = Tensor::load_from_weight_file("./data/bigram/tensor_W2.json");
+        w2.set_requires_grad(true);
         let mut b2 = Tensor::load_from_weight_file("./data/bigram/tensor_b2.json");
         b2.set_requires_grad(true);
 
-        let EPOCH_COUNT = 50;
+        const EPOCH_COUNT : usize = 50;
 
 
-        for epoch in 0..10 {
+        for epoch in 0..EPOCH_COUNT {
             println!("Epoch: {:?}", epoch);
             {
                 let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
@@ -521,17 +479,17 @@ mod tests {
 
             let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![BATCH_SIZE, 3]));
             for b in 0..BATCH_SIZE {
-                test_index_tensor.set_index([b, 0].into(), vec![Xtr[b][0] as f32].into());
-                test_index_tensor.set_index([b, 1].into(), vec![Xtr[b][1] as f32].into());
-                test_index_tensor.set_index([b, 2].into(), vec![Xtr[b][2] as f32].into());
+                test_index_tensor.set_index([b, 0].into(), vec![xtr[b][0] as f32].into());
+                test_index_tensor.set_index([b, 1].into(), vec![xtr[b][1] as f32].into());
+                test_index_tensor.set_index([b, 2].into(), vec![xtr[b][2] as f32].into());
             }
 
-            let test = C.view(Indexable::FromTensor(test_index_tensor.tensor_id));
+            let test = c.view(Indexable::FromTensor(test_index_tensor.tensor_id));
             let reshape = test.reshape(Shape::new(vec![BATCH_SIZE, 30]));
-            let test_mult = reshape << W1;
+            let test_mult = reshape << w1;
             let test_add = test_mult + b1;
             let test_tanh = test_add.tanh();
-            let test_output = test_tanh << W2;
+            let test_output = test_tanh << w2;
             let test_output = test_output + b2;
 
             let test_max = test_output.max(1);
@@ -543,7 +501,7 @@ mod tests {
 
             let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![BATCH_SIZE, 27]), 0.0);
             for b in 0..BATCH_SIZE {
-                test_ytrue_onehot.set_index([b, Ytr[b]].into(), vec![1.0].into());
+                test_ytrue_onehot.set_index([b, ytr[b]].into(), vec![1.0].into());
             }
 
             let test_prob_log = test_probabilities.log();
@@ -588,7 +546,7 @@ mod tests {
             zero_all_grads();
             let prediction = linear.forward(&inputs_as_tensor);
             let loss = (prediction - outputs_as_tensor).pow(2.0);
-            loss.backward();
+            loss.backward();  
             update_parameters(-0.01);
         }
     }

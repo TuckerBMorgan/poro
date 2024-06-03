@@ -1,7 +1,6 @@
 use core::panic;
-use std::{collections::{HashMap, HashSet}, ops::{Index, Mul}, vec};
+use std::{collections::{HashMap, HashSet}, vec};
 use ndarray::prelude::*;
-use rand::Rng;
 use rand_distr::{Normal, Distribution};
 use super::{internal_tensor::InternalTensor, operation::Operation, shape::Shape, tensor::TensorID, indexable::Indexable};
 use std::time::Instant;
@@ -170,12 +169,11 @@ impl Equation {
         while let Some(node) = stack.pop() {
             let _ = self.backward_for_value(node); // Assuming this calculates and returns the children of the node
         }
-        let espaosed = now.elapsed().as_micros();
         if !self.timings.contains_key("Backward") {
 
             self.timings.insert("Backward".to_string(), 0);
         }
-        let current_time = self.timings.get("Backward").unwrap();
+
         //self.timings.insert("Backward".to_string(), current_time + espaosed);
     } 
 
@@ -281,7 +279,7 @@ impl Equation {
                 let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
                 self.set_tensor_grad(b, temp);
             },
-            Operation::Sum(a, axis) => {
+            Operation::Sum(a, _axis) => {
                 let left_hand_grad = self.get_tensor_grad(a);
                 let grad_update = &left_hand_grad + &grad.broadcast(left_hand_grad.shape()).unwrap();
                 if self.advanced_logging == true {
@@ -290,7 +288,7 @@ impl Equation {
                 }
                 self.set_tensor_grad(a, grad_update);
             },
-            Operation::Broadcast(a, to_shape) => {
+            Operation::Broadcast(a, _to_shape) => {
 
                 let left_hand_grad = self.get_tensor_grad(a);
 
@@ -392,13 +390,13 @@ impl Equation {
                 let right_hand_grad = self.get_tensor_grad(b);
                 let mut left_hand_grad = left_hand_grad.clone();
                 let mut right_hand_grad = right_hand_grad.clone();
-                let mut grad = grad.clone();
+                let grad = grad.clone();
                 let left_shape = left_hand_grad.shape();
                 let right_shape = right_hand_grad.shape();
                 let grad_shape = grad.shape();
                 let mut left_grad: ArrayD<f32> = ArrayD::zeros(left_shape);
                 let mut right_grad = ArrayD::zeros(right_shape);
-                let mut grad = ArrayD::zeros(grad_shape);
+                let grad = ArrayD::zeros(grad_shape);
                 let mut left_index = 0;
                 let mut right_index = 0;
                 let mut grad_index = 0;

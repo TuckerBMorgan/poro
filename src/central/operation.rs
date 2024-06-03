@@ -45,18 +45,18 @@ impl fmt::Display for Operation {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Operation::Nop => write!(f, "Nop"),
-            Operation::Add(a, b) => write!(f, "Add()"),
-            Operation::Mul(a, b) => write!(f, "Mul()"),
-            Operation::Exp(a) => write!(f, "Exp()"),
-            Operation::Pow(a, b) => write!(f, "Pow()"),
-            Operation::MatMul(a, b) => write!(f, "MatMul()"),
-            Operation::Sum(a, _) => write!(f, "Sum()"),
-            Operation::Broadcast(a, shape) => write!(f, "Broadcast()"),
-            Operation::Log(a) => write!(f, "Log()"),
-            Operation::View(a, index) => write!(f, "View()"),
-            Operation::Mean(a) => write!(f, "Mean()"),
-            Operation::Concat(a, b) => write!(f, "Concat()"),
-            Operation::Reshape(a, shape) => write!(f, "Reshape()"),
+            Operation::Add(_a, _b) => write!(f, "Add()"),
+            Operation::Mul(_a, _b) => write!(f, "Mul()"),
+            Operation::Exp(_a) => write!(f, "Exp()"),
+            Operation::Pow(_a, _b) => write!(f, "Pow()"),
+            Operation::MatMul(_a, _b) => write!(f, "MatMul()"),
+            Operation::Sum(_a, _) => write!(f, "Sum()"),
+            Operation::Broadcast(_a, _shape) => write!(f, "Broadcast()"),
+            Operation::Log(_a) => write!(f, "Log()"),
+            Operation::View(_a, _index) => write!(f, "View()"),
+            Operation::Mean(_a) => write!(f, "Mean()"),
+            Operation::Concat(_a, _b) => write!(f, "Concat()"),
+            Operation::Reshape(_a, _shape) => write!(f, "Reshape()"),
         }
     }
 }

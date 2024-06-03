@@ -1,6 +1,6 @@
 use crate::{Shape, SINGLETON_INSTANCE};
 
-use super::{shape, tensor::TensorID};
+use super::tensor::TensorID;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash)]
 pub enum Indexable {
@@ -27,13 +27,13 @@ impl Indexable {
                 assert!(*i < shape.number_of_indices);
                 shape.indices[*i]
             },
-            Indexable::Double(a, b) => {
+            Indexable::Double(_a, _b) => {
                 panic!("Double index not implemented");
             },
-            Indexable::Mixed(a, b) => {
+            Indexable::Mixed(_a, _b) => {
                 panic!("Mixed index not implemented");
             },
-            Indexable::FromTensor(a) => {
+            Indexable::FromTensor(_a) => {
                 panic!("Mixed index not implemented");
             }
         }
@@ -46,7 +46,7 @@ impl From<Indexable> for Shape {
         match indexable {
             Indexable::Single(a) => vec![a].into(),
             Indexable::Double(a, b) => vec![a, b].into(),
-            Indexable::Mixed(a, b) => panic!("Mixed index not implemented"),
+            Indexable::Mixed(_a, _b) => panic!("Mixed index not implemented"),
             Indexable::FromTensor(_) => panic!("Mixed index not implemented")
         }
     }
@@ -57,7 +57,7 @@ impl From<Indexable> for Vec<usize> {
         match indexable {
             Indexable::Single(index) => vec![index],
             Indexable::Double(a, b) => vec![a, b],
-            Indexable::Mixed(a, b) => vec![1, 1],
+            Indexable::Mixed(_a, _b) => vec![1, 1],
             Indexable::FromTensor(_) => vec![1]
 
         }
