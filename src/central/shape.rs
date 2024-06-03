@@ -1,14 +1,12 @@
 use crate::Indexable;
 
-pub const MAX_NUMBER_OF_INDICES : usize = 10;
-
-
+pub const MAX_NUMBER_OF_INDICES: usize = 10;
 
 /// Represents the shape of a tensor.
 #[derive(Hash, PartialEq, Eq, Copy, Clone, Debug)]
 pub struct Shape {
     pub number_of_indices: usize,
-    pub indices: [usize; MAX_NUMBER_OF_INDICES]
+    pub indices: [usize; MAX_NUMBER_OF_INDICES],
 }
 
 impl Shape {
@@ -30,7 +28,7 @@ impl Shape {
 
         Shape {
             number_of_indices: indices.len(),
-            indices: local_indices
+            indices: local_indices,
         }
     }
 
@@ -111,13 +109,13 @@ impl Shape {
             Indexable::Single(i) => {
                 assert!(i < self.number_of_indices);
                 self.indices[i]
-            },
+            }
             Indexable::Double(_a, _b) => {
                 panic!("Not implemented");
-            },
+            }
             Indexable::Mixed(_range_start, _range_end) => {
                 panic!("Not implemented");
-            },
+            }
             Indexable::FromTensor(_) => {
                 panic!("Not implemented");
             }
@@ -138,7 +136,7 @@ impl Shape {
                     new_indices.push(self.indices[j]);
                 }
                 Shape::new(new_indices)
-            },
+            }
             Indexable::Double(_a, _b) => {
                 if self.number_of_indices == 2 {
                     return Shape::new(vec![1]);
@@ -149,17 +147,14 @@ impl Shape {
                     new_indices.push(self.indices[j]);
                 }
                 Shape::new(new_indices)
-
-            },
+            }
             Indexable::Mixed(_range_start, _range_end) => {
                 return Shape::new(self.indices.to_vec());
-            },
+            }
             Indexable::FromTensor(_tensor) => {
                 return Shape::new(self.indices.to_vec());
-
             }
         }
-    
     }
 }
 
@@ -167,4 +162,4 @@ impl From<Vec<usize>> for Shape {
     fn from(indices: Vec<usize>) -> Shape {
         Shape::new(indices)
     }
-}   
+}

@@ -8,8 +8,8 @@ pub use ndarray::prelude::*;
 #[cfg(test)]
 mod tests {
 
-    use rand::Rng;
     use crate::*;
+    use rand::Rng;
     fn approx_equal(a: f32, b: f32, epsilon: f32) -> bool {
         (a - b).abs() < epsilon
     }
@@ -35,8 +35,7 @@ mod tests {
 
     #[test]
     fn backward_add_test() {
-
-        let a  = Tensor::ones(Shape::new(vec![1, 1]));
+        let a = Tensor::ones(Shape::new(vec![1, 1]));
         let b = Tensor::element(Shape::new(vec![1, 1]), 2.0);
         let c = a + b;
         c.backward();
@@ -69,7 +68,7 @@ mod tests {
 
     #[test]
     fn backward_sub_test() {
-        let a  = Tensor::ones(Shape::new(vec![1, 1]));
+        let a = Tensor::ones(Shape::new(vec![1, 1]));
         let b = Tensor::element(Shape::new(vec![1, 1]), 2.0);
         let c = a - b;
         c.backward();
@@ -101,8 +100,7 @@ mod tests {
 
     #[test]
     fn backward_mul_test() {
-
-        let a  = Tensor::ones(Shape::new(vec![1, 1]));
+        let a = Tensor::ones(Shape::new(vec![1, 1]));
         let b = Tensor::element(Shape::new(vec![1, 1]), 2.0);
         let c = a * b;
         c.backward();
@@ -171,13 +169,11 @@ mod tests {
         assert!(result == arr2(&[[2.0f32.exp()]]).into_dyn());
     }
 
-
-
     #[test]
     fn micrograd_copy_test() {
         let x1 = Tensor::element(Shape::new(vec![1]), 2.0);
         let x2 = Tensor::element(Shape::new(vec![1]), 0.0);
-        
+
         let w1 = Tensor::element(Shape::new(vec![1]), -3.0);
         let w2 = Tensor::element(Shape::new(vec![1]), 1.0);
 
@@ -199,12 +195,11 @@ mod tests {
         let n_grad = n.grad();
         assert!(approx_equal(n_grad[[0]], 0.5, 1e-6));
 
-
         let b_result = b.item();
         assert!(approx_equal(b_result[[0]], 6.8813735870195432, 1e-6));
         let b_grad = b.grad();
         assert!(approx_equal(b_grad[[0]], 0.5, 1e-6));
-        
+
         let x1_result = x1.item();
         assert!(approx_equal(x1_result[[0]], 2.0, 1e-6));
         let x1_grad = x1.grad();
@@ -239,9 +234,6 @@ mod tests {
         assert!(approx_equal(w1_result[[0]], -3.0, 1e-6));
         let w1_grad = w1.grad();
         assert!(approx_equal(w1_grad[[0]], 1.0, 1e-6));
-
-
-
     }
 
     pub struct Neuron {
@@ -255,18 +247,19 @@ mod tests {
             for _ in 0..number_of_inputs {
                 let mut weight_tensor = Tensor::randn(Shape::new(vec![1]));
                 weight_tensor.set_requires_grad(true);
-                weights.push(weight_tensor );
-
+                weights.push(weight_tensor);
             }
             let bias = Tensor::randn(Shape::new(vec![1]));
             Neuron { weights, bias }
         }
 
         pub fn forward(&self, inputs: &Vec<Tensor>) -> Tensor {
-            let weighted_sum = inputs.iter().zip(&self.weights).fold(
-                self.bias.clone(),
-                |acc, (input, weight)| acc + (*input * *weight),
-            );
+            let weighted_sum = inputs
+                .iter()
+                .zip(&self.weights)
+                .fold(self.bias.clone(), |acc, (input, weight)| {
+                    acc + (*input * *weight)
+                });
 
             weighted_sum.tanh()
         }
@@ -286,7 +279,10 @@ mod tests {
         }
 
         pub fn forward(&self, inputs: &Vec<Tensor>) -> Vec<Tensor> {
-            self.neurons.iter().map(|neuron| neuron.forward(inputs)).collect()
+            self.neurons
+                .iter()
+                .map(|neuron| neuron.forward(inputs))
+                .collect()
         }
     }
 
@@ -295,7 +291,7 @@ mod tests {
     }
 
     impl Network {
-        pub fn new(number_of_inputs: usize, mut neurons_per_layers: Vec<usize> ) -> Network {
+        pub fn new(number_of_inputs: usize, mut neurons_per_layers: Vec<usize>) -> Network {
             let mut sizes = vec![number_of_inputs];
             sizes.append(&mut neurons_per_layers);
             let mut layers = vec![];
@@ -332,7 +328,10 @@ mod tests {
             }
 
             for (input, output) in inputs.iter().zip(&outputs) {
-                let input = input.iter().map(|x| Tensor::element(Shape::new(vec![1]), *x)).collect();
+                let input = input
+                    .iter()
+                    .map(|x| Tensor::element(Shape::new(vec![1]), *x))
+                    .collect();
                 let output = Tensor::element(Shape::new(vec![1]), *output);
                 let prediction = mlp.forward(&input)[0];
                 let loss = (prediction - output).pow(2.0);
@@ -345,19 +344,25 @@ mod tests {
             }
         }
 
-        let total_loss = inputs.iter().zip(&outputs).fold(0.0, |acc, (input, output)| {
-            let input = input.iter().map(|x| Tensor::element(Shape::new(vec![1]), *x)).collect();
-            let output = Tensor::element(Shape::new(vec![1]), *output);
-            let prediction = mlp.forward(&input)[0];
-            acc + (prediction - output).pow(2.0).item()[[0]]
-        });
+        let total_loss = inputs
+            .iter()
+            .zip(&outputs)
+            .fold(0.0, |acc, (input, output)| {
+                let input = input
+                    .iter()
+                    .map(|x| Tensor::element(Shape::new(vec![1]), *x))
+                    .collect();
+                let output = Tensor::element(Shape::new(vec![1]), *output);
+                let prediction = mlp.forward(&input)[0];
+                acc + (prediction - output).pow(2.0).item()[[0]]
+            });
         println!("{:?}", total_loss);
     }
 
     use core::f32;
 
-    use std::fs::read_to_string;
     use std::collections::HashMap;
+    use std::fs::read_to_string;
 
     fn read_lines(filename: &str) -> Vec<String> {
         let mut result = Vec::new();
@@ -401,10 +406,9 @@ mod tests {
             }
         }
 
-
         //
         for i in 0..32 {
-            for j in 0..3 { 
+            for j in 0..3 {
                 for k in 0..10 {
                     let test = [i, j, k];
                     c[test] = a[[b[[i, j]] as usize, k]];
@@ -413,10 +417,12 @@ mod tests {
         }
 
         println!("{:?}", c);
-
     }
 
-    fn build_dataset_from_subset(words: &[String], stoi: &HashMap<char, usize>) -> (Vec<[usize;3]>, Vec<usize>) {
+    fn build_dataset_from_subset(
+        words: &[String],
+        stoi: &HashMap<char, usize>,
+    ) -> (Vec<[usize; 3]>, Vec<usize>) {
         let mut xs = vec![];
         let mut ys = vec![];
         for word in words {
@@ -429,15 +435,13 @@ mod tests {
             }
         }
         (xs, ys)
-
     }
 
     #[test]
     fn mm_mlp_test() {
-       // let mut times = HashMap::new();
+        // let mut times = HashMap::new();
 
-        
-        const BATCH_SIZE : usize = 32;
+        const BATCH_SIZE: usize = 32;
         let names = read_lines("./data/bigram/names.txt");
 
         let mut stoi = HashMap::new();
@@ -455,7 +459,7 @@ mod tests {
         let (_cte, _yte) = build_dataset_from_subset(&names[n2..], &stoi);
 
         let mut c = Tensor::load_from_weight_file("./data/bigram/tensor_C.json");
-      
+
         c.set_requires_grad(true);
         let mut w1 = Tensor::load_from_weight_file("./data/bigram/tensor_W1.json");
         w1.set_requires_grad(true);
@@ -466,8 +470,7 @@ mod tests {
         let mut b2 = Tensor::load_from_weight_file("./data/bigram/tensor_b2.json");
         b2.set_requires_grad(true);
 
-        const EPOCH_COUNT : usize = 50;
-
+        const EPOCH_COUNT: usize = 50;
 
         for epoch in 0..EPOCH_COUNT {
             println!("Epoch: {:?}", epoch);
@@ -475,7 +478,6 @@ mod tests {
                 let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
                 singleton.zero_all_grads();
             }
-    
 
             let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![BATCH_SIZE, 3]));
             for b in 0..BATCH_SIZE {
@@ -517,14 +519,10 @@ mod tests {
                 let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
                 singleton.update_parameters(-0.1);
             }
-
         }
-
-
     }
 
     use crate::central::Linear;
-    use crate::central::{Model, LinearModel};
 
     #[test]
     fn linear_module() {
@@ -537,19 +535,21 @@ mod tests {
             vec![1.0, 1.0, -1.0],
         ];
 
-        let inputs_as_tensor = Tensor::from_vec(inputs.iter().flatten().map(|x|*x).collect(), vec![4, 3].into());
+        let inputs_as_tensor = Tensor::from_vec(
+            inputs.iter().flatten().map(|x| *x).collect(),
+            vec![4, 3].into(),
+        );
 
         let outputs = vec![1.0f32, -1.0, -1.0, 1.0];
-        let outputs_as_tensor = Tensor::from_vec(outputs.iter().map(|x| *x).collect(), vec![4, 1].into());
+        let outputs_as_tensor =
+            Tensor::from_vec(outputs.iter().map(|x| *x).collect(), vec![4, 1].into());
 
         for _ in 0..50 {
             zero_all_grads();
             let prediction = linear.forward(&inputs_as_tensor);
             let loss = (prediction - outputs_as_tensor).pow(2.0);
-            loss.backward();  
+            loss.backward();
             update_parameters(-0.01);
         }
     }
-
-
 }

@@ -1,4 +1,4 @@
-use crate::central::{*};
+use crate::central::*;
 
 pub trait Model {
     fn forward(&mut self, x: &Tensor) -> Tensor;
@@ -44,11 +44,15 @@ fn linear_model() {
         vec![1.0, 1.0, -1.0],
     ];
 
-    let inputs_as_tensor = Tensor::from_vec(inputs.iter().flatten().map(|x|*x).collect(), vec![4, 3].into());
+    let inputs_as_tensor = Tensor::from_vec(
+        inputs.iter().flatten().map(|x| *x).collect(),
+        vec![4, 3].into(),
+    );
 
     let outputs = vec![1.0f32, -1.0, -1.0, 1.0];
 
-    let outputs_as_tensor = Tensor::from_vec(outputs.iter().map(|x| *x).collect(), vec![4, 1].into());
+    let outputs_as_tensor =
+        Tensor::from_vec(outputs.iter().map(|x| *x).collect(), vec![4, 1].into());
 
     for _ in 0..50 {
         zero_all_grads();

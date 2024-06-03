@@ -1,21 +1,19 @@
-use std::ops::{Add, Div, Mul, Neg, Shl, Sub};
+use super::{indexable::Indexable, operation::Operation, shape::Shape};
 use ndarray::parallel::prelude::{IntoParallelRefIterator, ParallelIterator};
 use serde_json::Value;
-use std::{fs, vec};
+use std::ops::{Add, Div, Mul, Neg, Shl, Sub};
 use std::path::Path;
-use super::{operation::Operation, shape::Shape, indexable::Indexable};
+use std::{fs, vec};
 
 use ndarray::{ArrayD, Axis};
 #[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
 pub struct TensorID {
-    pub id: usize
+    pub id: usize,
 }
 
 impl TensorID {
     pub fn new(id: usize) -> TensorID {
-        TensorID {
-            id
-        }
+        TensorID { id }
     }
 }
 
@@ -24,11 +22,10 @@ pub struct Tensor {
     pub tensor_id: TensorID,
     pub shape: Shape,
     pub operation: Operation,
-    pub name: [char;10]
+    pub name: [char; 10],
 }
 
 impl Tensor {
-
     pub fn randn(shape: Shape) -> Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
         let tensor_id = singleton.allocate_randn_tensor(shape.clone(), Operation::Nop);
@@ -36,20 +33,23 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
-    pub fn load_from_weight_file<P: AsRef<Path>>(path: P) ->Tensor {
+    pub fn load_from_weight_file<P: AsRef<Path>>(path: P) -> Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        
+
         // Load the file at path into a string, as it is a JSON file
         let file_content = fs::read_to_string(path).unwrap();
-        
+
         // Parse the JSON file content
         let json: Value = serde_json::from_str(&file_content).unwrap();
-        
-        let data_array = json["data"].as_array().ok_or("Expected 'data' field to be an array").unwrap();
+
+        let data_array = json["data"]
+            .as_array()
+            .ok_or("Expected 'data' field to be an array")
+            .unwrap();
         let data: Vec<f32> = data_array
             .iter()
             .map(|x| x.as_f64().ok_or("Expected floating point numbers"))
@@ -58,7 +58,10 @@ impl Tensor {
             .map(|x| x.unwrap() as f32)
             .collect();
 
-        let shape_aray = json["shape"].as_array().ok_or("Expected 'data' field to be an array").unwrap();
+        let shape_aray = json["shape"]
+            .as_array()
+            .ok_or("Expected 'data' field to be an array")
+            .unwrap();
         let shape: Vec<usize> = shape_aray
             .iter()
             .map(|x| x.as_f64().ok_or("Expected floating point numbers"))
@@ -68,7 +71,8 @@ impl Tensor {
             .collect();
 
         // Allocate tensor from the loaded data
-        let tensor_id = singleton.allocate_tensor_from_operation(shape.clone().into(), data, Operation::Nop);
+        let tensor_id =
+            singleton.allocate_tensor_from_operation(shape.clone().into(), data, Operation::Nop);
         Tensor {
             tensor_id,
             shape: shape.into(),
@@ -76,12 +80,12 @@ impl Tensor {
             name: ['a'; 10], // Note: Adjust as necessary
         }
     }
- 
+
     pub fn get_id(&self) -> usize {
         self.tensor_id.id
     }
 
-    pub fn set_name(&mut self, name: [char;10]) {
+    pub fn set_name(&mut self, name: [char; 10]) {
         self.name = name;
     }
 
@@ -92,7 +96,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
@@ -103,7 +107,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
@@ -114,18 +118,19 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
     pub fn from_vec(data: Vec<f32>, shape: Shape) -> Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let tensor_id = singleton.allocate_tensor_from_operation(shape.clone(), data, Operation::Nop);
+        let tensor_id =
+            singleton.allocate_tensor_from_operation(shape.clone(), data, Operation::Nop);
         Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
@@ -152,29 +157,46 @@ impl Tensor {
 
     pub fn exp(&self) -> Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let data = singleton.get_item(self.tensor_id).clone().par_iter().map(|x| x.exp()).collect();
-        let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data, Operation::Exp(self.tensor_id));
+        let data = singleton
+            .get_item(self.tensor_id)
+            .clone()
+            .par_iter()
+            .map(|x| x.exp())
+            .collect();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            data,
+            Operation::Exp(self.tensor_id),
+        );
 
         Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Exp(self.tensor_id),
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
-
 
     pub fn pow(&self, power: f32) -> Tensor {
         let power_as_tensor = Tensor::element(vec![1].into(), power);
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let data = singleton.get_item(self.tensor_id).clone().par_iter().map(|x| x.powf(power)).collect();
-        let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data, Operation::Pow(self.tensor_id, power_as_tensor.tensor_id));
+        let data = singleton
+            .get_item(self.tensor_id)
+            .clone()
+            .par_iter()
+            .map(|x| x.powf(power))
+            .collect();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            data,
+            Operation::Pow(self.tensor_id, power_as_tensor.tensor_id),
+        );
 
         Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Pow(self.tensor_id, power_as_tensor.tensor_id),
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
     pub fn tanh(&self) -> Tensor {
@@ -187,27 +209,35 @@ impl Tensor {
     }
 
     pub fn sum(&self, axis: usize) -> Tensor {
-
         // I want to sum along the first axis
-        let data = self.item().sum_axis(Axis(axis)).clone().into_iter().map(|x| x).collect();
-        
+        let data = self
+            .item()
+            .sum_axis(Axis(axis))
+            .clone()
+            .into_iter()
+            .map(|x| x)
+            .collect();
+
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
 
         let mut new_shape_indicies = self.shape.indices.clone();
         new_shape_indicies[axis] = 1;
 
-        let tensor_id = singleton.allocate_tensor(Shape::new(vec![new_shape_indicies[0], new_shape_indicies[1]]), data, Operation::Sum(self.tensor_id, axis));
+        let tensor_id = singleton.allocate_tensor(
+            Shape::new(vec![new_shape_indicies[0], new_shape_indicies[1]]),
+            data,
+            Operation::Sum(self.tensor_id, axis),
+        );
 
         Tensor {
             tensor_id,
-            shape: Shape::new(vec![ self.shape.indices[0], new_shape_indicies[1]]),
+            shape: Shape::new(vec![self.shape.indices[0], new_shape_indicies[1]]),
             operation: Operation::Sum(self.tensor_id, axis),
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
-    
-    pub fn mean(&self, axis: usize) -> Tensor {
 
+    pub fn mean(&self, axis: usize) -> Tensor {
         let item = self.item();
         let sum = item.sum_axis(Axis(axis));
         let mean = sum / item.shape()[axis] as f32;
@@ -216,15 +246,18 @@ impl Tensor {
         let data = mean.into_iter().collect();
         let mut new_shape_indices = self.shape.indices.clone();
         new_shape_indices[axis] = 1;
-        let tensor_id = singleton.allocate_tensor_from_operation(Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]), data, Operation::Mean(self.tensor_id));
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
+            data,
+            Operation::Mean(self.tensor_id),
+        );
 
         Tensor {
             tensor_id,
             shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
             operation: Operation::Mean(self.tensor_id),
-            name: ['a';10]
+            name: ['a'; 10],
         }
-
     }
 
     pub fn t_mean(tensors: &Vec<Tensor>) -> Tensor {
@@ -248,20 +281,28 @@ impl Tensor {
             tensor = tensor.concat(sum_tensor.clone());
         }
 
-
         return tensor;
     }
 
     pub fn log(&self) -> Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let data = singleton.get_item(self.tensor_id).clone().par_iter().map(|x| x.ln()).collect();
-        let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data, Operation::Log(self.tensor_id));
+        let data = singleton
+            .get_item(self.tensor_id)
+            .clone()
+            .par_iter()
+            .map(|x| x.ln())
+            .collect();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            data,
+            Operation::Log(self.tensor_id),
+        );
 
         Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Log(self.tensor_id),
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
@@ -276,19 +317,28 @@ impl Tensor {
     }
 
     pub fn broadcast(&self, shape: Shape) -> Tensor {
-
-        let data: Vec<f32> = self.item().broadcast(shape.as_ndarray_shape()).unwrap().iter().map(|x|*x).collect();
+        let data: Vec<f32> = self
+            .item()
+            .broadcast(shape.as_ndarray_shape())
+            .unwrap()
+            .iter()
+            .map(|x| *x)
+            .collect();
 
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
         // We need to dubpilcate the data to match the new shape
 
-        let tensor_id = singleton.allocate_tensor_from_operation(shape.clone(), data, Operation::Broadcast(self.tensor_id, shape));
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            shape.clone(),
+            data,
+            Operation::Broadcast(self.tensor_id, shape),
+        );
 
         Tensor {
             tensor_id,
             shape,
             operation: Operation::Broadcast(self.tensor_id, shape),
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
@@ -296,7 +346,9 @@ impl Tensor {
         let mut shape = self.shape.clone().indices;
         shape[axis] = 1;
         // Find the max value along the second axis (axis 1)
-        let max_values = self.item().map_axis(Axis(axis), |row| *row.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap());
+        let max_values = self.item().map_axis(Axis(axis), |row| {
+            *row.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap()
+        });
         // Reshape the result to [32, 1]
 
         let result = max_values.into_shape((shape[0], shape[1])).unwrap();
@@ -304,14 +356,18 @@ impl Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
         // HACK: this should be generic to any sized shape, but I am not sure how to do that
         let new_shape = Shape::new(vec![shape[0], shape[1]]);
-        println!(   "{:?}", new_shape);
-        let tensor_id = singleton.allocate_tensor_from_operation(new_shape, result.iter().map(|x| *x).collect(), Operation::Nop);
+        println!("{:?}", new_shape);
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            new_shape,
+            result.iter().map(|x| *x).collect(),
+            Operation::Nop,
+        );
 
         Tensor {
             tensor_id,
             shape: new_shape,
             operation: Operation::Nop,
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 
@@ -319,7 +375,7 @@ impl Tensor {
         // Allocate a new tensor the size of the view
         // and then set the data of the new tensor to the data of the old tensor
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-        let data : Vec<f32> = singleton.get_item(self.tensor_id);
+        let data: Vec<f32> = singleton.get_item(self.tensor_id);
         // I now need to get the index subset of data from the old tensor
         let new_shape = self.shape.subshape_from_indexable(index);
 
@@ -327,40 +383,50 @@ impl Tensor {
             Indexable::Single(i) => {
                 if self.shape.number_of_indices == 1 {
                     let data = data[i];
-                    let tensor_id = singleton.allocate_element_tensor(new_shape, data, Operation::View(self.tensor_id, index));
+                    let tensor_id = singleton.allocate_element_tensor(
+                        new_shape,
+                        data,
+                        Operation::View(self.tensor_id, index),
+                    );
                     return Tensor {
                         tensor_id,
                         shape: new_shape,
                         operation: Operation::View(self.tensor_id, index),
-                        name: ['a';10]
-                        }
-                    }
-                    else if self.shape.number_of_indices == 2 {
-                        let offset = i * self.shape.indices[1];
-                        let data = data[offset..offset + self.shape.indices[1]].to_vec();
-                        let tensor_id = singleton.allocate_tensor_from_operation(new_shape, data, Operation::View(self.tensor_id, index));
-                        return Tensor {
-                            tensor_id,
-                            shape: new_shape,
-                            operation: Operation::View(self.tensor_id, index),
-                            name: ['a';10]
-                        }
-                    }
-                    else {
-                        panic!("Indexing not supported for tensors with more than 2 dimensions");
-                    }                                
-            },
+                        name: ['a'; 10],
+                    };
+                } else if self.shape.number_of_indices == 2 {
+                    let offset = i * self.shape.indices[1];
+                    let data = data[offset..offset + self.shape.indices[1]].to_vec();
+                    let tensor_id = singleton.allocate_tensor_from_operation(
+                        new_shape,
+                        data,
+                        Operation::View(self.tensor_id, index),
+                    );
+                    return Tensor {
+                        tensor_id,
+                        shape: new_shape,
+                        operation: Operation::View(self.tensor_id, index),
+                        name: ['a'; 10],
+                    };
+                } else {
+                    panic!("Indexing not supported for tensors with more than 2 dimensions");
+                }
+            }
             Indexable::Double(a, b) => {
                 let offset = a * self.shape.indices[1] + b;
                 let data = data[offset];
-                let tensor_id = singleton.allocate_element_tensor(new_shape, data, Operation::View(self.tensor_id, index));
+                let tensor_id = singleton.allocate_element_tensor(
+                    new_shape,
+                    data,
+                    Operation::View(self.tensor_id, index),
+                );
                 return Tensor {
                     tensor_id,
                     shape: new_shape,
                     operation: Operation::View(self.tensor_id, index),
-                    name: ['a';10]
-                }
-            },
+                    name: ['a'; 10],
+                };
+            }
             Indexable::Mixed(a, b) => {
                 // Look up the A and B vectors, and then use the B vector to pick the indices from the A vector
                 let a_data = singleton.get_item(a);
@@ -370,14 +436,18 @@ impl Tensor {
                     let index = b_data[i] as usize;
                     new_data.push(a_data[index]);
                 }
-                let tensor_id = singleton.allocate_tensor_from_operation(new_shape, new_data, Operation::View(self.tensor_id, index));
+                let tensor_id = singleton.allocate_tensor_from_operation(
+                    new_shape,
+                    new_data,
+                    Operation::View(self.tensor_id, index),
+                );
                 return Tensor {
                     tensor_id,
                     shape: new_shape,
                     operation: Operation::View(self.tensor_id, index),
-                    name: ['a';10]
-                }
-            },
+                    name: ['a'; 10],
+                };
+            }
             Indexable::FromTensor(a) => {
                 let indices = singleton.get_tensor_data(a);
 
@@ -395,7 +465,8 @@ impl Tensor {
 
                 let data = singleton.get_item(self.tensor_id).clone();
                 let data = data.as_slice();
-                let data_as_array = ArrayD::from_shape_vec(self.shape.as_ndarray_shape(), data.to_vec()).unwrap();
+                let data_as_array =
+                    ArrayD::from_shape_vec(self.shape.as_ndarray_shape(), data.to_vec()).unwrap();
                 let mut return_tensor = ArrayD::<f32>::zeros(new_shape.as_ndarray_shape());
 
                 let return_shape = return_tensor.shape().to_vec();
@@ -408,35 +479,38 @@ impl Tensor {
                     }
                 }
 
-
-                
-                let tensor_id = singleton.allocate_tensor_from_operation(new_shape.clone().into(), return_tensor.into_raw_vec(), Operation::View(self.tensor_id, index));
+                let tensor_id = singleton.allocate_tensor_from_operation(
+                    new_shape.clone().into(),
+                    return_tensor.into_raw_vec(),
+                    Operation::View(self.tensor_id, index),
+                );
                 return Tensor {
                     tensor_id,
                     shape: new_shape,
                     operation: Operation::View(self.tensor_id, index),
-                    name: ['a';10]
-                }
+                    name: ['a'; 10],
+                };
             }
-
         }
     }
 
     pub fn reshape(&self, new_shape: Shape) -> Tensor {
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
         let data = singleton.get_item(self.tensor_id).clone();
-        let tensor_id = singleton.allocate_tensor_from_operation(new_shape.clone(), data, Operation::Reshape(self.tensor_id, new_shape));
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            new_shape.clone(),
+            data,
+            Operation::Reshape(self.tensor_id, new_shape),
+        );
 
         Tensor {
             tensor_id,
             shape: new_shape,
             operation: Operation::Reshape(self.tensor_id, new_shape),
-            name: ['a';10]
+            name: ['a'; 10],
         }
-
     }
 
-    
     pub fn concat(&self, other: Tensor) -> Tensor {
         if other.shape.number_of_indices != 1 {
             panic!("The tensor to concat must be a 1D tensor");
@@ -453,16 +527,18 @@ impl Tensor {
             new_data.push(other_data[i]);
         }
         let new_shape = Shape::new(vec![data.len() + other_data.len()]);
-        let tensor_id = singleton.allocate_tensor_from_operation(new_shape.clone(), new_data, Operation::Concat(self.tensor_id, other.tensor_id));
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            new_shape.clone(),
+            new_data,
+            Operation::Concat(self.tensor_id, other.tensor_id),
+        );
 
         Tensor {
             tensor_id,
             shape: new_shape,
             operation: Operation::Concat(self.tensor_id, other.tensor_id),
-            name: ['a';10]
+            name: ['a'; 10],
         }
-
-        
     }
 }
 
@@ -478,32 +554,37 @@ impl Add for Tensor {
             let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
 
             let data_as_vec = result_data.into_iter().collect();
-            let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data_as_vec, Operation::Add(self.tensor_id, right_hand_broadcasted.tensor_id));
+            let tensor_id = singleton.allocate_tensor_from_operation(
+                self.shape.clone(),
+                data_as_vec,
+                Operation::Add(self.tensor_id, right_hand_broadcasted.tensor_id),
+            );
 
             Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Add(self.tensor_id, right_hand_broadcasted.tensor_id),
-                name: ['a';10]
+                name: ['a'; 10],
             }
-        }
-        else {
-
+        } else {
             let result_data = self.item() + rhs.item();
 
             let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-    
+
             let data_as_vec = result_data.into_iter().collect();
-            let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data_as_vec, Operation::Add(self.tensor_id, rhs.tensor_id));
-    
+            let tensor_id = singleton.allocate_tensor_from_operation(
+                self.shape.clone(),
+                data_as_vec,
+                Operation::Add(self.tensor_id, rhs.tensor_id),
+            );
+
             Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Add(self.tensor_id, rhs.tensor_id),
-                name: ['a';10]
+                name: ['a'; 10],
             }
         }
-
     }
 }
 
@@ -524,37 +605,41 @@ impl Mul for Tensor {
             let result_data = self.item() * broaded_casted_rhs.item();
 
             let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-    
+
             let data_as_vec = result_data.into_iter().collect();
-            let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data_as_vec, Operation::Mul(self.tensor_id, broaded_casted_rhs.tensor_id));
-    
+            let tensor_id = singleton.allocate_tensor_from_operation(
+                self.shape.clone(),
+                data_as_vec,
+                Operation::Mul(self.tensor_id, broaded_casted_rhs.tensor_id),
+            );
+
             Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Mul(self.tensor_id, broaded_casted_rhs.tensor_id),
-                name: ['a';10]
+                name: ['a'; 10],
             }
-        }
-        else {
+        } else {
             let result_data = self.item() * rhs.item();
 
             let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
-    
+
             let data_as_vec = result_data.into_iter().collect();
-            let tensor_id = singleton.allocate_tensor_from_operation(self.shape.clone(), data_as_vec, Operation::Mul(self.tensor_id, rhs.tensor_id));
-    
+            let tensor_id = singleton.allocate_tensor_from_operation(
+                self.shape.clone(),
+                data_as_vec,
+                Operation::Mul(self.tensor_id, rhs.tensor_id),
+            );
+
             Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Mul(self.tensor_id, rhs.tensor_id),
-                name: ['a';10]
+                name: ['a'; 10],
             }
         }
-
     }
-
 }
-
 
 impl Mul<f32> for Tensor {
     type Output = Self;
@@ -578,11 +663,9 @@ impl Sub for Tensor {
     }
 }
 
-
 impl Div for Tensor {
     type Output = Self;
     fn div(self, rhs: Self) -> Self::Output {
-
         let intermidiate = rhs.pow(-1.0);
         self * intermidiate
     }
@@ -624,27 +707,28 @@ impl Add<Tensor> for f32 {
     fn add(self, rhs: Tensor) -> Self::Output {
         rhs + self
     }
-} 
+}
 
 // SIN: reusing the Shl opeartor to do the matmul operations
 impl Shl for Tensor {
     type Output = Tensor;
     fn shl(self, rhs: Self) -> Self::Output {
-
-        
-
         let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
 
         let result_data = singleton.matmul(self.tensor_id, self.shape, rhs.tensor_id, rhs.shape);
         let resultant_shape = self.shape.matmul_shape(&rhs.shape);
-        let tensor_id = singleton.allocate_tensor_from_operation(resultant_shape, result_data.into_raw_vec(), Operation::MatMul(self.tensor_id, rhs.tensor_id));
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            resultant_shape,
+            result_data.into_raw_vec(),
+            Operation::MatMul(self.tensor_id, rhs.tensor_id),
+        );
         let matmul_shape = self.shape.matmul_shape(&rhs.shape);
-        
+
         Tensor {
             tensor_id,
             shape: matmul_shape,
             operation: Operation::MatMul(self.tensor_id, rhs.tensor_id),
-            name: ['a';10]
+            name: ['a'; 10],
         }
     }
 }

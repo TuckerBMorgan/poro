@@ -7,7 +7,7 @@ pub enum Indexable {
     Single(usize),
     Double(usize, usize),
     Mixed(TensorID, TensorID),
-    FromTensor(TensorID)
+    FromTensor(TensorID),
 }
 
 impl Indexable {
@@ -16,28 +16,26 @@ impl Indexable {
             Indexable::Single(_) => 1,
             Indexable::Double(_, _) => 2,
             Indexable::Mixed(_, _) => 2,
-            Indexable::FromTensor(_) => 1
-
+            Indexable::FromTensor(_) => 1,
         }
     }
 
     pub fn get_index(&self, shape: Shape) -> usize {
-        match self {    
+        match self {
             Indexable::Single(i) => {
                 assert!(*i < shape.number_of_indices);
                 shape.indices[*i]
-            },
+            }
             Indexable::Double(_a, _b) => {
                 panic!("Double index not implemented");
-            },
+            }
             Indexable::Mixed(_a, _b) => {
                 panic!("Mixed index not implemented");
-            },
+            }
             Indexable::FromTensor(_a) => {
                 panic!("Mixed index not implemented");
             }
         }
-    
     }
 }
 
@@ -47,7 +45,7 @@ impl From<Indexable> for Shape {
             Indexable::Single(a) => vec![a].into(),
             Indexable::Double(a, b) => vec![a, b].into(),
             Indexable::Mixed(_a, _b) => panic!("Mixed index not implemented"),
-            Indexable::FromTensor(_) => panic!("Mixed index not implemented")
+            Indexable::FromTensor(_) => panic!("Mixed index not implemented"),
         }
     }
 }
@@ -58,8 +56,7 @@ impl From<Indexable> for Vec<usize> {
             Indexable::Single(index) => vec![index],
             Indexable::Double(a, b) => vec![a, b],
             Indexable::Mixed(_a, _b) => vec![1, 1],
-            Indexable::FromTensor(_) => vec![1]
-
+            Indexable::FromTensor(_) => vec![1],
         }
     }
 }
@@ -79,8 +76,16 @@ impl From<[usize; 2]> for Indexable {
 impl From<[Vec<f32>; 2]> for Indexable {
     fn from([a, b]: [Vec<f32>; 2]) -> Indexable {
         let mut singelton = SINGLETON_INSTANCE.lock().unwrap();
-        let a_as_tensor = singelton.allocate_tensor(Shape::new(vec![a.len()]), a, super::operation::Operation::Nop);
-        let b_as_tensor =  singelton.allocate_tensor(Shape::new(vec![b.len()]), b, super::operation::Operation::Nop);
+        let a_as_tensor = singelton.allocate_tensor(
+            Shape::new(vec![a.len()]),
+            a,
+            super::operation::Operation::Nop,
+        );
+        let b_as_tensor = singelton.allocate_tensor(
+            Shape::new(vec![b.len()]),
+            b,
+            super::operation::Operation::Nop,
+        );
         Indexable::Mixed(a_as_tensor, b_as_tensor)
     }
 }

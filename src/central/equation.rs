@@ -1,15 +1,25 @@
+use super::{
+    indexable::Indexable, internal_tensor::InternalTensor, operation::Operation, shape::Shape,
+    tensor::TensorID,
+};
 use core::panic;
-use std::{collections::{HashMap, HashSet}, vec};
 use ndarray::prelude::*;
-use rand_distr::{Normal, Distribution};
-use super::{internal_tensor::InternalTensor, operation::Operation, shape::Shape, tensor::TensorID, indexable::Indexable};
+use rand_distr::{Distribution, Normal};
 use std::time::Instant;
+use std::{
+    collections::{HashMap, HashSet},
+    vec,
+};
+
+/// The main struct that holds the data and operations for the equation
+/// This is the main struct that the user will interact with
+/// It is responsible for holding the data and operations for the equation
 pub struct Equation {
     pub data_store: Vec<f32>,
     internal_tensor_store: HashMap<TensorID, InternalTensor>,
     value_count: usize,
     advanced_logging: bool,
-    pub timings: HashMap<String, u128>
+    pub timings: HashMap<String, u128>,
 }
 
 impl Equation {
@@ -19,111 +29,142 @@ impl Equation {
             value_count: 0,
             internal_tensor_store: HashMap::new(),
             advanced_logging: false,
-            timings: HashMap::new()
+            timings: HashMap::new(),
         }
     }
 
-    pub fn allocate_tensor(&mut self, shape:Shape, data: Vec<f32>, operation: Operation) -> TensorID {
+    pub fn allocate_tensor(
+        &mut self,
+        shape: Shape,
+        data: Vec<f32>,
+        operation: Operation,
+    ) -> TensorID {
         if shape.total_size() != data.len() {
             println!("Shape Length: {}", shape.total_size());
             println!("Data Length: {}", data.len());
             panic!("Shape and data length mismatch");
         }
         let tensor_id = TensorID::new(self.value_count);
-        
+
         // Techinally this could be made into a single operation, but I am lazy
         let data_start_index = self.data_store.len();
         self.data_store.append(&mut data.clone());
         let grad_start_index = self.data_store.len();
         self.data_store.append(&mut vec![0.0; shape.total_size()]);
 
-        let internal_tensor = InternalTensor::new(tensor_id, shape, operation, data_start_index, grad_start_index);
-        self.internal_tensor_store.insert(tensor_id, internal_tensor);
+        let internal_tensor = InternalTensor::new(
+            tensor_id,
+            shape,
+            operation,
+            data_start_index,
+            grad_start_index,
+        );
+        self.internal_tensor_store
+            .insert(tensor_id, internal_tensor);
         self.value_count += 1;
         return tensor_id;
     }
 
-    pub fn allocate_zero_tensor(&mut self, shape:Shape, operation: Operation) -> TensorID {
+    pub fn allocate_zero_tensor(&mut self, shape: Shape, operation: Operation) -> TensorID {
         let data = vec![0.0; shape.total_size()];
         self.allocate_tensor(shape, data, operation)
     }
 
-    pub fn allocate_ones_tensor(&mut self, shape:Shape, operation: Operation) -> TensorID {
+    pub fn allocate_ones_tensor(&mut self, shape: Shape, operation: Operation) -> TensorID {
         let data = vec![1.0; shape.total_size()];
         self.allocate_tensor(shape, data, operation)
     }
 
-    pub fn allocate_randn_tensor(&mut self, shape:Shape, operation: Operation) -> TensorID {
+    pub fn allocate_randn_tensor(&mut self, shape: Shape, operation: Operation) -> TensorID {
         let mut rng = rand::thread_rng();
         let normal = Normal::new(0.0, 1.0).unwrap();
-        let data: Vec<f32> = (0..shape.total_size()).map(|_| normal.sample(&mut rng)).collect();
+        let data: Vec<f32> = (0..shape.total_size())
+            .map(|_| normal.sample(&mut rng))
+            .collect();
         self.allocate_tensor(shape, data, operation)
     }
 
-    pub fn allocate_element_tensor(&mut self, shape:Shape, data: f32, operation: Operation) -> TensorID {
+    pub fn allocate_element_tensor(
+        &mut self,
+        shape: Shape,
+        data: f32,
+        operation: Operation,
+    ) -> TensorID {
         let data = vec![data; shape.total_size()];
         self.allocate_tensor(shape, data, operation)
     }
 
-    pub fn allocate_tensor_from_operation(&mut self, shape:Shape, data: Vec<f32>, operation: Operation) -> TensorID {
+    pub fn allocate_tensor_from_operation(
+        &mut self,
+        shape: Shape,
+        data: Vec<f32>,
+        operation: Operation,
+    ) -> TensorID {
         self.allocate_tensor(shape, data, operation)
     }
 
-    pub fn matmul(&mut self, a: TensorID, a_shape: Shape, b: TensorID, b_shape: Shape) -> ArrayD<f32> {
-        
+    pub fn matmul(
+        &mut self,
+        a: TensorID,
+        a_shape: Shape,
+        b: TensorID,
+        b_shape: Shape,
+    ) -> ArrayD<f32> {
         if a_shape.number_of_indices == 2 && b_shape.number_of_indices == 2 {
-            // preforms the matmul, returning the just the result datam does note allocate a new tensor        
+            // preforms the matmul, returning the just the result datam does note allocate a new tensor
             let a_data = self.get_tensor_data(a);
             let b_data = self.get_tensor_data(b);
             // we need to into_dimensionality() to convert the 1D array to a 2D array
             let a_data = a_data.into_dimensionality::<Ix2>().unwrap();
             let b_data = b_data.into_dimensionality::<Ix2>().unwrap();
             let result = a_data.dot(&b_data);
-            return result.into_dyn()
+            return result.into_dyn();
         }
 
         if a_shape.number_of_indices == 3 && b_shape.number_of_indices == 2 {
-            // preforms the matmul, returning the just the result datam does note allocate a new tensor        
+            // preforms the matmul, returning the just the result datam does note allocate a new tensor
             let a_data = self.get_tensor_data(a);
             let b_data = self.get_tensor_data(b);
             // we need to into_dimensionality() to convert the 1D array to a 2D array
             let a_data = a_data.into_dimensionality::<Ix3>().unwrap();
             let b_data = b_data.into_dimensionality::<Ix2>().unwrap();
-            let mut result = Array3::zeros((a_data.shape()[0], a_data.shape()[1], b_data.shape()[1]));
+            let mut result =
+                Array3::zeros((a_data.shape()[0], a_data.shape()[1], b_data.shape()[1]));
             for i in 0..a_data.shape()[0] {
                 let a_slice = a_data.slice(s![i, .., ..]);
                 let temp = a_slice.dot(&b_data);
                 result.slice_mut(s![i, .., ..]).assign(&temp);
             }
 
-            return result.into_dyn()
+            return result.into_dyn();
         }
 
-
         if a_shape.number_of_indices == 3 && b_shape.number_of_indices == 3 {
-            // preforms the matmul, returning the just the result datam does note allocate a new tensor        
+            // preforms the matmul, returning the just the result datam does note allocate a new tensor
             let a_data = self.get_tensor_data(a);
             let b_data = self.get_tensor_data(b);
             // we need to into_dimensionality() to convert the 1D array to a 2D array
             let a_data = a_data.into_dimensionality::<Ix3>().unwrap();
             let b_data = b_data.into_dimensionality::<Ix3>().unwrap();
             // I need to loop over the batch dimension and preform the matmul
-            let mut result = Array3::zeros((a_data.shape()[0], a_data.shape()[1], b_data.shape()[2]));
+            let mut result =
+                Array3::zeros((a_data.shape()[0], a_data.shape()[1], b_data.shape()[2]));
             for i in 0..a_data.shape()[0] {
                 let a_slice = a_data.slice(s![i, .., ..]);
                 let b_slice = b_data.slice(s![i, .., ..]);
                 let temp = a_slice.dot(&b_slice);
                 result.slice_mut(s![i, .., ..]).assign(&temp);
             }
-            return result.into_dyn()
+            return result.into_dyn();
         }
         panic!("Not implemented");
     }
 
-
     pub fn get_item(&self, tensor_id: TensorID) -> Vec<f32> {
         let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
-        let data = self.data_store[internal_tensor.data_start_index..internal_tensor.data_start_index + internal_tensor.shape.total_size()].to_vec();
+        let data = self.data_store[internal_tensor.data_start_index
+            ..internal_tensor.data_start_index + internal_tensor.shape.total_size()]
+            .to_vec();
         data
     }
 
@@ -136,7 +177,11 @@ impl Equation {
         visited.insert(node);
 
         // Assuming 'dependencies' method returns all the nodes that the current node depends on
-        if let Some(dependencies) = self.internal_tensor_store.get(&node).map(|n| n.dependencies()) {
+        if let Some(dependencies) = self
+            .internal_tensor_store
+            .get(&node)
+            .map(|n| n.dependencies())
+        {
             for dep in dependencies {
                 if !visited.contains(&dep) {
                     self.topological_sort_util(dep, visited, stack);
@@ -148,7 +193,7 @@ impl Equation {
     }
 
     /// When called by a user with a provided value, preforms one step of backprogation
-    /// BUT does not zero grad, or update the data 
+    /// BUT does not zero grad, or update the data
     /// 'starting_value' - which value in the graph to back propogate from
     pub fn backward(&mut self, starting_value: TensorID) {
         let now = Instant::now();
@@ -162,7 +207,13 @@ impl Equation {
         self.timings.insert("Topological Sort".to_string(), elapsed);
 
         // Initialize gradients
-        let ones = ArrayD::ones(self.internal_tensor_store.get(&starting_value).unwrap().shape.as_ndarray_shape());
+        let ones = ArrayD::ones(
+            self.internal_tensor_store
+                .get(&starting_value)
+                .unwrap()
+                .shape
+                .as_ndarray_shape(),
+        );
         self.set_tensor_grad(starting_value, ones.clone());
 
         // Process nodes in topologically sorted order
@@ -170,14 +221,13 @@ impl Equation {
             let _ = self.backward_for_value(node); // Assuming this calculates and returns the children of the node
         }
         if !self.timings.contains_key("Backward") {
-
             self.timings.insert("Backward".to_string(), 0);
         }
 
         //self.timings.insert("Backward".to_string(), current_time + espaosed);
-    } 
+    }
 
-    fn backward_for_value(&mut self, node: TensorID)  {
+    fn backward_for_value(&mut self, node: TensorID) {
         let now = Instant::now();
         let internal_tensor = self.internal_tensor_store.get(&node).unwrap();
         let data = self.get_tensor_data(node);
@@ -192,19 +242,18 @@ impl Equation {
         match operation {
             Operation::Nop => {
 
-
                 // Do nothing
-            },
+            }
             Operation::Add(a, b) => {
                 let left_hand_grad = self.get_tensor_grad(a);
                 let right_hand_grad = self.get_tensor_grad(b);
                 self.set_tensor_grad(a, left_hand_grad + grad.clone());
                 self.set_tensor_grad(b, right_hand_grad + grad);
-            },
+            }
             Operation::Mul(a, b) => {
                 if self.advanced_logging == true {
                     println!("A: {:?}", a);
-                    println!("B: {:?}", b);    
+                    println!("B: {:?}", b);
                 }
                 let left_hand_grad = self.get_tensor_grad(a);
                 let right_hand_grad = self.get_tensor_grad(b);
@@ -235,10 +284,10 @@ impl Equation {
                     println!("Right Hand Grad: {:?}", right_hand_grad);
                     println!("Left Hand Grad: {:?}", left_hand_grad);
                 }
-            
+
                 self.set_tensor_grad(a, left_hand_grad);
-                self.set_tensor_grad(b, right_hand_grad);            
-            },
+                self.set_tensor_grad(b, right_hand_grad);
+            }
             Operation::Exp(a) => {
                 let power_grad = self.get_tensor_grad(a);
                 if self.advanced_logging {
@@ -250,25 +299,25 @@ impl Equation {
                     println!("Final Grad: {:?}", final_grad);
                 }
                 self.set_tensor_grad(a, final_grad);
-            },
+            }
             Operation::Pow(base, power) => {
-
                 let base_data = self.get_tensor_data(base);
                 let power_data = self.get_tensor_data(power);
                 let base_grad = self.get_tensor_grad(base);
 
                 let power = power_data[0] - 1.0;
 
-                
                 let grad_update = power_data * base_data.mapv(|x| x.powf(power)) * grad.clone();
                 self.set_tensor_grad(base, base_grad + grad_update);
-            },
+            }
             Operation::MatMul(a, b) => {
                 let out_grad = grad.clone().into_dimensionality::<Ix2>().unwrap();
                 let right_hand_data = self.get_tensor_data(b);
-                let right_hand_data_tranpose  = right_hand_data.t();
+                let right_hand_data_tranpose = right_hand_data.t();
 
-                let other = right_hand_data_tranpose.into_dimensionality::<Ix2>().unwrap();
+                let other = right_hand_data_tranpose
+                    .into_dimensionality::<Ix2>()
+                    .unwrap();
                 let left_hand_grad = self.get_tensor_grad(a);
                 let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
                 self.set_tensor_grad(a, hold);
@@ -278,71 +327,81 @@ impl Equation {
                 let other = left_hand_data.t().into_dimensionality::<Ix2>().unwrap();
                 let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
                 self.set_tensor_grad(b, temp);
-            },
+            }
             Operation::Sum(a, _axis) => {
                 let left_hand_grad = self.get_tensor_grad(a);
-                let grad_update = &left_hand_grad + &grad.broadcast(left_hand_grad.shape()).unwrap();
+                let grad_update =
+                    &left_hand_grad + &grad.broadcast(left_hand_grad.shape()).unwrap();
                 if self.advanced_logging == true {
                     println!("Left Hand Grad: {:?}", left_hand_grad);
                     println!("Grad Update: {:?}", grad_update);
                 }
                 self.set_tensor_grad(a, grad_update);
-            },
+            }
             Operation::Broadcast(a, _to_shape) => {
-
                 let left_hand_grad = self.get_tensor_grad(a);
 
                 let mut result = grad.clone();
                 let input_shape = grad.shape();
                 let origina_shape = left_hand_grad.shape();
 
-                assert!(input_shape.len() >= origina_shape.len(), "Input Shape: {:?}, Original Shape: {:?}", input_shape, origina_shape);
+                assert!(
+                    input_shape.len() >= origina_shape.len(),
+                    "Input Shape: {:?}, Original Shape: {:?}",
+                    input_shape,
+                    origina_shape
+                );
 
                 for i in 0..input_shape.len() {
                     let input_dim = input_shape[input_shape.len() - 1 - i];
-                    let orig_dim = if i < origina_shape.len() { origina_shape[origina_shape.len() - 1 - i] } else { 1 };
+                    let orig_dim = if i < origina_shape.len() {
+                        origina_shape[origina_shape.len() - 1 - i]
+                    } else {
+                        1
+                    };
                     if orig_dim == 1 && input_dim != 1 {
                         result = result.sum_axis(Axis(input_shape.len() - 1 - i));
                     }
                 }
 
-                result = result.into_shape(origina_shape).unwrap();            
+                result = result.into_shape(origina_shape).unwrap();
                 let grad_update = left_hand_grad + result;
 
                 self.set_tensor_grad(a, grad_update);
-            },
+            }
             Operation::Log(a) => {
                 let base_data = self.get_tensor_data(a);
-                let local_grad = base_data.map(|x|1.0 / (x));
+                let local_grad = base_data.map(|x| 1.0 / (x));
                 let existing_grad = self.get_tensor_grad(a);
                 let grad_update = existing_grad + grad.clone() * local_grad;
                 self.set_tensor_grad(a, grad_update);
-            },
+            }
             Operation::View(source_tensor, origin_index) => {
                 // All this should do is take the grad and put it in the right place
                 let source_grad = self.get_tensor_grad(source_tensor);
                 // View grad is not the same shape as source grad
                 // so we want to allocate a zero tensor of the same shape as source grad
                 // and then copy the view grad into the right place
-                let source_shape = self.internal_tensor_store.get(&source_tensor).unwrap().shape;
+                let source_shape = self
+                    .internal_tensor_store
+                    .get(&source_tensor)
+                    .unwrap()
+                    .shape;
                 let mut new_view_grad = ArrayD::zeros(source_shape.as_ndarray_shape());
                 match origin_index {
                     Indexable::Single(i) => {
                         let number_of_dimensions = new_view_grad.shape().len();
                         if number_of_dimensions == 1 {
                             new_view_grad[[i]] = grad[0];
-                        } else if number_of_dimensions == 2{
+                        } else if number_of_dimensions == 2 {
                             new_view_grad.slice_mut(s![i, ..]).assign(&grad.clone());
-                        }
-                        else {
+                        } else {
                             panic!("Not implemented");
                         }
-
-
-                    },
+                    }
                     Indexable::Double(i, j) => {
                         new_view_grad[[i, j]] = grad[0];
-                    },
+                    }
                     Indexable::FromTensor(tensor) => {
                         let indices = self.get_tensor_data(tensor);
 
@@ -356,34 +415,32 @@ impl Equation {
                         new_shape_dims.push(this_shape[source_grad.ndim() - 1]);
                         let new_shape = Shape::new(new_shape_dims);
                         // REcreate the shape of the output
-                        
 
-                         for i in 0..new_shape.indices[0] {
+                        for i in 0..new_shape.indices[0] {
                             for j in 0..new_shape.indices[1] {
                                 for k in 0..new_shape.indices[2] {
                                     new_view_grad[[indices[[i, j]] as usize, k]] = grad[[i, j, k]];
                                 }
                             }
                         }
-                    },
+                    }
                     _ => {
                         panic!("Not implemented");
                     }
                 }
-
 
                 if self.advanced_logging {
                     println!("New View Grad: {:?}", new_view_grad);
                     println!("Source Grad: {:?}", source_grad);
                 }
                 self.set_tensor_grad(source_tensor, source_grad + new_view_grad);
-            },
+            }
             Operation::Mean(a) => {
                 let curent_grad = self.get_tensor_grad(a);
                 let local_grad = grad.clone() / (curent_grad.clone().len() as f32);
                 let grad_update = curent_grad + local_grad;
                 self.set_tensor_grad(a, grad_update);
-            },
+            }
             Operation::Concat(a, b) => {
                 // break apart the incoming grad into the two parts
                 let left_hand_grad = self.get_tensor_grad(a);
@@ -414,8 +471,7 @@ impl Equation {
                 right_hand_grad = right_hand_grad + right_grad;
                 self.set_tensor_grad(a, left_hand_grad);
                 self.set_tensor_grad(b, right_hand_grad);
-
-            },
+            }
             Operation::Reshape(a, _) => {
                 let source_grad = self.get_tensor_grad(a);
                 let grad_update = source_grad.clone();
@@ -423,19 +479,20 @@ impl Equation {
             }
         }
 
-
         if !self.timings.contains_key(&operation.to_string()) {
             self.timings.insert(operation.to_string(), 0);
         }
         let elapsed = now.elapsed().as_micros();
         let current_time = self.timings.get(&operation.to_string()).unwrap();
-        self.timings.insert(operation.to_string(), current_time + elapsed);
-
+        self.timings
+            .insert(operation.to_string(), current_time + elapsed);
     }
 
     pub fn get_tensor_data(&self, tensor_id: TensorID) -> ArrayD<f32> {
         let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
-        let data = self.data_store[internal_tensor.data_start_index..internal_tensor.data_start_index + internal_tensor.shape.total_size()].to_vec();
+        let data = self.data_store[internal_tensor.data_start_index
+            ..internal_tensor.data_start_index + internal_tensor.shape.total_size()]
+            .to_vec();
         let data = ArrayD::from_shape_vec(internal_tensor.shape.as_ndarray_shape(), data).unwrap();
         data
     }
@@ -450,61 +507,87 @@ impl Equation {
 
     pub fn get_tensor_grad(&self, tensor_id: TensorID) -> ArrayD<f32> {
         let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
-        let grad = self.data_store[internal_tensor.grad_start_index..internal_tensor.grad_start_index + internal_tensor.shape.total_size()].to_vec();
+        let grad = self.data_store[internal_tensor.grad_start_index
+            ..internal_tensor.grad_start_index + internal_tensor.shape.total_size()]
+            .to_vec();
         let grad = ArrayD::from_shape_vec(internal_tensor.shape.as_ndarray_shape(), grad).unwrap();
         grad
     }
 
-    pub fn set_subset_of_tensor_data(&mut self, tensor_id: TensorID, indexable: Indexable, data: Vec<f32>) {
+    pub fn set_subset_of_tensor_data(
+        &mut self,
+        tensor_id: TensorID,
+        indexable: Indexable,
+        data: Vec<f32>,
+    ) {
         // For now this is only one single points of data
         // Calculate the index of the data
         match indexable {
             Indexable::Single(_) => {
                 self.set_single_index_tensor_data(tensor_id, indexable, data);
-            },
+            }
             Indexable::Double(_, _) => {
                 self.set_double_index_tensor_data(tensor_id, indexable, data);
-            },
+            }
             _ => {
                 panic!("Not implemented");
             }
         }
-    } 
+    }
 
-    fn set_single_index_tensor_data(&mut self, tensor_id: TensorID, indexable: Indexable, data: Vec<f32>) {
+    fn set_single_index_tensor_data(
+        &mut self,
+        tensor_id: TensorID,
+        indexable: Indexable,
+        data: Vec<f32>,
+    ) {
         let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
         // Can't use get_index, bug in it, calculate the offset manually
         // no need to match down from indexable, as we are only supporting single index
         let index = match indexable {
             Indexable::Single(i) => i,
-            _ => panic!("Wrong Indexable")
+            _ => panic!("Wrong Indexable"),
         };
         let offset = internal_tensor.data_start_index + index;
         self.data_store[offset] = data[0];
     }
 
-    fn set_double_index_tensor_data(&mut self, tensor_id: TensorID, indexable: Indexable, data: Vec<f32>) {
+    fn set_double_index_tensor_data(
+        &mut self,
+        tensor_id: TensorID,
+        indexable: Indexable,
+        data: Vec<f32>,
+    ) {
         let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
         // Can't use get_index, bug in it, calculate the offset manually
         // no need to match down from indexable, as we are only supporting single index
 
         match indexable {
             Indexable::Double(i, j) => {
-                // this is for now, as I dont' have a good way to handle the case of more then 
+                // this is for now, as I dont' have a good way to handle the case of more then
                 // a two indices being indexed in this manner
                 assert!(internal_tensor.shape.number_of_indices == 2);
-                let offset = internal_tensor.data_start_index + i * internal_tensor.shape.indices[1] + j;
+                let offset =
+                    internal_tensor.data_start_index + i * internal_tensor.shape.indices[1] + j;
                 self.data_store[offset] = data[0];
-            },
-            _ => panic!("Wrong Indexable")
+            }
+            _ => panic!("Wrong Indexable"),
         };
-        
+
         //let offset = internal_tensor.data_start_index + index;
         //self.data_store[offset] = data[0];
     }
 
     fn set_tensor_grad(&mut self, tensor_id: TensorID, grad: ArrayD<f32>) {
-        assert!(grad.shape() == self.internal_tensor_store.get(&tensor_id).unwrap().shape.as_ndarray_shape());
+        assert!(
+            grad.shape()
+                == self
+                    .internal_tensor_store
+                    .get(&tensor_id)
+                    .unwrap()
+                    .shape
+                    .as_ndarray_shape()
+        );
         let grad: Vec<f32> = grad.into_raw_vec();
         let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
         for i in 0..internal_tensor.shape.total_size() {
@@ -518,7 +601,6 @@ impl Equation {
                 self.data_store[internal_tensor.grad_start_index + i] = 0.0;
             }
         }
-        
     }
 
     pub fn set_requires_grad(&mut self, tensor_id: TensorID, requires_grad: bool) {
@@ -540,6 +622,5 @@ impl Equation {
             let new_data = data + grad * learning_rate;
             self.set_tensor_data(id, new_data);
         }
-
     }
 }

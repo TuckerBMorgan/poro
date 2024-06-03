@@ -6,18 +6,24 @@ pub struct InternalTensor {
     pub operation: Operation,
     pub data_start_index: usize,
     pub grad_start_index: usize,
-    pub requires_grad: bool
+    pub requires_grad: bool,
 }
 
 impl InternalTensor {
-    pub fn new(tensor_id: TensorID, shape: Shape, operation: Operation, data_start_index: usize, grad_start_index: usize) -> InternalTensor {
+    pub fn new(
+        tensor_id: TensorID,
+        shape: Shape,
+        operation: Operation,
+        data_start_index: usize,
+        grad_start_index: usize,
+    ) -> InternalTensor {
         InternalTensor {
             tensor_id,
             shape,
             operation,
             data_start_index,
             grad_start_index,
-            requires_grad: false
+            requires_grad: false,
         }
     }
 
