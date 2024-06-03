@@ -1,6 +1,6 @@
-# Hermes
+# Poro
 
-Hermes is a simple toy neural network library implemented in Rust. It is designed for educational purposes and provides basic functionality to create, train, and evaluate neural networks. This library is not intended for production use but serves as a learning tool for those interested in understanding the fundamentals of neural networks and their implementation.
+Poro is a simple toy neural network library implemented in Rust. It is designed for educational purposes and provides basic functionality to create, train, and evaluate neural networks. This library is not intended for production use but serves as a learning tool for those interested in understanding the fundamentals of neural networks and their implementation.
 
 ## Features
 
@@ -17,21 +17,21 @@ Ensure you have Rust installed on your system. You can install Rust using [rustu
 
 ### Installation
 
-To use Hermes, add the following to your `Cargo.toml`:
+To use Poro, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-hermes = { path = "path/to/hermes" }
+Poro = { path = "path/to/Poro" }
 ```
 
 ### Usage
 
-Here is a simple example to get you started with Hermes:
+Here is a simple example to get you started with Poro:
 
 ```rust
-use hermes::model::Model;
-use hermes::tensor::Tensor;
-use hermes::operation::Operation;
+use Poro::model::Model;
+use Poro::tensor::Tensor;
+use Poro::operation::Operation;
 
 fn main() {
     // Create a simple neural network
@@ -64,7 +64,7 @@ Defines the internal representation of tensors and related operations.
 
 ### `mod.rs`
 
-The main module that ties together all components of the Hermes library.
+The main module that ties together all components of the Poro library.
 
 ### `model.rs`
 
@@ -92,4 +92,4 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 
 ## License
 
-Hermes is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+Poro is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
