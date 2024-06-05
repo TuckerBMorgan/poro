@@ -549,6 +549,25 @@ impl Tensor {
             name: ['a'; 10],
         }
     }
+
+    pub fn softmax(&self) -> Tensor {
+        let max = self.max(1);
+        let counts = (*self - max).exp();
+        let sum = counts.sum(1);
+        let sum_inverted = sum.pow(-1.0);
+        let softmax = counts * sum_inverted;
+
+        softmax
+    }
+
+    pub fn cross_entropy_loss(&self, trues: Tensor) -> Tensor {
+        let softmax = self.softmax();
+        let log_softmax = softmax.log();
+        let loss = trues * log_softmax;
+        let sum = loss.sum(1);
+        let mean = sum.mean(0);
+        mean
+    }
 }
 
 

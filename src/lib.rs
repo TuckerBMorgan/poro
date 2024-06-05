@@ -432,8 +432,8 @@ mod tests {
             let test_counts = (test_output - test_max).exp();
             let test_counts_sum = test_counts.sum(1);
 
-            let test_counts_cum_inverted = test_counts_sum.pow(-1.0);
-            let test_probabilities = test_counts * test_counts_cum_inverted;
+            let test_counts_sum_inverted = test_counts_sum.pow(-1.0);
+            let test_probabilities = test_counts * test_counts_sum_inverted;
 
             let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![BATCH_SIZE, 27]), 0.0);
             for b in 0..BATCH_SIZE {

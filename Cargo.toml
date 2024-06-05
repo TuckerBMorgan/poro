@@ -16,4 +16,7 @@ rand = "0.8.5"
 rand_distr = "0.4.3"
 serde = "1.0.201"
 serde_json = "1.0.117"
-
+cudarc = { version="0.11.1", features = [
+    "f16",
+    "cuda-version-from-build-system",
+]}
