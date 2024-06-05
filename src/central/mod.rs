@@ -5,8 +5,6 @@ mod add_op;
 mod equation;
 mod indexable;
 mod internal_tensor;
-mod model;
-mod module;
 mod operation;
 mod shape;
 mod tensor;
@@ -14,8 +12,6 @@ mod mul_op;
 
 pub use equation::{Equation, BackpropagationPacket};
 pub use indexable::Indexable;
-pub use model::{LinearModel, Model};
-pub use module::{Linear, Module};
 pub use shape::Shape;
 pub use tensor::{Tensor, TensorID};
 pub use add_op::backward;
