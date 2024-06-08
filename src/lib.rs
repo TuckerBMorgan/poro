@@ -309,6 +309,15 @@ mod tests {
     }
 
     #[test]
+    fn two_dimension_matmul_test() {
+        let a = Tensor::ones(Shape::new(vec![2, 2]));
+        let b = Tensor::ones(Shape::new(vec![2, 2]));
+        let c = a << b;
+        let result = c.item();
+        println!("{:?}", result);
+    }
+
+    #[test]
     fn three_dimension_matmul_test() {
         let a = Tensor::randn(Shape::new(vec![3, 2, 2]));
         let b = Tensor::randn(Shape::new(vec![2, 2]));

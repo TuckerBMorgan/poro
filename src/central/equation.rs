@@ -11,7 +11,8 @@ use std::{
     collections::{HashMap, HashSet},
     vec,
 };
-
+use cudarc::nvrtc::compile_ptx;
+use cudarc::driver::{LaunchAsync, LaunchConfig};
 pub struct BackpropagationPacket<'a> {
     pub grad: ArrayD<f32>,
     pub data: ArrayD<f32>,
@@ -119,6 +120,50 @@ impl Equation {
         b: TensorID,
         b_shape: Shape,
     ) -> ArrayD<f32> {
+
+        const PTX_SRC: &str = "
+        extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N) {
+            int ROW = blockIdx.y*blockDim.y+threadIdx.y;
+            int COL = blockIdx.x*blockDim.x+threadIdx.x;
+
+            float tmpSum = 0;
+
+            if (ROW < N && COL < N) {
+                // each thread computes one element of the block sub-matrix
+                for (int i = 0; i < N; i++) {
+                    tmpSum += A[ROW * N + i] * B[i * N + COL];
+                }
+            }
+            // printf(\"pos, (%d, %d) - N %d - value %d\\n\", ROW, COL, N, tmpSum);
+            C[ROW * N + COL] = tmpSum;
+        }";
+
+        let dev = cudarc::driver::CudaDevice::new(0).unwrap();
+        let inp = dev.htod_copy(vec![1.0f32; 100]).unwrap();
+        let mut out = dev.alloc_zeros::<f32>(100).unwrap();
+        let ptx = compile_ptx(PTX_SRC).unwrap();
+        dev.load_ptx(ptx, "matmul", &["matmul"]).unwrap();
+        let f = dev.get_func("matmul", "matmul").unwrap();
+
+        let cfg = LaunchConfig {
+            block_dim: (2, 2, 1),
+            grid_dim: (1, 1, 1),
+            shared_mem_bytes: 0,
+        };
+
+        let a_on_device = dev.htod_copy(self.get_tensor_data(a).into_raw_vec()).unwrap();
+        let b_on_device = dev.htod_copy(self.get_tensor_data(b).into_raw_vec()).unwrap();
+        let mut c_host = vec![0.0f32; 4];
+
+        let mut out_on_device = dev.alloc_zeros::<f32>(4).unwrap();
+
+
+        unsafe {
+            f.launch(cfg, (&a_on_device, &b_on_device, &mut out_on_device, 2i32)).unwrap();
+        }
+        dev.dtoh_sync_copy_into(&out_on_device, &mut c_host).unwrap();
+
+
         if a_shape.number_of_indices == 2 && b_shape.number_of_indices == 2 {
             // preforms the matmul, returning the just the result datam does note allocate a new tensor
             let a_data = self.get_tensor_data(a);
