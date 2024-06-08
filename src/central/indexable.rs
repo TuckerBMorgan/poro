@@ -1,4 +1,4 @@
-use crate::{Shape, SINGLETON_INSTANCE};
+use crate::{get_equation, Shape};
 
 use super::tensor::TensorID;
 
@@ -75,7 +75,7 @@ impl From<[usize; 2]> for Indexable {
 
 impl From<[Vec<f32>; 2]> for Indexable {
     fn from([a, b]: [Vec<f32>; 2]) -> Indexable {
-        let mut singelton = SINGLETON_INSTANCE.lock().unwrap();
+        let mut singelton = get_equation();
         let a_as_tensor = singelton.allocate_tensor(
             Shape::new(vec![a.len()]),
             a,

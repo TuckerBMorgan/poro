@@ -257,7 +257,7 @@ mod tests {
         let outputs = vec![1.0f32, -1.0, -1.0, 1.0];
         for _ in 0..50 {
             {
-                let mut singeton = SINGLETON_INSTANCE.lock().unwrap();
+                let mut singeton = get_equation();
                 singeton.zero_all_grads();
             }
 
@@ -273,7 +273,7 @@ mod tests {
             }
 
             {
-                let mut singeton = SINGLETON_INSTANCE.lock().unwrap();
+                let mut singeton = get_equation();
                 singeton.update_parameters(-0.01);
             }
         }
@@ -409,7 +409,7 @@ mod tests {
         for epoch in 0..EPOCH_COUNT {
             println!("Epoch: {:?}", epoch);
             {
-                let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
+                let mut singleton = get_equation();
                 singleton.zero_all_grads();
             }
 
@@ -450,7 +450,7 @@ mod tests {
             test_mean.backward();
 
             {
-                let mut singleton = SINGLETON_INSTANCE.lock().unwrap();
+                let mut singleton = get_equation();
                 singleton.update_parameters(-0.1);
             }
         }

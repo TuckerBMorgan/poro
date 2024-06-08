@@ -17,7 +17,7 @@ pub use tensor::{Tensor, TensorID};
 pub use add_op::backward;
 
 lazy_static! {
-    pub static ref SINGLETON_INSTANCE: Mutex<Equation> = Mutex::new(Equation::new());
+    static ref SINGLETON_INSTANCE: Mutex<Equation> = Mutex::new(Equation::new());
 }
 
 pub fn get_equation() -> MutexGuard<'static, Equation> {
