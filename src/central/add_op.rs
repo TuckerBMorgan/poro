@@ -5,6 +5,7 @@ use crate::central::operation::Operation;
 use crate::central::shape::Shape;
 pub use ndarray::prelude::*;
 use crate::central::BackpropagationPacket;
+use crate::central::get_equation;
 
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::Add(a, b) = backprop_packet.operation {
@@ -36,7 +37,7 @@ impl Add for Tensor {
             let right_hand_broadcasted = rhs.broadcast(self.shape);
             let result_data = self.item() + right_hand_broadcasted.item();
 
-            let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+            let mut singleton = get_equation();
 
             let data_as_vec = result_data.into_iter().collect();
             let tensor_id = singleton.allocate_tensor_from_operation(
@@ -54,7 +55,7 @@ impl Add for Tensor {
         } else {
             // If they are the same size, preform the add and then return the result tensor
             let result_data = self.item() + rhs.item();
-            let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+            let mut singleton = get_equation();
 
             let data_as_vec = result_data.into_iter().collect();
             let tensor_id = singleton.allocate_tensor_from_operation(

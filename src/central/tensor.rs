@@ -4,6 +4,7 @@ use serde_json::Value;
 use std::ops::Shl;
 use std::path::Path;
 use std::{fs, vec};
+use crate::central::get_equation;
 
 use ndarray::{ArrayD, Axis};
 #[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
@@ -27,7 +28,7 @@ pub struct Tensor {
 
 impl Tensor {
     pub fn randn(shape: Shape) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let tensor_id = singleton.allocate_randn_tensor(shape.clone(), Operation::Nop);
         Tensor {
             tensor_id,
@@ -38,7 +39,7 @@ impl Tensor {
     }
 
     pub fn load_from_weight_file<P: AsRef<Path>>(path: P) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
 
         // Load the file at path into a string, as it is a JSON file
         let file_content = fs::read_to_string(path).unwrap();
@@ -90,7 +91,7 @@ impl Tensor {
     }
 
     pub fn zeroes(shape: Shape) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let tensor_id = singleton.allocate_zero_tensor(shape.clone(), Operation::Nop);
         Tensor {
             tensor_id,
@@ -101,7 +102,7 @@ impl Tensor {
     }
 
     pub fn ones(shape: Shape) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let tensor_id = singleton.allocate_ones_tensor(shape.clone(), Operation::Nop);
         Tensor {
             tensor_id,
@@ -112,7 +113,7 @@ impl Tensor {
     }
 
     pub fn element(shape: Shape, data: f32) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let tensor_id = singleton.allocate_element_tensor(shape.clone(), data, Operation::Nop);
         Tensor {
             tensor_id,
@@ -123,7 +124,7 @@ impl Tensor {
     }
 
     pub fn from_vec(data: Vec<f32>, shape: Shape) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let tensor_id =
             singleton.allocate_tensor_from_operation(shape.clone(), data, Operation::Nop);
         Tensor {
@@ -135,7 +136,7 @@ impl Tensor {
     }
 
     pub fn item(&self) -> ArrayD<f32> {
-        let singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let singleton = get_equation();
         let data = singleton.get_item(self.tensor_id).clone();
         let data = data.as_slice();
         let data = ArrayD::from_shape_vec(self.shape.as_ndarray_shape(), data.to_vec()).unwrap();
@@ -143,12 +144,12 @@ impl Tensor {
     }
 
     pub fn backward(&self) {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         singleton.backward(self.tensor_id);
     }
 
     pub fn grad(&self) -> ArrayD<f32> {
-        let singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let singleton = get_equation();
         let data = singleton.get_tensor_grad(self.tensor_id).clone();
         let data = data.as_slice().unwrap();
         let data = ArrayD::from_shape_vec(self.shape.as_ndarray_shape(), data.to_vec()).unwrap();
@@ -156,7 +157,7 @@ impl Tensor {
     }
 
     pub fn exp(&self) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let data = singleton
             .get_item(self.tensor_id)
             .clone()
@@ -179,7 +180,7 @@ impl Tensor {
 
     pub fn pow(&self, power: f32) -> Tensor {
         let power_as_tensor = Tensor::element(vec![1].into(), power);
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let data = singleton
             .get_item(self.tensor_id)
             .clone()
@@ -218,7 +219,7 @@ impl Tensor {
             .map(|x| x)
             .collect();
 
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
 
         let mut new_shape_indicies = self.shape.indices.clone();
         new_shape_indicies[axis] = 1;
@@ -242,7 +243,7 @@ impl Tensor {
         let sum = item.sum_axis(Axis(axis));
         let mean = sum / item.shape()[axis] as f32;
 
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let data = mean.into_iter().collect();
         let mut new_shape_indices = self.shape.indices.clone();
         new_shape_indices[axis] = 1;
@@ -295,7 +296,7 @@ impl Tensor {
     }
 
     pub fn log(&self) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let data = singleton
             .get_item(self.tensor_id)
             .clone()
@@ -317,12 +318,12 @@ impl Tensor {
     }
 
     pub fn set_index(&mut self, indexable: Indexable, data: Vec<f32>) {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         singleton.set_subset_of_tensor_data(self.tensor_id, indexable, data);
     }
 
     pub fn set_requires_grad(&mut self, requires_grad: bool) {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         singleton.set_requires_grad(self.tensor_id, requires_grad);
     }
 
@@ -335,7 +336,7 @@ impl Tensor {
             .map(|x| *x)
             .collect();
 
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         // We need to dubpilcate the data to match the new shape
 
         let tensor_id = singleton.allocate_tensor_from_operation(
@@ -363,7 +364,7 @@ impl Tensor {
 
         let result = max_values.into_shape((shape[0], shape[1])).unwrap();
 
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         // HACK: this should be generic to any sized shape, but I am not sure how to do that
         let new_shape = Shape::new(vec![shape[0], shape[1]]);
         println!("{:?}", new_shape);
@@ -384,7 +385,7 @@ impl Tensor {
     pub fn view(&self, index: Indexable) -> Tensor {
         // Allocate a new tensor the size of the view
         // and then set the data of the new tensor to the data of the old tensor
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let data: Vec<f32> = singleton.get_item(self.tensor_id);
         // I now need to get the index subset of data from the old tensor
         let new_shape = self.shape.subshape_from_indexable(index);
@@ -505,7 +506,7 @@ impl Tensor {
     }
 
     pub fn reshape(&self, new_shape: Shape) -> Tensor {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let data = singleton.get_item(self.tensor_id).clone();
         let tensor_id = singleton.allocate_tensor_from_operation(
             new_shape.clone(),
@@ -526,7 +527,7 @@ impl Tensor {
             panic!("The tensor to concat must be a 1D tensor");
         }
 
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
         let data = singleton.get_item(self.tensor_id).clone();
         let other_data = singleton.get_item(other.tensor_id).clone();
         let mut new_data = Vec::new();
@@ -576,7 +577,7 @@ impl Tensor {
 impl Shl for Tensor {
     type Output = Tensor;
     fn shl(self, rhs: Self) -> Self::Output {
-        let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+        let mut singleton = get_equation();
 
         let result_data = singleton.matmul(self.tensor_id, self.shape, rhs.tensor_id, rhs.shape);
         let resultant_shape = self.shape.matmul_shape(&rhs.shape);

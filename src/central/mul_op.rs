@@ -2,6 +2,7 @@ use std::ops::{Mul, Div, Neg};
 use crate::central::tensor::Tensor;
 use crate::central::operation::Operation;
 use crate::central::BackpropagationPacket;
+use crate::central::get_equation;
 
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::Mul(a, b ) = backprop_packet.operation {
@@ -53,7 +54,7 @@ impl Mul for Tensor {
             let broaded_casted_rhs = rhs.broadcast(self.shape);
             let result_data = self.item() * broaded_casted_rhs.item();
 
-            let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+            let mut singleton = get_equation();
 
             let data_as_vec = result_data.into_iter().collect();
             let tensor_id = singleton.allocate_tensor_from_operation(
@@ -71,7 +72,7 @@ impl Mul for Tensor {
         } else {
             let result_data = self.item() * rhs.item();
 
-            let mut singleton = crate::central::SINGLETON_INSTANCE.lock().unwrap();
+            let mut singleton = get_equation();
 
             let data_as_vec = result_data.into_iter().collect();
             let tensor_id = singleton.allocate_tensor_from_operation(
