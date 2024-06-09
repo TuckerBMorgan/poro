@@ -30,6 +30,7 @@ pub struct Equation {
     value_count: usize,
     advanced_logging: bool,
     pub timings: HashMap<String, u128>,
+    auto_grad: bool,
 }
 
 impl Equation {
@@ -40,6 +41,7 @@ impl Equation {
             internal_tensor_store: HashMap::new(),
             advanced_logging: false,
             timings: HashMap::new(),
+            auto_grad: true,
         }
     }
 
@@ -62,15 +64,22 @@ impl Equation {
         let grad_start_index = self.data_store.len();
         self.data_store.append(&mut vec![0.0; shape.total_size()]);
 
-        let internal_tensor = InternalTensor::new(
+        let mut internal_tensor = InternalTensor::new(
             tensor_id,
             shape,
             operation,
             data_start_index,
             grad_start_index,
         );
+
+        // Need to update the rules where any tensor that is created by 
+        // an operation where one of more of the inputs requires grad
+        // then the output tensor should also require grad
+        //       internal_tensor.requires_grad = self.auto_grad;
+
         self.internal_tensor_store
             .insert(tensor_id, internal_tensor);
+
         self.value_count += 1;
         return tensor_id;
     }
@@ -121,21 +130,21 @@ impl Equation {
         b_shape: Shape,
     ) -> ArrayD<f32> {
 
+        /*
         const PTX_SRC: &str = "
-        extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N) {
-            int ROW = blockIdx.y*blockDim.y+threadIdx.y;
-            int COL = blockIdx.x*blockDim.x+threadIdx.x;
+        extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N, int M, int K) {
+            int ROW = blockIdx.y * blockDim.y + threadIdx.y;
+            int COL = blockIdx.x * blockDim.x + threadIdx.x;
 
             float tmpSum = 0;
 
-            if (ROW < N && COL < N) {
+            if (ROW < N && COL < M) {
                 // each thread computes one element of the block sub-matrix
-                for (int i = 0; i < N; i++) {
-                    tmpSum += A[ROW * N + i] * B[i * N + COL];
+                for (int i = 0; i < K; i++) {
+                    tmpSum += A[ROW * K + i] * B[i * M + COL];
                 }
+                C[ROW * M + COL] = tmpSum;
             }
-            // printf(\"pos, (%d, %d) - N %d - value %d\\n\", ROW, COL, N, tmpSum);
-            C[ROW * N + COL] = tmpSum;
         }";
 
         let dev = cudarc::driver::CudaDevice::new(0).unwrap();
@@ -162,7 +171,7 @@ impl Equation {
             f.launch(cfg, (&a_on_device, &b_on_device, &mut out_on_device, 2i32)).unwrap();
         }
         dev.dtoh_sync_copy_into(&out_on_device, &mut c_host).unwrap();
-
+        */
 
         if a_shape.number_of_indices == 2 && b_shape.number_of_indices == 2 {
             // preforms the matmul, returning the just the result datam does note allocate a new tensor
@@ -645,5 +654,13 @@ impl Equation {
             let new_data = data + grad * learning_rate;
             self.set_tensor_data(id, new_data);
         }
+    }
+
+    pub fn disable_grad(&mut self) {
+        self.auto_grad = false;
+    }
+
+    pub fn enable_grad(&mut self) {
+        self.auto_grad = true;
     }
 }

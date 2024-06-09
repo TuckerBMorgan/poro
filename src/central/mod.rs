@@ -9,12 +9,14 @@ mod operation;
 mod shape;
 mod tensor;
 mod mul_op;
+mod grad_control;
 
 pub use equation::{Equation, BackpropagationPacket};
 pub use indexable::Indexable;
 pub use shape::Shape;
 pub use tensor::{Tensor, TensorID};
 pub use add_op::backward;
+pub use grad_control::NoGrad;
 
 lazy_static! {
     static ref SINGLETON_INSTANCE: Mutex<Equation> = Mutex::new(Equation::new());
