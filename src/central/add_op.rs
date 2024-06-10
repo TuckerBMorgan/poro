@@ -1,24 +1,26 @@
-use std::ops::{Add, Sub};
-use crate::central::tensor::Tensor;
+use crate::central::get_equation;
 use crate::central::operation::Operation;
 #[allow(unused_imports)]
 use crate::central::shape::Shape;
-pub use ndarray::prelude::*;
+use crate::central::tensor::Tensor;
 use crate::central::BackpropagationPacket;
-use crate::central::get_equation;
+pub use ndarray::prelude::*;
+use std::ops::{Add, Sub};
 
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::Add(a, b) = backprop_packet.operation {
-        
         // Get each of current tensor's gradient
         let left_hand_grad = backprop_packet.equation.get_tensor_grad(a);
         let right_hand_grad = backprop_packet.equation.get_tensor_grad(b);
 
-        // derivative of a + b is a' + b' * global_grad  
-        backprop_packet.equation.set_tensor_grad(a, left_hand_grad + backprop_packet.grad.clone());
-        backprop_packet.equation.set_tensor_grad(b, right_hand_grad + backprop_packet.grad);
-    }
-    else {
+        // derivative of a + b is a' + b' * global_grad
+        backprop_packet
+            .equation
+            .set_tensor_grad(a, left_hand_grad + backprop_packet.grad.clone());
+        backprop_packet
+            .equation
+            .set_tensor_grad(b, right_hand_grad + backprop_packet.grad);
+    } else {
         panic!("Invalid operation type for backward pass");
     }
 }
@@ -26,7 +28,6 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
 impl Add for Tensor {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
-        
         // grab the data so we can do some shape checks
         let left_hand_item = self.item();
         let right_hand_item = rhs.item();
@@ -88,7 +89,6 @@ impl Sub for Tensor {
         self + -rhs
     }
 }
-
 
 impl Sub<Tensor> for f32 {
     type Output = Tensor;

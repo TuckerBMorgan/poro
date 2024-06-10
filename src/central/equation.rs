@@ -11,8 +11,10 @@ use std::{
     collections::{HashMap, HashSet},
     vec,
 };
-use cudarc::nvrtc::compile_ptx;
-use cudarc::driver::{LaunchAsync, LaunchConfig};
+
+//use cudarc::nvrtc::compile_ptx;
+//use cudarc::driver::{LaunchAsync, LaunchConfig};
+
 pub struct BackpropagationPacket<'a> {
     pub grad: ArrayD<f32>,
     pub data: ArrayD<f32>,
@@ -64,7 +66,7 @@ impl Equation {
         let grad_start_index = self.data_store.len();
         self.data_store.append(&mut vec![0.0; shape.total_size()]);
 
-        let mut internal_tensor = InternalTensor::new(
+        let internal_tensor = InternalTensor::new(
             tensor_id,
             shape,
             operation,
@@ -72,7 +74,7 @@ impl Equation {
             grad_start_index,
         );
 
-        // Need to update the rules where any tensor that is created by 
+        // Need to update the rules where any tensor that is created by
         // an operation where one of more of the inputs requires grad
         // then the output tensor should also require grad
         //       internal_tensor.requires_grad = self.auto_grad;
@@ -129,7 +131,6 @@ impl Equation {
         b: TensorID,
         b_shape: Shape,
     ) -> ArrayD<f32> {
-
         /*
         const PTX_SRC: &str = "
         extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N, int M, int K) {

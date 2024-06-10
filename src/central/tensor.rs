@@ -1,10 +1,10 @@
 use super::{indexable::Indexable, operation::Operation, shape::Shape};
+use crate::central::get_equation;
 use ndarray::parallel::prelude::{IntoParallelRefIterator, ParallelIterator};
 use serde_json::Value;
 use std::ops::Shl;
 use std::path::Path;
 use std::{fs, vec};
-use crate::central::get_equation;
 
 use ndarray::{ArrayD, Axis};
 #[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
@@ -571,7 +571,6 @@ impl Tensor {
         mean
     }
 }
-
 
 // SIN: reusing the Shl opeartor to do the matmul operations
 impl Shl for Tensor {

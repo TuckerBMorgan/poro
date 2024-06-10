@@ -1,6 +1,4 @@
-pub struct NoGrad {
-
-}
+pub struct NoGrad {}
 
 impl NoGrad {
     pub fn new() -> NoGrad {

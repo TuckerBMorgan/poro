@@ -1,11 +1,11 @@
-use std::ops::{Mul, Div, Neg};
-use crate::central::tensor::Tensor;
-use crate::central::operation::Operation;
-use crate::central::BackpropagationPacket;
 use crate::central::get_equation;
+use crate::central::operation::Operation;
+use crate::central::tensor::Tensor;
+use crate::central::BackpropagationPacket;
+use std::ops::{Div, Mul, Neg};
 
 pub fn backward(backprop_packet: BackpropagationPacket) {
-    if let Operation::Mul(a, b ) = backprop_packet.operation {
+    if let Operation::Mul(a, b) = backprop_packet.operation {
         if backprop_packet.advanced_logging == true {
             println!("A: {:?}", a);
             println!("B: {:?}", b);
@@ -16,14 +16,14 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             println!("Left Hand Grad: {:?}", left_hand_grad);
             println!("Right Hand Grad: {:?}", right_hand_grad);
         }
-    
+
         let left_hand_data = backprop_packet.equation.get_tensor_data(a);
         let right_hand_data = backprop_packet.equation.get_tensor_data(b);
         if backprop_packet.advanced_logging == true {
             println!("Left Hand Data: {:?}", left_hand_data);
             println!("Right Hand Data: {:?}", right_hand_data);
         }
-    
+
         let new_left_hand_grad = right_hand_data * backprop_packet.grad.clone();
         let new_right_hand_grad = left_hand_data * backprop_packet.grad;
         if backprop_packet.advanced_logging == true {
@@ -36,14 +36,12 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             println!("Right Hand Grad: {:?}", right_hand_grad);
             println!("Left Hand Grad: {:?}", left_hand_grad);
         }
-    
+
         backprop_packet.equation.set_tensor_grad(a, left_hand_grad);
         backprop_packet.equation.set_tensor_grad(b, right_hand_grad);
-    }
-    else {
+    } else {
         panic!("Invalid operation type for backward pass");
     }
-
 }
 
 impl Mul for Tensor {
@@ -105,7 +103,6 @@ impl Neg for Tensor {
         self * -1.0
     }
 }
-
 
 impl Div for Tensor {
     type Output = Self;
