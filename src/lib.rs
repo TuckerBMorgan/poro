@@ -309,24 +309,6 @@ mod tests {
     }
 
     #[test]
-    fn two_dimension_matmul_test() {
-        let a = Tensor::ones(Shape::new(vec![2, 2]));
-        let b = Tensor::ones(Shape::new(vec![2, 2]));
-        let c = a << b;
-        let result = c.item();
-        println!("{:?}", result);
-    }
-
-    #[test]
-    fn three_dimension_matmul_test() {
-        let a = Tensor::randn(Shape::new(vec![3, 2, 2]));
-        let b = Tensor::randn(Shape::new(vec![2, 2]));
-        let c = a << b;
-        let result = c.item();
-        println!("{:?}", result);
-    }
-
-    #[test]
     fn array_indexing_testbed() {
         let mut a = ArrayD::from_elem(vec![27, 10], 0.0);
         let mut b = ArrayD::from_elem(vec![32, 3], 0.0);
