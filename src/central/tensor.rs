@@ -238,12 +238,11 @@ impl Tensor {
     }
 
     pub fn mean(&self, axes: Vec<usize>) -> Tensor {
-
         if axes.len() == 1 {
             let item = self.item();
             let sum = item.sum_axis(Axis(axes[0]));
             let mean = sum / item.shape()[axes[0]] as f32;
-    
+
             let mut singleton = get_equation();
             let data = mean.into_iter().collect();
             let mut new_shape_indices = self.shape.indices.clone();
@@ -253,7 +252,7 @@ impl Tensor {
                 data,
                 Operation::Mean(self.tensor_id),
             );
-    
+
             return Tensor {
                 tensor_id,
                 shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
@@ -275,22 +274,26 @@ impl Tensor {
             new_shape_indices[axes[1]] = 1;
 
             let tensor_id = singleton.allocate_tensor_from_operation(
-                Shape::new(vec![new_shape_indices[0], new_shape_indices[1], new_shape_indices[2]]),
+                Shape::new(vec![
+                    new_shape_indices[0],
+                    new_shape_indices[1],
+                    new_shape_indices[2],
+                ]),
                 data,
                 Operation::Mean(self.tensor_id),
             );
 
             return Tensor {
                 tensor_id,
-                shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1], new_shape_indices[2]]),
+                shape: Shape::new(vec![
+                    new_shape_indices[0],
+                    new_shape_indices[1],
+                    new_shape_indices[2],
+                ]),
                 operation: Operation::Mean(self.tensor_id),
                 name: ['a'; 10],
             };
-
-
-
-        }
-        else {
+        } else {
             panic!("Mean only supports 1 or 2 axes")
         }
     }
@@ -415,7 +418,6 @@ impl Tensor {
         }
     }
 
-
     pub fn reshape(&self, new_shape: Shape) -> Tensor {
         let mut singleton = get_equation();
         let data = singleton.get_item(self.tensor_id).clone();
@@ -432,7 +434,7 @@ impl Tensor {
             name: ['a'; 10],
         }
     }
-    
+
     pub fn squeeze(&self, axis: usize) -> Tensor {
         // This will just be a wrapper around reshape function
         self.reshape(self.shape.remove(axis))
@@ -487,5 +489,3 @@ impl Tensor {
         mean
     }
 }
-
-

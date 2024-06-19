@@ -6,12 +6,12 @@ mod equation;
 mod grad_control;
 mod indexable;
 mod internal_tensor;
+mod matmul_op;
 mod mul_op;
 mod operation;
 mod shape;
 mod tensor;
 mod view;
-mod matmul_op;
 
 pub use add_op::backward;
 pub use equation::{BackpropagationPacket, Equation};
