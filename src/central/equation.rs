@@ -1,4 +1,4 @@
-use super::{add_op, mul_op};
+use super::{add_op, mul_op, view};
 use super::{
     indexable::Indexable, internal_tensor::InternalTensor, operation::Operation, shape::Shape,
     tensor::TensorID,
@@ -453,8 +453,8 @@ impl Equation {
                 let grad_update = existing_grad + grad.clone() * local_grad;
                 self.set_tensor_grad(a, grad_update);
             }
-            Operation::View(source_tensor, origin_index) => {
-
+            Operation::View(_, _) => {
+                view::backward(backprop_packet);
             }
             Operation::Mean(a) => {
                 let curent_grad = self.get_tensor_grad(a);

@@ -1,4 +1,3 @@
-use crate::central::equation::Equation;
 use crate::central::indexable::Indexable;
 use crate::central::operation::Operation;
 use crate::central::shape::Shape;
