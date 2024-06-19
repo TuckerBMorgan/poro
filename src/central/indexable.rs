@@ -1,4 +1,4 @@
-use crate::{get_equation, Shape};
+use crate::Shape;
 
 use super::tensor::TensorID;
 /// Represents an indexable value.
@@ -12,7 +12,6 @@ pub enum Indexable {
 }
 
 impl Indexable {
-
     /// Returns the number of indices in the indexable.
     pub fn len(&self) -> usize {
         match self {
@@ -63,7 +62,6 @@ impl From<Indexable> for Shape {
     }
 }
 
-
 /// Convert an indexable into a vector of indices.
 /// This will return a vector of indices with the indexable as the indices.
 /// # Arguments
@@ -91,7 +89,6 @@ impl From<usize> for Indexable {
         Indexable::Single(index)
     }
 }
-
 
 /// Convert a tuple of two usizes into an indexable.
 /// This will return a double index indexable.

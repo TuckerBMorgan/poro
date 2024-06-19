@@ -25,8 +25,6 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
     }
 }
 
-
-
 /// Overload the add operator for the Tensor struct
 /// This will allow us to add two tensors together
 /// If the tensors are not the same shape, we will broadcast the right hand side tensor
@@ -82,7 +80,6 @@ impl Add for Tensor {
     }
 }
 
-
 /// Overload the add operator for the Tensor struct
 /// This will allow us to add a tensor and a f32 together
 /// it will turn the f32 into a tensor and then add them together
@@ -103,7 +100,6 @@ impl Sub for Tensor {
         self + -rhs
     }
 }
-
 
 // Overload the sub operator for the Tensor struct
 // This will allow us to subtract a tensor and a f32 together
