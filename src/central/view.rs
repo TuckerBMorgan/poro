@@ -60,9 +60,6 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
                     }
                 }
             }
-            _ => {
-                panic!("Not implemented");
-            }
         }
 
         if backprop_packet.equation.advanced_logging {
