@@ -1,4 +1,4 @@
-use super::{add_op, mul_op, view};
+use super::{add_op, matmul_op, mul_op, view};
 use super::{
     indexable::Indexable, internal_tensor::InternalTensor, operation::Operation, shape::Shape,
     tensor::TensorID,
@@ -343,67 +343,8 @@ impl Equation {
                 let grad_update = power_data * base_data.mapv(|x| x.powf(power)) * grad.clone();
                 self.set_tensor_grad(base, base_grad + grad_update);
             }
-            Operation::MatMul(a, b) => {
-
-                if grad.ndim() == 2 {
-                    let out_grad = grad.clone().into_dimensionality::<Ix2>().unwrap();
-                    let right_hand_data = self.get_tensor_data(b);
-                    let right_hand_data_tranpose = right_hand_data.t();
-    
-                    let other = right_hand_data_tranpose
-                        .into_dimensionality::<Ix2>()
-                        .unwrap();
-                    let left_hand_grad = self.get_tensor_grad(a);
-                    let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
-                    self.set_tensor_grad(a, hold);
-    
-                    let left_hand_data = self.get_tensor_data(a);
-                    let right_hand_grad = self.get_tensor_grad(b);
-                    let other = left_hand_data.t().into_dimensionality::<Ix2>().unwrap();
-                    let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
-                    self.set_tensor_grad(b, temp);
-                }
-                else if grad.ndim() == 3 { 
-                    let out_grad = grad.clone().into_dimensionality::<Ix3>().unwrap();
-                    let right_hand_data = self.get_tensor_data(b);
-                    let right_hand_data_tranpose = right_hand_data.t();
-
-    
-                    let other = right_hand_data_tranpose
-                        .into_dimensionality::<Ix2>()
-                        .unwrap();
-
-                    let left_hand_grad = self.get_tensor_grad(a);
-                    let mut result = Array3::zeros((left_hand_grad.shape()[0], left_hand_grad.shape()[1], left_hand_grad.shape()[2]));
-                    for i in 0..out_grad.shape()[0] {
-                        let hold = out_grad.slice(s![i, .., ..]).dot(&other.slice(s![.., ..])).into_dyn();
-                        result.slice_mut(s![i, .., ..]).assign(&hold);
-                    }
-
-
-
-                    self.set_tensor_grad(a, result.into_dyn() + left_hand_grad);
-    
-                    let left_hand_data = self.get_tensor_data(a);
-                    let right_hand_grad = self.get_tensor_grad(b);
-                    let other = left_hand_data.into_dimensionality::<Ix3>().unwrap();
-                    let mut result = Array2::zeros((right_hand_grad.shape()[0], right_hand_grad.shape()[1])).into_dyn();
-
-                    for i in 0..out_grad.shape()[0] {
-                        let hold = other.slice(s![i,..,..]).t().dot(&out_grad.slice(s![i, .., ..])).into_dyn();
-                        // we need to collect the hold into result
-//                        result.slice_mut(s![.., ..]).add.assign(&hold);
-                        result = result + hold;
-                    }
-                    self.set_tensor_grad(b, result.into_dyn() + right_hand_grad);
-
-                    //                    let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
-                    //                    self.set_tensor_grad(b, temp);
-                }
-                else {
-                    panic!("Not implemented");
-                }
-
+            Operation::MatMul(_a, _b) => {
+                matmul_op::backward(backprop_packet);
             }
             Operation::Sum(a, _axis) => {
                 let left_hand_grad = self.get_tensor_grad(a);

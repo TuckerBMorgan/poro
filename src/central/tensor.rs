@@ -489,26 +489,4 @@ impl Tensor {
     }
 }
 
-// SIN: reusing the Shl opeartor to do the matmul operations
-impl Shl for Tensor {
-    type Output = Tensor;
-    fn shl(self, rhs: Self) -> Self::Output {
-        let mut singleton = get_equation();
 
-        let result_data = singleton.matmul(self.tensor_id, self.shape, rhs.tensor_id, rhs.shape);
-        let resultant_shape = self.shape.matmul_shape(&rhs.shape);
-        let tensor_id = singleton.allocate_tensor_from_operation(
-            resultant_shape,
-            result_data.into_raw_vec(),
-            Operation::MatMul(self.tensor_id, rhs.tensor_id),
-        );
-        let matmul_shape = self.shape.matmul_shape(&rhs.shape);
-
-        Tensor {
-            tensor_id,
-            shape: matmul_shape,
-            operation: Operation::MatMul(self.tensor_id, rhs.tensor_id),
-            name: ['a'; 10],
-        }
-    }
-}

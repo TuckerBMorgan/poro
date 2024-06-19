@@ -11,6 +11,7 @@ mod operation;
 mod shape;
 mod tensor;
 mod view;
+mod matmul_op;
 
 pub use add_op::backward;
 pub use equation::{BackpropagationPacket, Equation};
