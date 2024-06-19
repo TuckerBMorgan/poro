@@ -7,6 +7,16 @@ use crate::central::BackpropagationPacket;
 use ndarray::prelude::*;
 use ndarray::ArrayD;
 
+/// Backward pass for the view operation
+/// This function will take in a `BackpropagationPacket` and then set the gradients of the source tensor.
+/// # Arguments
+/// * `backprop_packet` - A `BackpropagationPacket` that contains the information needed to perform the backward pass.
+/// 
+/// # Panics
+/// This function will panic if the operation in the `BackpropagationPacket` is not a view operation.
+/// This function will panic if the number of dimensions of the source tensor is not 1 or 2.
+/// This function will panic if the number of dimensions of the source tensor is greater than 2.
+/// This function will panic if the number of dimensions of the view tensor is not 1 or 2.
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::View(source_tensor, origin_index) = backprop_packet.operation {
         // All this should do is take the grad and put it in the right place
@@ -21,6 +31,8 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             .unwrap()
             .shape;
         let mut new_view_grad = ArrayD::zeros(source_shape.as_ndarray_shape());
+        // Indexable::Single and Indexable::Double are simple versions that let us use just usize to index
+        // Indexable::FromTensor is a more complex version that lets us use a tensor to index
         match origin_index {
             Indexable::Single(i) => {
                 let number_of_dimensions = new_view_grad.shape().len();
@@ -38,8 +50,13 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
                 new_view_grad[[i, j]] = backprop_packet.grad[0];
             }
             Indexable::FromTensor(tensor) => {
+
+                // Get the indices from the tensor
                 let indices = backprop_packet.equation.get_tensor_data(tensor);
 
+                // This is a hack to get the shape of the source tensor
+                // This is because the source tensor is not stored in the backprop packet
+                // and so we need to get the shape of the source tensor from the equation
                 let this_shape = source_grad.shape();
                 let other_shape = indices.shape();
                 let mut new_shape_dims = Vec::new();
@@ -51,6 +68,7 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
                 let new_shape = Shape::new(new_shape_dims);
                 // REcreate the shape of the output
 
+                // This is just running the operation in reverse
                 for i in 0..new_shape.indices[0] {
                     for j in 0..new_shape.indices[1] {
                         for k in 0..new_shape.indices[2] {
@@ -74,6 +92,13 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
     }
 }
 
+
+/// View operation for the tensor struct
+/// This function will take in an indexable and then return a new tensor that is a view of the original tensor
+/// # Arguments
+/// * `index` - An indexable that will be used to create the view tensor.
+/// # Returns
+/// A new tensor that is a view of the original tensor.
 impl Tensor {
     pub fn view(&self, index: Indexable) -> Tensor {
         // Allocate a new tensor the size of the view
@@ -85,6 +110,9 @@ impl Tensor {
 
         match index {
             Indexable::Single(i) => {
+
+                // If the number of indices is 1, then we can just take the data from the old tensor
+                // and then allocate a new tensor with the data from the old tensor
                 if self.shape.number_of_indices == 1 {
                     let data = data[i];
                     let tensor_id = singleton.allocate_element_tensor(
@@ -98,6 +126,8 @@ impl Tensor {
                         operation: Operation::View(self.tensor_id, index),
                         name: ['a'; 10],
                     };
+                // If the number of indices is 2, then we need to take a slice of the data
+                // and then allocate a new tensor with the data from the old tensor
                 } else if self.shape.number_of_indices == 2 {
                     let offset = i * self.shape.indices[1];
                     let data = data[offset..offset + self.shape.indices[1]].to_vec();
@@ -117,6 +147,8 @@ impl Tensor {
                 }
             }
             Indexable::Double(a, b) => {
+                // If the number of indices is 1, then we can just take the data from the old tensor
+                // and then allocate a new tensor with the data from the old tensor
                 let offset = a * self.shape.indices[1] + b;
                 let data = data[offset];
                 let tensor_id = singleton.allocate_element_tensor(
