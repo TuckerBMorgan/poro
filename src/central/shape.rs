@@ -41,6 +41,16 @@ impl Shape {
         total
     }
 
+    pub fn remove(&self, index: usize) -> Shape {
+        let mut new_indices = Vec::new();
+        for i in 0..self.number_of_indices {
+            if i != index {
+                new_indices.push(self.indices[i]);
+            }
+        }
+        Shape::new(new_indices)
+    }
+
     /// Returns the shape as a vector of usize values.
     pub fn as_ndarray_shape(&self) -> Vec<usize> {
         let mut shape = Vec::new();

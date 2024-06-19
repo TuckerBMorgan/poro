@@ -28,9 +28,9 @@ pub struct BackpropagationPacket<'a> {
 /// It is responsible for holding the data and operations for the equation
 pub struct Equation {
     pub data_store: Vec<f32>,
-    internal_tensor_store: HashMap<TensorID, InternalTensor>,
+    pub internal_tensor_store: HashMap<TensorID, InternalTensor>,
     value_count: usize,
-    advanced_logging: bool,
+    pub advanced_logging: bool,
     pub timings: HashMap<String, u128>,
     auto_grad: bool,
 }
@@ -344,22 +344,66 @@ impl Equation {
                 self.set_tensor_grad(base, base_grad + grad_update);
             }
             Operation::MatMul(a, b) => {
-                let out_grad = grad.clone().into_dimensionality::<Ix2>().unwrap();
-                let right_hand_data = self.get_tensor_data(b);
-                let right_hand_data_tranpose = right_hand_data.t();
 
-                let other = right_hand_data_tranpose
-                    .into_dimensionality::<Ix2>()
-                    .unwrap();
-                let left_hand_grad = self.get_tensor_grad(a);
-                let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
-                self.set_tensor_grad(a, hold);
+                if grad.ndim() == 2 {
+                    let out_grad = grad.clone().into_dimensionality::<Ix2>().unwrap();
+                    let right_hand_data = self.get_tensor_data(b);
+                    let right_hand_data_tranpose = right_hand_data.t();
+    
+                    let other = right_hand_data_tranpose
+                        .into_dimensionality::<Ix2>()
+                        .unwrap();
+                    let left_hand_grad = self.get_tensor_grad(a);
+                    let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
+                    self.set_tensor_grad(a, hold);
+    
+                    let left_hand_data = self.get_tensor_data(a);
+                    let right_hand_grad = self.get_tensor_grad(b);
+                    let other = left_hand_data.t().into_dimensionality::<Ix2>().unwrap();
+                    let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
+                    self.set_tensor_grad(b, temp);
+                }
+                else if grad.ndim() == 3 { 
+                    let out_grad = grad.clone().into_dimensionality::<Ix3>().unwrap();
+                    let right_hand_data = self.get_tensor_data(b);
+                    let right_hand_data_tranpose = right_hand_data.t();
 
-                let left_hand_data = self.get_tensor_data(a);
-                let right_hand_grad = self.get_tensor_grad(b);
-                let other = left_hand_data.t().into_dimensionality::<Ix2>().unwrap();
-                let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
-                self.set_tensor_grad(b, temp);
+    
+                    let other = right_hand_data_tranpose
+                        .into_dimensionality::<Ix2>()
+                        .unwrap();
+
+                    let left_hand_grad = self.get_tensor_grad(a);
+                    let mut result = Array3::zeros((left_hand_grad.shape()[0], left_hand_grad.shape()[1], left_hand_grad.shape()[2]));
+                    for i in 0..out_grad.shape()[0] {
+                        let hold = out_grad.slice(s![i, .., ..]).dot(&other.slice(s![.., ..])).into_dyn();
+                        result.slice_mut(s![i, .., ..]).assign(&hold);
+                    }
+
+
+
+                    self.set_tensor_grad(a, result.into_dyn() + left_hand_grad);
+    
+                    let left_hand_data = self.get_tensor_data(a);
+                    let right_hand_grad = self.get_tensor_grad(b);
+                    let other = left_hand_data.into_dimensionality::<Ix3>().unwrap();
+                    let mut result = Array2::zeros((right_hand_grad.shape()[0], right_hand_grad.shape()[1])).into_dyn();
+
+                    for i in 0..out_grad.shape()[0] {
+                        let hold = other.slice(s![i,..,..]).t().dot(&out_grad.slice(s![i, .., ..])).into_dyn();
+                        // we need to collect the hold into result
+//                        result.slice_mut(s![.., ..]).add.assign(&hold);
+                        result = result + hold;
+                    }
+                    self.set_tensor_grad(b, result.into_dyn() + right_hand_grad);
+
+                    //                    let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
+                    //                    self.set_tensor_grad(b, temp);
+                }
+                else {
+                    panic!("Not implemented");
+                }
+
             }
             Operation::Sum(a, _axis) => {
                 let left_hand_grad = self.get_tensor_grad(a);
@@ -410,63 +454,7 @@ impl Equation {
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::View(source_tensor, origin_index) => {
-                // All this should do is take the grad and put it in the right place
-                let source_grad = self.get_tensor_grad(source_tensor);
-                // View grad is not the same shape as source grad
-                // so we want to allocate a zero tensor of the same shape as source grad
-                // and then copy the view grad into the right place
-                let source_shape = self
-                    .internal_tensor_store
-                    .get(&source_tensor)
-                    .unwrap()
-                    .shape;
-                let mut new_view_grad = ArrayD::zeros(source_shape.as_ndarray_shape());
-                match origin_index {
-                    Indexable::Single(i) => {
-                        let number_of_dimensions = new_view_grad.shape().len();
-                        if number_of_dimensions == 1 {
-                            new_view_grad[[i]] = grad[0];
-                        } else if number_of_dimensions == 2 {
-                            new_view_grad.slice_mut(s![i, ..]).assign(&grad.clone());
-                        } else {
-                            panic!("Not implemented");
-                        }
-                    }
-                    Indexable::Double(i, j) => {
-                        new_view_grad[[i, j]] = grad[0];
-                    }
-                    Indexable::FromTensor(tensor) => {
-                        let indices = self.get_tensor_data(tensor);
 
-                        let this_shape = source_grad.shape();
-                        let other_shape = indices.shape();
-                        let mut new_shape_dims = Vec::new();
-                        for i in 0..other_shape.len() {
-                            new_shape_dims.push(other_shape[i]);
-                        }
-                        // HACK: this is to get this to work for tha 2 indexing 2 case
-                        new_shape_dims.push(this_shape[source_grad.ndim() - 1]);
-                        let new_shape = Shape::new(new_shape_dims);
-                        // REcreate the shape of the output
-
-                        for i in 0..new_shape.indices[0] {
-                            for j in 0..new_shape.indices[1] {
-                                for k in 0..new_shape.indices[2] {
-                                    new_view_grad[[indices[[i, j]] as usize, k]] = grad[[i, j, k]];
-                                }
-                            }
-                        }
-                    }
-                    _ => {
-                        panic!("Not implemented");
-                    }
-                }
-
-                if self.advanced_logging {
-                    println!("New View Grad: {:?}", new_view_grad);
-                    println!("Source Grad: {:?}", source_grad);
-                }
-                self.set_tensor_grad(source_tensor, source_grad + new_view_grad);
             }
             Operation::Mean(a) => {
                 let curent_grad = self.get_tensor_grad(a);

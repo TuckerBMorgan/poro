@@ -453,7 +453,7 @@ mod tests {
 
             let test_presum = test_ytrue_onehot * test_prob_log;
             let test_sum = (-test_presum).sum(1);
-            let test_mean = test_sum.mean(0);
+            let test_mean = test_sum.mean(vec![0]);
 
             println!("Loss: {:?}", test_mean.item());
             test_mean.backward();

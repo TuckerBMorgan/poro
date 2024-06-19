@@ -238,31 +238,66 @@ impl Tensor {
         }
     }
 
-    pub fn mean(&self, axis: usize) -> Tensor {
-        let item = self.item();
-        let sum = item.sum_axis(Axis(axis));
-        let mean = sum / item.shape()[axis] as f32;
+    pub fn mean(&self, axes: Vec<usize>) -> Tensor {
 
-        let mut singleton = get_equation();
-        let data = mean.into_iter().collect();
-        let mut new_shape_indices = self.shape.indices.clone();
-        new_shape_indices[axis] = 1;
-        let tensor_id = singleton.allocate_tensor_from_operation(
-            Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
-            data,
-            Operation::Mean(self.tensor_id),
-        );
+        if axes.len() == 1 {
+            let item = self.item();
+            let sum = item.sum_axis(Axis(axes[0]));
+            let mean = sum / item.shape()[axes[0]] as f32;
+    
+            let mut singleton = get_equation();
+            let data = mean.into_iter().collect();
+            let mut new_shape_indices = self.shape.indices.clone();
+            new_shape_indices[axes[0]] = 1;
+            let tensor_id = singleton.allocate_tensor_from_operation(
+                Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
+                data,
+                Operation::Mean(self.tensor_id),
+            );
+    
+            return Tensor {
+                tensor_id,
+                shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
+                operation: Operation::Mean(self.tensor_id),
+                name: ['a'; 10],
+            };
+        }
+        if axes.len() == 2 {
+            let item = self.item();
+            let sum = item.sum_axis(Axis(axes[0])).sum_axis(Axis(axes[1] - 1));
+            let mean = sum / (item.shape()[axes[0]] * item.shape()[axes[1]]) as f32;
 
-        Tensor {
-            tensor_id,
-            shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
-            operation: Operation::Mean(self.tensor_id),
-            name: ['a'; 10],
+            let mut singleton = get_equation();
+
+            let data = mean.into_iter().collect();
+
+            let mut new_shape_indices = self.shape.indices.clone();
+            new_shape_indices[axes[0]] = 1;
+            new_shape_indices[axes[1]] = 1;
+
+            let tensor_id = singleton.allocate_tensor_from_operation(
+                Shape::new(vec![new_shape_indices[0], new_shape_indices[1], new_shape_indices[2]]),
+                data,
+                Operation::Mean(self.tensor_id),
+            );
+
+            return Tensor {
+                tensor_id,
+                shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1], new_shape_indices[2]]),
+                operation: Operation::Mean(self.tensor_id),
+                name: ['a'; 10],
+            };
+
+
+
+        }
+        else {
+            panic!("Mean only supports 1 or 2 axes")
         }
     }
 
-    pub fn std(&self, axis: usize) -> Tensor {
-        let mean = self.mean(axis);
+    pub fn std(&self, axis: Vec<usize>) -> Tensor {
+        let mean = self.mean(axis.clone());
         let mean_broadcast = mean.broadcast(self.shape.clone());
         let diff = *self - mean_broadcast;
         let diff_squared = diff.pow(2.0);
@@ -367,7 +402,6 @@ impl Tensor {
         let mut singleton = get_equation();
         // HACK: this should be generic to any sized shape, but I am not sure how to do that
         let new_shape = Shape::new(vec![shape[0], shape[1]]);
-        println!("{:?}", new_shape);
         let tensor_id = singleton.allocate_tensor_from_operation(
             new_shape,
             result.iter().map(|x| *x).collect(),
@@ -382,128 +416,6 @@ impl Tensor {
         }
     }
 
-    pub fn view(&self, index: Indexable) -> Tensor {
-        // Allocate a new tensor the size of the view
-        // and then set the data of the new tensor to the data of the old tensor
-        let mut singleton = get_equation();
-        let data: Vec<f32> = singleton.get_item(self.tensor_id);
-        // I now need to get the index subset of data from the old tensor
-        let new_shape = self.shape.subshape_from_indexable(index);
-
-        match index {
-            Indexable::Single(i) => {
-                if self.shape.number_of_indices == 1 {
-                    let data = data[i];
-                    let tensor_id = singleton.allocate_element_tensor(
-                        new_shape,
-                        data,
-                        Operation::View(self.tensor_id, index),
-                    );
-                    return Tensor {
-                        tensor_id,
-                        shape: new_shape,
-                        operation: Operation::View(self.tensor_id, index),
-                        name: ['a'; 10],
-                    };
-                } else if self.shape.number_of_indices == 2 {
-                    let offset = i * self.shape.indices[1];
-                    let data = data[offset..offset + self.shape.indices[1]].to_vec();
-                    let tensor_id = singleton.allocate_tensor_from_operation(
-                        new_shape,
-                        data,
-                        Operation::View(self.tensor_id, index),
-                    );
-                    return Tensor {
-                        tensor_id,
-                        shape: new_shape,
-                        operation: Operation::View(self.tensor_id, index),
-                        name: ['a'; 10],
-                    };
-                } else {
-                    panic!("Indexing not supported for tensors with more than 2 dimensions");
-                }
-            }
-            Indexable::Double(a, b) => {
-                let offset = a * self.shape.indices[1] + b;
-                let data = data[offset];
-                let tensor_id = singleton.allocate_element_tensor(
-                    new_shape,
-                    data,
-                    Operation::View(self.tensor_id, index),
-                );
-                return Tensor {
-                    tensor_id,
-                    shape: new_shape,
-                    operation: Operation::View(self.tensor_id, index),
-                    name: ['a'; 10],
-                };
-            }
-            Indexable::Mixed(a, b) => {
-                // Look up the A and B vectors, and then use the B vector to pick the indices from the A vector
-                let a_data = singleton.get_item(a);
-                let b_data = singleton.get_item(b);
-                let mut new_data = Vec::new();
-                for i in 0..b_data.len() {
-                    let index = b_data[i] as usize;
-                    new_data.push(a_data[index]);
-                }
-                let tensor_id = singleton.allocate_tensor_from_operation(
-                    new_shape,
-                    new_data,
-                    Operation::View(self.tensor_id, index),
-                );
-                return Tensor {
-                    tensor_id,
-                    shape: new_shape,
-                    operation: Operation::View(self.tensor_id, index),
-                    name: ['a'; 10],
-                };
-            }
-            Indexable::FromTensor(a) => {
-                let indices = singleton.get_tensor_data(a);
-
-                let this_shape = self.shape.clone().indices;
-                let other_shape = indices.shape();
-                let mut new_shape_dims = Vec::new();
-                for i in 0..other_shape.len() {
-                    new_shape_dims.push(other_shape[i]);
-                }
-                // HACK: this is to get this to work for tha 2 indexing 2 case
-                new_shape_dims.push(this_shape[self.shape.number_of_indices - 1]);
-                let new_shape = Shape::new(new_shape_dims);
-
-                assert!(indices.ndim() <= self.shape.number_of_indices);
-
-                let data = singleton.get_item(self.tensor_id).clone();
-                let data = data.as_slice();
-                let data_as_array =
-                    ArrayD::from_shape_vec(self.shape.as_ndarray_shape(), data.to_vec()).unwrap();
-                let mut return_tensor = ArrayD::<f32>::zeros(new_shape.as_ndarray_shape());
-
-                let return_shape = return_tensor.shape().to_vec();
-
-                for i in 0..return_shape[0] {
-                    for j in 0..return_shape[1] {
-                        for k in 0..return_shape[2] {
-                            return_tensor[[i, j, k]] = data_as_array[[indices[[i, j]] as usize, k]];
-                        }
-                    }
-                }
-
-                let tensor_id = singleton.allocate_tensor_from_operation(
-                    new_shape.clone().into(),
-                    return_tensor.into_raw_vec(),
-                    Operation::View(self.tensor_id, index),
-                );
-                return Tensor {
-                    tensor_id,
-                    shape: new_shape,
-                    operation: Operation::View(self.tensor_id, index),
-                    name: ['a'; 10],
-                };
-            }
-        }
-    }
 
     pub fn reshape(&self, new_shape: Shape) -> Tensor {
         let mut singleton = get_equation();
@@ -520,6 +432,11 @@ impl Tensor {
             operation: Operation::Reshape(self.tensor_id, new_shape),
             name: ['a'; 10],
         }
+    }
+    
+    pub fn squeeze(&self, axis: usize) -> Tensor {
+        // This will just be a wrapper around reshape function
+        self.reshape(self.shape.remove(axis))
     }
 
     pub fn concat(&self, other: Tensor) -> Tensor {
@@ -567,7 +484,7 @@ impl Tensor {
         let log_softmax = softmax.log();
         let loss = trues * log_softmax;
         let sum = loss.sum(1);
-        let mean = sum.mean(0);
+        let mean = sum.mean(vec![0]);
         mean
     }
 }

@@ -10,6 +10,7 @@ mod mul_op;
 mod operation;
 mod shape;
 mod tensor;
+mod view;
 
 pub use add_op::backward;
 pub use equation::{BackpropagationPacket, Equation};
