@@ -134,27 +134,6 @@ impl Tensor {
                     name: ['a'; 10],
                 };
             }
-            Indexable::Mixed(a, b) => {
-                // Look up the A and B vectors, and then use the B vector to pick the indices from the A vector
-                let a_data = singleton.get_item(a);
-                let b_data = singleton.get_item(b);
-                let mut new_data = Vec::new();
-                for i in 0..b_data.len() {
-                    let index = b_data[i] as usize;
-                    new_data.push(a_data[index]);
-                }
-                let tensor_id = singleton.allocate_tensor_from_operation(
-                    new_shape,
-                    new_data,
-                    Operation::View(self.tensor_id, index),
-                );
-                return Tensor {
-                    tensor_id,
-                    shape: new_shape,
-                    operation: Operation::View(self.tensor_id, index),
-                    name: ['a'; 10],
-                };
-            }
             Indexable::FromTensor(a) => {
                 let indices = singleton.get_tensor_data(a);
 

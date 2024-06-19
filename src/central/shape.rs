@@ -123,9 +123,6 @@ impl Shape {
             Indexable::Double(_a, _b) => {
                 panic!("Not implemented");
             }
-            Indexable::Mixed(_range_start, _range_end) => {
-                panic!("Not implemented");
-            }
             Indexable::FromTensor(_) => {
                 panic!("Not implemented");
             }
@@ -157,9 +154,6 @@ impl Shape {
                     new_indices.push(self.indices[j]);
                 }
                 Shape::new(new_indices)
-            }
-            Indexable::Mixed(_range_start, _range_end) => {
-                return Shape::new(self.indices.to_vec());
             }
             Indexable::FromTensor(_tensor) => {
                 return Shape::new(self.indices.to_vec());

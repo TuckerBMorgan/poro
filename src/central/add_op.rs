@@ -25,6 +25,13 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
     }
 }
 
+
+
+/// Overload the add operator for the Tensor struct
+/// This will allow us to add two tensors together
+/// If the tensors are not the same shape, we will broadcast the right hand side tensor
+/// to the shape of the left hand side tensor
+/// If the tensors are the same shape, we will just add them together
 impl Add for Tensor {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
@@ -75,6 +82,10 @@ impl Add for Tensor {
     }
 }
 
+
+/// Overload the add operator for the Tensor struct
+/// This will allow us to add a tensor and a f32 together
+/// it will turn the f32 into a tensor and then add them together
 impl Add<f32> for Tensor {
     type Output = Self;
     fn add(self, rhs: f32) -> Self::Output {
@@ -83,6 +94,9 @@ impl Add<f32> for Tensor {
     }
 }
 
+/// Overload the sub operator for the Tensor struct
+/// This will allow us to subtract two tensors together
+/// it does it by negating the right hand side tensor and then adding them together
 impl Sub for Tensor {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self::Output {
@@ -90,6 +104,10 @@ impl Sub for Tensor {
     }
 }
 
+
+// Overload the sub operator for the Tensor struct
+// This will allow us to subtract a tensor and a f32 together
+// it will turn the f32 into a tensor and then subtract them together
 impl Sub<Tensor> for f32 {
     type Output = Tensor;
     fn sub(self, rhs: Tensor) -> Self::Output {
@@ -98,6 +116,9 @@ impl Sub<Tensor> for f32 {
     }
 }
 
+// Overload the sub operator for the Tensor struct
+// This will allow us to subtract a tensor and a f32 together
+// it will turn the f32 into a tensor and then subtract them together
 impl Sub<f32> for Tensor {
     type Output = Tensor;
     fn sub(self, rhs: f32) -> Self::Output {
@@ -106,6 +127,9 @@ impl Sub<f32> for Tensor {
     }
 }
 
+// Overload the add operator for the f32 struct
+// This will allow us to add a f32 and a tensor together
+// it will turn the f32 into a tensor and then add them together
 impl Add<Tensor> for f32 {
     type Output = Tensor;
     fn add(self, rhs: Tensor) -> Self::Output {
