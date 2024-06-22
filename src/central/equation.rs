@@ -12,7 +12,7 @@ use std::{
     vec,
 };
 
-use cudarc::nvrtc::compile_ptx;
+use cudarc::nvrtc::{compile_ptx, Ptx};
 use cudarc::driver::{LaunchAsync, LaunchConfig};
 
 pub struct BackpropagationPacket<'a> {
@@ -33,6 +33,7 @@ pub struct Equation {
     pub advanced_logging: bool,
     pub timings: HashMap<String, u128>,
     auto_grad: bool,
+    pub matmul_ptx: Option<Ptx>
 }
 
 impl Equation {
@@ -44,6 +45,7 @@ impl Equation {
             advanced_logging: false,
             timings: HashMap::new(),
             auto_grad: true,
+            matmul_ptx: None
         }
     }
 
@@ -134,27 +136,27 @@ impl Equation {
         
         if a_shape.number_of_indices == 2 && b_shape.number_of_indices == 2 {
             if let Ok(dev) = cudarc::driver::CudaDevice::new(0) {
-
-                // TODO: Lift this out of the function
-                const PTX_SRC: &str = "
-                extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N, int M, int K) {
-                    int ROW = blockIdx.y * blockDim.y + threadIdx.y;
-                    int COL = blockIdx.x * blockDim.x + threadIdx.x;
-        
-                    float tmpSum = 0;
-        
-                    if (ROW < N && COL < M) {
-                        // each thread computes one element of the block sub-matrix
-                        for (int i = 0; i < K; i++) {
-                            tmpSum += A[ROW * K + i] * B[i * M + COL];
+                if self.matmul_ptx.is_none() {
+                    const PTX_SRC: &str = "
+                    extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N, int M, int K) {
+                        int ROW = blockIdx.y * blockDim.y + threadIdx.y;
+                        int COL = blockIdx.x * blockDim.x + threadIdx.x;
+            
+                        float tmpSum = 0;
+            
+                        if (ROW < N && COL < M) {
+                            // each thread computes one element of the block sub-matrix
+                            for (int i = 0; i < K; i++) {
+                                tmpSum += A[ROW * K + i] * B[i * M + COL];
+                            }
+                            C[ROW * M + COL] = tmpSum;
                         }
-                        C[ROW * M + COL] = tmpSum;
-                    }
-                }";
-     
-    
-                let ptx = compile_ptx(PTX_SRC).unwrap();
-                dev.load_ptx(ptx, "matmul", &["matmul"]).unwrap();
+                    }";
+                         
+                    let ptx = compile_ptx(PTX_SRC).unwrap();
+                    self.matmul_ptx = Some(ptx);
+                }
+                dev.load_ptx(self.matmul_ptx.as_ref().unwrap().clone(), "matmul", &["matmul"]).unwrap();                        
                 let f = dev.get_func("matmul", "matmul").unwrap();
                 let tile_size = 16;
                 
