@@ -201,4 +201,24 @@ mod test {
         let result = b.grad();
         assert!(result == arr2(&[[1.0]]).into_dyn());
     }
+
+    #[test]
+    fn basic_div_test() {
+        let a = Tensor::element(Shape::new(vec![1, 1]), 2.0);
+        let b = a / 2.0;
+        let result = b.item();
+        assert!(result == arr2(&[[1.0]]).into_dyn());
+    }
+
+    #[test]
+    fn backward_div_test() {
+        let a = Tensor::element(Shape::new(vec![1, 1]), 2.0);
+        let b = a / 2.0;
+        b.backward();
+        let result = b.grad();
+        assert!(result == arr2(&[[1.0]]).into_dyn());
+        let result = a.grad();
+        assert!(result == arr2(&[[0.5]]).into_dyn());
+    }
+
 }

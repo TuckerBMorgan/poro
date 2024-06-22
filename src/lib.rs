@@ -15,38 +15,6 @@ mod tests {
     }
 
     #[test]
-    fn mul_test() {
-        let a = Tensor::ones(Shape::new(vec![2, 2]));
-        let b = Tensor::ones(Shape::new(vec![2, 2]));
-        let c = a * b;
-        let result = c.item();
-        assert!(result == arr2(&[[1.0, 1.0], [1.0, 1.0]]).into_dyn());
-    }
-
-    #[test]
-    fn mul_test_2() {
-        let a = Tensor::ones(Shape::new(vec![2, 2]));
-        let b = Tensor::element(Shape::new(vec![2, 2]), 2.0);
-        let c = a * b;
-        let result = c.item();
-        assert!(result == arr2(&[[2.0, 2.0], [2.0, 2.0]]).into_dyn());
-    }
-
-    #[test]
-    fn backward_mul_test() {
-        let a = Tensor::ones(Shape::new(vec![1, 1]));
-        let b = Tensor::element(Shape::new(vec![1, 1]), 2.0);
-        let c = a * b;
-        c.backward();
-        let result = c.grad();
-        assert!(result == arr2(&[[1.0]]).into_dyn());
-        let result = a.grad();
-        assert!(result == arr2(&[[2.0]]).into_dyn());
-        let result = b.grad();
-        assert!(result == arr2(&[[1.0]]).into_dyn());
-    }
-
-    #[test]
     fn basic_pow_test() {
         let a = Tensor::element(Shape::new(vec![1, 1]), 2.0);
         let b = a.pow(2.0);
@@ -65,24 +33,6 @@ mod tests {
         assert!(result == arr2(&[[4.0]]).into_dyn());
     }
 
-    #[test]
-    fn basic_div_test() {
-        let a = Tensor::element(Shape::new(vec![1, 1]), 2.0);
-        let b = a / 2.0;
-        let result = b.item();
-        assert!(result == arr2(&[[1.0]]).into_dyn());
-    }
-
-    #[test]
-    fn backward_div_test() {
-        let a = Tensor::element(Shape::new(vec![1, 1]), 2.0);
-        let b = a / 2.0;
-        b.backward();
-        let result = b.grad();
-        assert!(result == arr2(&[[1.0]]).into_dyn());
-        let result = a.grad();
-        assert!(result == arr2(&[[0.5]]).into_dyn());
-    }
 
     #[test]
     fn basic_exp_test() {
