@@ -7,7 +7,7 @@ Poro is a simple toy neural network library implemented in Rust. It is designed 
 ## Features
 
 - Basic neural network operations
-- Tensor manipulation
+- Frictionless Autograd
 - Support for custom layers and operations
 - Lightweight and easy to understand
 
@@ -23,7 +23,7 @@ To use Poro, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-poro = "0.1.1"
+poro = "0.1.2"
 ```
 
 ### Usage
