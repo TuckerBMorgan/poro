@@ -2,6 +2,7 @@
 #![feature(fn_traits)]
 
 pub mod central;
+pub mod nn;
 pub use central::*;
 pub use ndarray::prelude::*;
 
