@@ -31,22 +31,15 @@ poro = "0.1.1"
 Here is a simple example to get you started with Poro:
 
 ```rust
-use Poro::model::Model;
 use Poro::tensor::Tensor;
-use Poro::operation::Operation;
+use ndarray::prelude::*;
 
 fn main() {
-    // Create a simple neural network
-    let model = Model::new();
-
-    // Define input tensor
-    let input = Tensor::new(vec![1.0, 2.0, 3.0]);
-
-    // Perform a forward pass
-    let output = model.forward(input);
-
-    // Print the output
-    println!("{:?}", output);
+    let a = Tensor::ones(Shape::new(vec![2, 2]));
+    let b = Tensor::zeroes(Shape::new(vec![2, 2]));
+    let c = a + b;
+    let result = c.item();
+    assert!(result == arr2(&[[1.0, 1.0], [1.0, 1.0]]).into_dyn());
 }
 ```
 
