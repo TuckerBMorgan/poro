@@ -10,6 +10,7 @@ pub use ndarray::prelude::*;
 mod tests {
 
     use crate::*;
+    use crate::nn::*;
     use rand::Rng;
     fn approx_equal(a: f32, b: f32, epsilon: f32) -> bool {
         (a - b).abs() < epsilon
@@ -394,6 +395,360 @@ mod tests {
                 let mut singleton = get_equation();
                 singleton.update_parameters(-0.1);
             }
+        }
+    }
+
+    #[test]
+    fn linear_module() {
+        let mut linear = LinearLayer::new(3, 1);
+
+        let inputs = vec![
+            vec![2.0f32, 3.0, -1.0],
+            vec![3.0, -1.0, 0.5],
+            vec![0.5, 1.0, 1.0],
+            vec![1.0, 1.0, -1.0],
+        ];
+
+        let inputs_as_tensor = Tensor::from_vec(
+            inputs.iter().flatten().map(|x| *x).collect(),
+            vec![4, 3].into(),
+        );
+
+        let outputs = vec![1.0f32, -1.0, -1.0, 1.0];
+        let outputs_as_tensor =
+            Tensor::from_vec(outputs.iter().map(|x| *x).collect(), vec![4, 1].into());
+
+        for _ in 0..50 {
+            zero_all_grads();
+            let prediction = linear.forward(&inputs_as_tensor);
+            let loss = (prediction - outputs_as_tensor).pow(2.0);
+            loss.backward();
+            update_parameters(-0.01);
+        }
+    }
+
+
+    fn build_batch_norm_dataset_from_subset(
+        words: &[String],
+        stoi: &HashMap<char, usize>,
+    ) -> (Vec<[usize; 3]>, Vec<usize>) {
+        let mut xs = vec![];
+        let mut ys = vec![];
+        for word in words {
+            let fixed = String::from("...") + word + ".";
+            let chars: Vec<char> = fixed.chars().collect();
+            for i in 0..chars.len() - 3 {
+                let pair = (chars[i], chars[i + 1], chars[i + 2], chars[i + 3]);
+                xs.push([stoi[&pair.0], stoi[&pair.1], stoi[&pair.2]]);
+                ys.push(stoi[&pair.3]);
+            }
+        }
+        (xs, ys)
+    }
+
+    #[test]
+    fn batch_norm_simple_test() {
+
+        let n_hidden = 200;
+
+        const BATCH_SIZE: usize = 32;
+        let names = read_lines("./data/bigram/names.txt");
+
+        let mut stoi = HashMap::new();
+        let mut itos = HashMap::new();
+        let mut i = 0;
+        for c in ".abcdefghijklmnopqrstuvwxyz".chars() {
+            stoi.insert(c, i);
+            itos.insert(i, c);
+            i += 1;
+        }
+        let n1 = (names.len() as f32 * 0.8f32) as usize;
+        let n2 = (names.len() as f32 * 0.9f32) as usize;
+        let (xtr, ytr) = build_batch_norm_dataset_from_subset(&names[..n1], &stoi);
+        let (_xdev, _ydev) = build_batch_norm_dataset_from_subset(&names[n1..n2], &stoi);
+        let (_cte, _yte) = build_batch_norm_dataset_from_subset(&names[n2..], &stoi);
+
+        let mut c = Tensor::load_from_weight_file("./data/batchnorm/C.json");
+        c.set_requires_grad(true);
+        let mut w1 = Tensor::load_from_weight_file("./data/batchnorm/W1.json");
+        w1.set_requires_grad(true);
+        let mut w2 = Tensor::load_from_weight_file("./data/batchnorm/W2.json");
+        w2.set_requires_grad(true);
+        let mut b2 = Tensor::load_from_weight_file("./data/batchnorm/b2.json");
+        b2.set_requires_grad(true);
+
+        let mut bngain = Tensor::load_from_weight_file("./data/batchnorm/bngain.json");
+        bngain.set_requires_grad(true);
+        let mut bnbiases = Tensor::load_from_weight_file("./data/batchnorm/bnbias.json");
+        bnbiases.set_requires_grad(true);
+
+        let mut bnmean_running = Tensor::zeroes(Shape::new(vec![1, n_hidden]));
+        bnmean_running.set_requires_grad(true);
+        let mut bnvar_running = Tensor::ones(Shape::new(vec![1, n_hidden]));
+        bnvar_running.set_requires_grad(true);
+
+        let max_steps = 2;
+
+
+        for _i in 0..max_steps {
+            zero_all_grads();
+            let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![BATCH_SIZE, 3]));
+            for b in 0..BATCH_SIZE {
+                test_index_tensor.set_index([b, 0].into(), vec![xtr[b][0] as f32].into());
+                test_index_tensor.set_index([b, 1].into(), vec![xtr[b][1] as f32].into());
+                test_index_tensor.set_index([b, 2].into(), vec![xtr[b][2] as f32].into());
+            }
+            let test = c.view(Indexable::FromTensor(test_index_tensor.tensor_id));
+            let reshape = test.reshape(Shape::new(vec![BATCH_SIZE, 30]));
+            let hpreact = reshape << w1;
+
+            let bnmeani = hpreact.mean(vec![0]);
+            let bnvari = hpreact.std(vec![0]);
+            let offset = hpreact - bnmeani;
+            let numer = offset * bngain;
+            let hpreact = numer / bnvari + bnbiases;
+
+            let h = hpreact.tanh();
+            let logits = (h << w2) + b2;
+
+            let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![BATCH_SIZE, 27]), 0.0);
+            for b in 0..BATCH_SIZE {
+                test_ytrue_onehot.set_index([b, ytr[b]].into(), vec![1.0].into());
+            }
+
+            let loss = logits.cross_entropy_loss(test_ytrue_onehot);
+            println!("Loss: {}", loss.item());
+
+            loss.backward();
+            update_parameters(-0.01);
+        }
+        println!("w1 grad {:?}", w1.grad());
+    }
+
+    use crate::nn::model::{Model, Sequential};
+    #[test]
+    fn batch_norm_test() {
+        let batch_size = 32;
+        let block_size = 3;
+        let vocab_size = 100;
+        let n_embd = 10;
+        let n_hidden = 100;
+        let names = read_lines("./data/bigram/names.txt");
+
+        let mut stoi = HashMap::new();
+        let mut itos = HashMap::new();
+        let mut i = 0;
+        for c in ".abcdefghijklmnopqrstuvwxyz".chars() {
+            stoi.insert(c, i);
+            itos.insert(i, c);
+            i += 1;
+        }
+        let n1 = (names.len() as f32 * 0.8f32) as usize;
+
+        let (xtr, _ytr) = build_dataset_from_subset(&names[..n1], &stoi);
+
+        let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![batch_size, 3]));
+        for b in 0..batch_size {
+            test_index_tensor.set_index([b, 0].into(), vec![xtr[b][0] as f32].into());
+            test_index_tensor.set_index([b, 1].into(), vec![xtr[b][1] as f32].into());
+            test_index_tensor.set_index([b, 2].into(), vec![xtr[b][2] as f32].into());
+        }
+
+        let c = Tensor::randn(Shape::new(vec![vocab_size, n_embd]));
+
+        let mut linear_model: Sequential = vec![
+            LinearLayer::new(n_embd * block_size, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            LinearLayer::new(n_hidden, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            LinearLayer::new(n_hidden, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            LinearLayer::new(n_hidden, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            LinearLayer::new(n_hidden, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            LinearLayer::new(n_hidden, vocab_size).into(),
+            BatchNorm1d::new(vocab_size).into(),
+        ]
+        .into();
+
+        let test = c.view(Indexable::FromTensor(test_index_tensor.tensor_id));
+        let reshape = test.reshape(Shape::new(vec![32, 30]));
+
+        let output = linear_model.forward(&reshape);
+        output.backward();
+        update_parameters(-0.01);
+    }
+
+    struct EmbeddingLayer {
+        weight: Tensor,
+    }
+
+    impl EmbeddingLayer {
+        pub fn new(number_of_embeddings: usize, embedding_dims: usize) -> Self {
+            EmbeddingLayer {
+                weight: Tensor::randn(Shape::new(vec![number_of_embeddings, embedding_dims])),
+            }
+        }
+    }
+
+    impl Module for EmbeddingLayer {
+        fn forward(&mut self, input: &Tensor) -> Tensor {
+            let output_tensor = self.weight.view(Indexable::FromTensor(input.tensor_id));
+            return output_tensor;
+        }
+
+        fn get_parameters(&self) -> Vec<Tensor> {
+            vec![self.weight.clone()]
+        }
+    }
+
+    impl From<EmbeddingLayer> for Box<dyn Module> {
+        fn from(layer: EmbeddingLayer) -> Box<dyn Module> {
+            Box::new(layer)
+        }
+    }
+
+    struct FlattenConsecutive {
+        block_size: usize,
+    }
+
+    impl FlattenConsecutive {
+        pub fn new(block_size: usize) -> Self {
+            FlattenConsecutive { block_size }
+        }
+    }
+
+    impl Module for FlattenConsecutive {
+        fn forward(&mut self, input: &Tensor) -> Tensor {
+            let b = input.shape.indices[0];
+            let t = input.shape.indices[1];
+            let c = input.shape.indices[2];
+            let new_middle = t / self.block_size;
+            let new_end = self.block_size * c;
+
+            let new_input = input.reshape(Shape::new(vec![b, new_middle, new_end]));
+
+            if new_input.shape.indices[1] == 1 {
+                return new_input.squeeze(1);
+            }
+
+            return new_input;
+        }
+
+        fn get_parameters(&self) -> Vec<Tensor> {
+            vec![]
+        }
+    }
+
+    impl From<FlattenConsecutive> for Box<dyn Module> {
+        fn from(layer: FlattenConsecutive) -> Box<dyn Module> {
+            Box::new(layer)
+        }
+    }
+
+    fn build_wavenet_dataset_from_subset(
+        words: &[String],
+        stoi: &HashMap<char, usize>,
+    ) -> (Vec<[usize; 8]>, Vec<usize>) {
+        let mut xs = vec![];
+        let mut ys = vec![];
+        for word in words {
+            let fixed = String::from("........") + word + ".";
+            let chars: Vec<char> = fixed.chars().collect();
+            for i in 0..chars.len() - 8 {
+                let pair = (
+                    chars[i],
+                    chars[i + 1],
+                    chars[i + 2],
+                    chars[i + 3],
+                    chars[i + 4],
+                    chars[i + 5],
+                    chars[i + 6],
+                    chars[i + 7],
+                    chars[i + 8],
+                );
+                xs.push([
+                    stoi[&pair.0],
+                    stoi[&pair.1],
+                    stoi[&pair.2],
+                    stoi[&pair.3],
+                    stoi[&pair.4],
+                    stoi[&pair.5],
+                    stoi[&pair.6],
+                    stoi[&pair.7],
+                ]);
+                ys.push(stoi[&pair.8]);
+            }
+        }
+        (xs, ys)
+    }
+
+    #[test]
+    fn wavenet_test() {
+        let n_embd = 24;
+        let n_hidden = 128;
+        let block_size = 8;
+
+        let names = read_lines("./data/bigram/names.txt");
+
+        let mut stoi = HashMap::new();
+        let mut itos = HashMap::new();
+        let mut i = 0;
+        for c in ".abcdefghijklmnopqrstuvwxyz".chars() {
+            stoi.insert(c, i);
+            itos.insert(i, c);
+            i += 1;
+        }
+        let n1 = (names.len() as f32 * 0.8f32) as usize;
+        let (xtr, ytr) = build_wavenet_dataset_from_subset(&names[..n1], &stoi);
+
+        let mut model: Sequential = vec![
+            EmbeddingLayer::new(27, n_embd).into(),
+            FlattenConsecutive::new(2).into(),
+            LinearLayer::new(n_embd * 2, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            FlattenConsecutive::new(2).into(),
+            LinearLayer::new(n_hidden * 2, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            FlattenConsecutive::new(2).into(),
+            LinearLayer::new(n_hidden * 2, n_hidden).into(),
+            BatchNorm1d::new(n_hidden).into(),
+            Tanh::new().into(),
+            LinearLayer::new(n_hidden, 27).into(),
+        ]
+        .into();
+
+        model.set_requires_grad(true);
+
+        let max_steps = 10;
+        let batch_size = 32;
+
+        for _i in 0..max_steps {
+            zero_all_grads();
+            let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![batch_size, 8]));
+            for b in 0..batch_size {
+                for b_index in 0..block_size {
+                    test_index_tensor
+                        .set_index([b, b_index].into(), vec![xtr[b][b_index] as f32].into());
+                }
+            }
+            let test = model.forward(&test_index_tensor);
+            let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![batch_size, 27]), 0.0);
+            for b in 0..batch_size {
+                test_ytrue_onehot.set_index([b, ytr[b]].into(), vec![1.0].into());
+            }
+            let loss = test.cross_entropy_loss(test_ytrue_onehot);
+            println!("Loss: {}", loss.item());
+            loss.backward();
+            update_parameters(0.01);
         }
     }
 }

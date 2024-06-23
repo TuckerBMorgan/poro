@@ -11,9 +11,12 @@ Poro is a library I am writing to help me better understand modern ML frameworks
 - Support for custom layers and operations
 - Lightweight and trying to focus on ease of understanding for others
 
-
-## note
+## notes on usage
 I work on this lib while I also have a job, and it is done for the enjoyment of learning, so it is likely a good idea to not use this for professional use as I am unlikely to get to any issues you might have in a timely manner :) 
+
+if you run cargo test, some tests might fail, this is not actually them failing
+do to the nature of the way I have the equation working as a singelton, it it possible for
+test to grab the lock at the wrong time and fail. If you know how to fix this, that would make a great first PR :). You can always run the tests one at a time and see that they work that way
 
 # Getting Started
 ```bash
