@@ -11,6 +11,10 @@ Poro is a library I am writing to help me better understand modern ML frameworks
 - Support for custom layers and operations
 - Lightweight and trying to focus on ease of understanding for others
 
+
+## note
+I work on this lib while I also have a job, and it is done for the enjoyment of learning, so it is likely a good idea to not use this for professional use as I am unlikely to get to any issues you might have in a timely manner :) 
+
 # Getting Started
 ```bash
 cargo test --release
