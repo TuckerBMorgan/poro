@@ -48,3 +48,12 @@ fn main() {
     assert!(result == arr2(&[[1.0, 1.0], [1.0, 1.0]]).into_dyn());
 }
 ```
+
+## Planned features
+
+- Optimizer module
+- Data Loader Module
+- Working with Metal
+- Transfomers Layer
+- Conv Layer
+- Model/Module Configure 
