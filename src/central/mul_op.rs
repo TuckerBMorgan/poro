@@ -220,5 +220,4 @@ mod test {
         let result = a.grad();
         assert!(result == arr2(&[[0.5]]).into_dyn());
     }
-
 }

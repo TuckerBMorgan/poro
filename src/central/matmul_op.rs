@@ -10,24 +10,22 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
         // Handle the case when the gradient is a 2D matrix
         if backprop_packet.grad.ndim() == 2 {
             // Convert the gradient to a 2D matrix
-            let out_grad = backprop_packet
-                .grad
-                .clone()
-                .into_dimensionality::<Ix2>()
-                .unwrap();
+            let out_grad = backprop_packet.grad.clone();
             // Get the data of the right-hand operand of the MatMul operation
             let right_hand_data = backprop_packet.equation.get_tensor_data(b);
             let right_hand_data_tranpose = right_hand_data.t();
 
             // Transpose the right-hand data
-            let other = right_hand_data_tranpose
-                .into_dimensionality::<Ix2>()
-                .unwrap();
+
             // Get the gradient of the left-hand operand of the MatMul operation
             let left_hand_grad = backprop_packet.equation.get_tensor_grad(a);
             // Update the gradient of the left-hand operand
             // Gradient of A in A*B with respect to the loss is given by (dL/dZ) * B^T
-            let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
+            let hold = left_hand_grad
+                + backprop_packet
+                    .equation
+                    .matmul(&out_grad, &right_hand_data_tranpose.to_owned());
+            //let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
             backprop_packet.equation.set_tensor_grad(a, hold);
 
             // Get the data of the left-hand operand of the MatMul operation
@@ -35,10 +33,14 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             // Get the gradient of the right-hand operand of the MatMul operation
             let right_hand_grad = backprop_packet.equation.get_tensor_grad(b);
             // Transpose the left-hand data
-            let other = left_hand_data.t().into_dimensionality::<Ix2>().unwrap();
+            let other = left_hand_data.t();
             // Update the gradient of the right-hand operand
             // Gradient of B in A*B with respect to the loss is given by A^T * (dL/dZ)
-            let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
+            let temp = right_hand_grad
+                + backprop_packet
+                    .equation
+                    .matmul(&other.to_owned(), &out_grad);
+            //            let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
             backprop_packet.equation.set_tensor_grad(b, temp);
         } else if backprop_packet.grad.ndim() == 3 {
             // Handle the case when the gradient is a 3D tensor
@@ -111,9 +113,13 @@ impl Shl for Tensor {
     type Output = Tensor;
     fn shl(self, rhs: Self) -> Self::Output {
         let mut singleton = get_equation();
+        let a_data = singleton.get_tensor_data(self.tensor_id);
+        let b_data = singleton.get_tensor_data(rhs.tensor_id);
+        let result_data = singleton.matmul(&a_data, &b_data);
+        println!("{:?}", result_data);
 
-        let result_data = singleton.matmul(self.tensor_id, self.shape, rhs.tensor_id, rhs.shape);
         let resultant_shape = self.shape.matmul_shape(&rhs.shape);
+        println!("{:?}", resultant_shape);
         let tensor_id = singleton.allocate_tensor_from_operation(
             resultant_shape,
             result_data.into_raw_vec(),
@@ -130,12 +136,11 @@ impl Shl for Tensor {
     }
 }
 
-
 mod tests {
     #[allow(unused_imports)]
-    use crate::central::tensor::Tensor;
-    #[allow(unused_imports)]
     use crate::central::shape::Shape;
+    #[allow(unused_imports)]
+    use crate::central::tensor::Tensor;
     #[test]
     fn two_dimension_matmul_test() {
         let a = Tensor::ones(Shape::new(vec![2, 2]));
@@ -144,7 +149,7 @@ mod tests {
         let result = c.item();
         println!("{:?}", result);
     }
-    
+
     #[test]
     fn three_dimension_matmul_test() {
         let a = Tensor::randn(Shape::new(vec![3, 2, 2]));
@@ -153,5 +158,4 @@ mod tests {
         let result = c.item();
         println!("{:?}", result);
     }
-    
 }

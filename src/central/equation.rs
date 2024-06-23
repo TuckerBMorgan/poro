@@ -12,8 +12,8 @@ use std::{
     vec,
 };
 
-use cudarc::nvrtc::{compile_ptx, Ptx};
 use cudarc::driver::{LaunchAsync, LaunchConfig};
+use cudarc::nvrtc::{compile_ptx, Ptx};
 
 pub struct BackpropagationPacket<'a> {
     pub grad: ArrayD<f32>,
@@ -33,7 +33,7 @@ pub struct Equation {
     pub advanced_logging: bool,
     pub timings: HashMap<String, u128>,
     auto_grad: bool,
-    pub matmul_ptx: Option<Ptx>
+    pub matmul_ptx: Option<Ptx>,
 }
 
 impl Equation {
@@ -45,7 +45,7 @@ impl Equation {
             advanced_logging: false,
             timings: HashMap::new(),
             auto_grad: true,
-            matmul_ptx: None
+            matmul_ptx: None,
         }
     }
 
@@ -126,113 +126,120 @@ impl Equation {
         self.allocate_tensor(shape, data, operation)
     }
 
-    pub fn matmul(
-        &mut self,
-        a: TensorID,
-        a_shape: Shape,
-        b: TensorID,
-        b_shape: Shape,
-    ) -> ArrayD<f32> {
-        
-        if a_shape.number_of_indices == 2 && b_shape.number_of_indices == 2 {
-            if let Ok(dev) = cudarc::driver::CudaDevice::new(0) {
-                if self.matmul_ptx.is_none() {
-                    const PTX_SRC: &str = "
-                    extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N, int M, int K) {
-                        int ROW = blockIdx.y * blockDim.y + threadIdx.y;
-                        int COL = blockIdx.x * blockDim.x + threadIdx.x;
-            
-                        float tmpSum = 0;
-            
-                        if (ROW < N && COL < M) {
-                            // each thread computes one element of the block sub-matrix
-                            for (int i = 0; i < K; i++) {
-                                tmpSum += A[ROW * K + i] * B[i * M + COL];
-                            }
-                            C[ROW * M + COL] = tmpSum;
-                        }
-                    }";
-                         
-                    let ptx = compile_ptx(PTX_SRC).unwrap();
-                    self.matmul_ptx = Some(ptx);
-                }
-                dev.load_ptx(self.matmul_ptx.as_ref().unwrap().clone(), "matmul", &["matmul"]).unwrap();                        
-                let f = dev.get_func("matmul", "matmul").unwrap();
-                let tile_size = 16;
-                
-                let n = a_shape.indices[0];
-                let m = b_shape.indices[1];
-                let _k = a_shape.indices[1];
+    pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+        let dev = cudarc::driver::CudaDevice::new(0).unwrap();
+        let a_shape = a.shape();
+        let b_shape = b.shape();
+        if self.matmul_ptx.is_none() {
+            const PTX_SRC: &str = "
+            extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N, int M, int K) {
+                int ROW = blockIdx.y * blockDim.y + threadIdx.y;
+                int COL = blockIdx.x * blockDim.x + threadIdx.x;
     
-                let cfg = LaunchConfig {
-                    block_dim: (16, 16, 1),
-                    grid_dim: ((m / tile_size + 1) as u32, (n / tile_size + 1) as u32, 1),
-                    shared_mem_bytes: 0,
-                };
-        
-                let a_on_device = dev.htod_copy(self.get_tensor_data(a).into_raw_vec()).unwrap();
-                let b_on_device = dev.htod_copy(self.get_tensor_data(b).into_raw_vec()).unwrap();
-                let mut c_host = vec![0.0f32; a_shape.indices[0] * b_shape.indices[1]];
-        
-                let mut out_on_device = dev.alloc_zeros::<f32>(a_shape.indices[0] * b_shape.indices[1]).unwrap();
-        
-        
-                unsafe {
-                    f.launch(cfg, (&a_on_device, &b_on_device, &mut out_on_device, a_shape.indices[0], b_shape.indices[1], b_shape.indices[0])).unwrap();
+                float tmpSum = 0;
+    
+                if (ROW < N && COL < M) {
+                    // each thread computes one element of the block sub-matrix
+                    for (int i = 0; i < K; i++) {
+                        tmpSum += A[ROW * K + i] * B[i * M + COL];
+                    }
+                    C[ROW * M + COL] = tmpSum;
                 }
-                dev.dtoh_sync_copy_into(&out_on_device, &mut c_host).unwrap();
+            }";
 
-                return ArrayD::from_shape_vec(vec![a_shape.indices[0], b_shape.indices[1]], c_host).unwrap();
+            let ptx = compile_ptx(PTX_SRC).unwrap();
+            self.matmul_ptx = Some(ptx);
+        }
+        dev.load_ptx(
+            self.matmul_ptx.as_ref().unwrap().clone(),
+            "matmul",
+            &["matmul"],
+        )
+        .unwrap();
+        let f = dev.get_func("matmul", "matmul").unwrap();
+        let tile_size = 16;
 
-            } else {
-                // preforms the matmul, returning the just the result datam does note allocate a new tensor
-                let a_data = self.get_tensor_data(a);
-                let b_data = self.get_tensor_data(b);
-                // we need to into_dimensionality() to convert the 1D array to a 2D array
-                let a_data = a_data.into_dimensionality::<Ix2>().unwrap();
-                let b_data = b_data.into_dimensionality::<Ix2>().unwrap();
-                let result = a_data.dot(&b_data);
-                return result.into_dyn();
-            }
+        let n = a_shape[0];
+        let m = b_shape[1];
+        let _k = a_shape[1];
+
+        let cfg = LaunchConfig {
+            block_dim: (16, 16, 1),
+            grid_dim: ((m / tile_size + 1) as u32, (n / tile_size + 1) as u32, 1),
+            shared_mem_bytes: 0,
+        };
+
+        let a_on_device = dev.htod_copy(a.clone().into_raw_vec()).unwrap();
+        let b_on_device = dev.htod_copy(b.clone().into_raw_vec()).unwrap();
+        let mut c_host = vec![0.0f32; a_shape[0] * b_shape[1]];
+
+        let mut out_on_device = dev.alloc_zeros::<f32>(a_shape[0] * b_shape[1]).unwrap();
+
+        unsafe {
+            f.launch(
+                cfg,
+                (
+                    &a_on_device,
+                    &b_on_device,
+                    &mut out_on_device,
+                    a_shape[0],
+                    b_shape[1],
+                    b_shape[0],
+                ),
+            )
+            .unwrap();
+        }
+        dev.dtoh_sync_copy_into(&out_on_device, &mut c_host)
+            .unwrap();
+
+        return ArrayD::from_shape_vec(vec![a_shape[0], b_shape[1]], c_host).unwrap();
+    }
+
+    pub fn standard_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+        if a.ndim() == 2 && b.ndim() == 2 {
+            // Convert both down to 2D arrays
+            let a_2d = a.clone().into_dimensionality::<Ix2>().unwrap();
+            let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
+            return a_2d.dot(&b_2d).into_dyn();
         }
 
-        if a_shape.number_of_indices == 3 && b_shape.number_of_indices == 2 {
-            // preforms the matmul, returning the just the result datam does note allocate a new tensor
-            let a_data = self.get_tensor_data(a);
-            let b_data = self.get_tensor_data(b);
-            // we need to into_dimensionality() to convert the 1D array to a 2D array
-            let a_data = a_data.into_dimensionality::<Ix3>().unwrap();
-            let b_data = b_data.into_dimensionality::<Ix2>().unwrap();
-            let mut result =
-                Array3::zeros((a_data.shape()[0], a_data.shape()[1], b_data.shape()[1]));
-            for i in 0..a_data.shape()[0] {
-                let a_slice = a_data.slice(s![i, .., ..]);
-                let temp = a_slice.dot(&b_data);
+        if a.ndim() == 3 && b.ndim() == 2 {
+            let a_3d = a.clone().into_dimensionality::<Ix3>().unwrap();
+            let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
+            let mut result = Array3::zeros((a_3d.shape()[0], a_3d.shape()[1], b_2d.shape()[1]));
+            for i in 0..a_3d.shape()[0] {
+                let a_slice = a_3d.slice(s![i, .., ..]);
+                let temp = a_slice.dot(&b_2d);
                 result.slice_mut(s![i, .., ..]).assign(&temp);
             }
-
             return result.into_dyn();
         }
 
-        if a_shape.number_of_indices == 3 && b_shape.number_of_indices == 3 {
-            // preforms the matmul, returning the just the result datam does note allocate a new tensor
-            let a_data = self.get_tensor_data(a);
-            let b_data = self.get_tensor_data(b);
-            // we need to into_dimensionality() to convert the 1D array to a 2D array
-            let a_data = a_data.into_dimensionality::<Ix3>().unwrap();
-            let b_data = b_data.into_dimensionality::<Ix3>().unwrap();
-            // I need to loop over the batch dimension and preform the matmul
-            let mut result =
-                Array3::zeros((a_data.shape()[0], a_data.shape()[1], b_data.shape()[2]));
-            for i in 0..a_data.shape()[0] {
-                let a_slice = a_data.slice(s![i, .., ..]);
-                let b_slice = b_data.slice(s![i, .., ..]);
+        if a.ndim() == 3 && b.ndim() == 3 {
+            let a_3d = a.clone().into_dimensionality::<Ix3>().unwrap();
+            let b_3d = b.clone().into_dimensionality::<Ix3>().unwrap();
+            let mut result = Array3::zeros((a_3d.shape()[0], a_3d.shape()[1], b_3d.shape()[2]));
+            for i in 0..a_3d.shape()[0] {
+                let a_slice = a_3d.slice(s![i, .., ..]);
+                let b_slice = b_3d.slice(s![i, .., ..]);
                 let temp = a_slice.dot(&b_slice);
                 result.slice_mut(s![i, .., ..]).assign(&temp);
             }
             return result.into_dyn();
         }
+
         panic!("Not implemented");
+    }
+
+    pub fn matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+        // I have only done the 2D case for now
+        // so even if we have a cuda device, we should default to the standard matmul
+        // for any case of 2dx2d
+        if cudarc::driver::CudaDevice::new(0).is_ok() && a.ndim() == 2 && b.ndim() == 2 {
+            return self.cuda_matmul(a, b);
+        } else {
+            return self.standard_matmul(a, b);
+        }
     }
 
     pub fn get_item(&self, tensor_id: TensorID) -> Vec<f32> {

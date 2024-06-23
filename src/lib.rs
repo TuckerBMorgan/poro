@@ -33,7 +33,6 @@ mod tests {
         assert!(result == arr2(&[[4.0]]).into_dyn());
     }
 
-
     #[test]
     fn basic_exp_test() {
         let a = Tensor::element(Shape::new(vec![1, 1]), 2.0);

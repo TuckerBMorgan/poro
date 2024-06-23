@@ -11,7 +11,7 @@ use ndarray::ArrayD;
 /// This function will take in a `BackpropagationPacket` and then set the gradients of the source tensor.
 /// # Arguments
 /// * `backprop_packet` - A `BackpropagationPacket` that contains the information needed to perform the backward pass.
-/// 
+///
 /// # Panics
 /// This function will panic if the operation in the `BackpropagationPacket` is not a view operation.
 /// This function will panic if the number of dimensions of the source tensor is not 1 or 2.
@@ -50,7 +50,6 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
                 new_view_grad[[i, j]] = backprop_packet.grad[0];
             }
             Indexable::FromTensor(tensor) => {
-
                 // Get the indices from the tensor
                 let indices = backprop_packet.equation.get_tensor_data(tensor);
 
@@ -92,7 +91,6 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
     }
 }
 
-
 /// View operation for the tensor struct
 /// This function will take in an indexable and then return a new tensor that is a view of the original tensor
 /// # Arguments
@@ -110,7 +108,6 @@ impl Tensor {
 
         match index {
             Indexable::Single(i) => {
-
                 // If the number of indices is 1, then we can just take the data from the old tensor
                 // and then allocate a new tensor with the data from the old tensor
                 if self.shape.number_of_indices == 1 {
