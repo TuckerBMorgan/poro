@@ -1,5 +1,5 @@
-use crate::nn::layers::*;
 use crate::central::*;
+use crate::nn::layers::*;
 
 pub trait Model {
     fn forward(&mut self, x: &Tensor) -> Tensor;
