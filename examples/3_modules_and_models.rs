@@ -1,16 +1,15 @@
+use poro::central::*;
 use poro::nn::layers::LinearLayer;
 use poro::nn::model::Sequential;
-use poro::central::*;
 use poro::nn::Model;
 
 fn main() {
-
     // A layer is single module that can be used in a model
     let layer = LinearLayer::new(3, 1);
 
     // A model is a sequence of layers
     // You can create a model by calling "into" on a vector of layers
-    let mut linear_model : Sequential = vec![layer.into()].into();
+    let mut linear_model: Sequential = vec![layer.into()].into();
 
     let inputs = vec![
         vec![2.0f32, 3.0, -1.0],
