@@ -1,4 +1,4 @@
-use poro::Tensor;
+use poro::{update_parameters, Tensor};
 
 fn main() {
 
@@ -17,4 +17,6 @@ fn main() {
     // And then simply call backward() on the result tensor
     c.backward();
     println!("a.grad: {:?}", a.grad().to_string());
+    // And then you need to call update_parameters() to update the parameters
+    update_parameters(-0.01);
 }
