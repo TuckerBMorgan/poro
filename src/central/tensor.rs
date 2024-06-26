@@ -100,6 +100,30 @@ impl Tensor {
         }
     }
 
+    pub fn tril(x: usize, y: usize) -> Tensor {
+        let mut array = vec![0.0; x * y];
+        for i in 0..x {
+            for j in 0..y {
+                if i >= j {
+                    array[i * y + j] = 1.0;
+                }
+            }
+        }
+        let mut singleton = get_equation();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            Shape::new(vec![x, y]),
+            array,
+            Operation::Nop,
+        );
+
+        Tensor {
+            tensor_id,
+            shape: Shape::new(vec![x, y]),
+            operation: Operation::Nop,
+            name: ['a'; 10],
+        }
+    }
+
     pub fn ones(shape: Shape) -> Tensor {
         let mut singleton = get_equation();
         let tensor_id = singleton.allocate_ones_tensor(shape.clone(), Operation::Nop);

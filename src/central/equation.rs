@@ -127,7 +127,7 @@ impl Equation {
     }
 
     pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
-        let dev = cudarc::driver::CudaDevice::new(0).unwrap();
+        let dev: std::sync::Arc<cudarc::driver::CudaDevice> = cudarc::driver::CudaDevice::new(0).unwrap();
         let a_shape = a.shape();
         let b_shape = b.shape();
         if self.matmul_ptx.is_none() {
@@ -236,7 +236,8 @@ impl Equation {
         // so even if we have a cuda device, we should default to the standard matmul
         // for any case of 2dx2d
         if cudarc::driver::CudaDevice::new(0).is_ok() && a.ndim() == 2 && b.ndim() == 2 {
-            return self.cuda_matmul(a, b);
+            return self.standard_matmul(a, b);
+            //return self.cuda_matmul(a, b);
         } else {
             return self.standard_matmul(a, b);
         }
