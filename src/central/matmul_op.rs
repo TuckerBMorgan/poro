@@ -5,8 +5,6 @@ use crate::central::BackpropagationPacket;
 use ndarray::prelude::*;
 use std::ops::Shl;
 
-
-
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::MatMul(a, b) = backprop_packet.operation {
         // Handle the case when the gradient is a 2D matrix
@@ -110,7 +108,6 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
     }
 }
 
-
 /*
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::MatMul(a, b) = backprop_packet.operation {
@@ -134,7 +131,7 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             let temp = right_hand_grad + other.dot(&out_grad).into_dyn();
             backprop_packet.equation.set_tensor_grad(b, temp);
         }
-        else if backprop_packet.grad.ndim() == 3 { 
+        else if backprop_packet.grad.ndim() == 3 {
             let out_grad = backprop_packet.grad.clone().into_dimensionality::<Ix3>().unwrap();
             let right_hand_data =  backprop_packet.equation.get_tensor_data(b);
             let right_hand_data_tranpose = right_hand_data.t();
@@ -184,7 +181,6 @@ impl Shl for Tensor {
         let a_data = singleton.get_tensor_data(self.tensor_id);
         let b_data = singleton.get_tensor_data(rhs.tensor_id);
         let result_data = singleton.matmul(&a_data, &b_data);
-
 
         let resultant_shape = self.shape.matmul_shape(&rhs.shape);
         let tensor_id = singleton.allocate_tensor_from_operation(

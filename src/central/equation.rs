@@ -127,7 +127,8 @@ impl Equation {
     }
 
     pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
-        let dev: std::sync::Arc<cudarc::driver::CudaDevice> = cudarc::driver::CudaDevice::new(0).unwrap();
+        let dev: std::sync::Arc<cudarc::driver::CudaDevice> =
+            cudarc::driver::CudaDevice::new(0).unwrap();
         let a_shape = a.shape();
         let b_shape = b.shape();
         if self.matmul_ptx.is_none() {

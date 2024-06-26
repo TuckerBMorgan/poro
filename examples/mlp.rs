@@ -1,8 +1,8 @@
 use poro::central::{get_equation, Indexable, Shape, Tensor};
+use rand::prelude::SliceRandom;
 use rand::thread_rng;
 use std::collections::HashMap;
 use std::fs::read_to_string;
-use rand::prelude::SliceRandom;
 
 fn read_lines(filename: &str) -> Vec<String> {
     let mut result = Vec::new();
@@ -35,7 +35,6 @@ fn build_dataset_from_subset(
 fn main() {
     // let mut times = HashMap::new();
 
-
     let names = read_lines("./data/bigram/names.txt");
 
     let mut stoi = HashMap::new();
@@ -65,7 +64,7 @@ fn main() {
     b2.set_requires_grad(true);
 
     const EPOCH_COUNT: usize = 10;
-    let BATCH_SIZE: usize = 32;//xtr.len();
+    let BATCH_SIZE: usize = 32; //xtr.len();
     let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![BATCH_SIZE, 3]));
 
     for epoch in 0..1 {
@@ -74,7 +73,6 @@ fn main() {
             let mut singleton = get_equation();
             singleton.zero_all_grads();
         }
-
 
         for b in 0..BATCH_SIZE {
             test_index_tensor.set_index([b, 0].into(), vec![xtr[b][0] as f32].into());
@@ -101,7 +99,6 @@ fn main() {
 
         let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![BATCH_SIZE, 27]), 0.0);
         for b in 0..BATCH_SIZE {
-
             test_ytrue_onehot.set_index([b, ytr[b]].into(), vec![1.0].into());
         }
 

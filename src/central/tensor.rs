@@ -110,11 +110,8 @@ impl Tensor {
             }
         }
         let mut singleton = get_equation();
-        let tensor_id = singleton.allocate_tensor_from_operation(
-            Shape::new(vec![x, y]),
-            array,
-            Operation::Nop,
-        );
+        let tensor_id =
+            singleton.allocate_tensor_from_operation(Shape::new(vec![x, y]), array, Operation::Nop);
 
         Tensor {
             tensor_id,
