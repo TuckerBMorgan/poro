@@ -37,6 +37,17 @@ impl Tensor {
         }
     }
 
+    pub fn idenitity(shape: Shape) -> Tensor {
+        let mut singleton = get_equation();
+        let tensor_id = singleton.allocate_idenitity_tensor(shape.clone());
+        Tensor {
+            tensor_id,
+            shape,
+            operation: Operation::Nop,
+            name: ['a'; 10],
+        }
+    }
+
     pub fn load_from_weight_file<P: AsRef<Path>>(path: P) -> Tensor {
         let mut singleton = get_equation();
 

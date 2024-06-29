@@ -137,6 +137,22 @@ mod tests {
     }
 
     #[test]
+    fn something_up_with_cuda() {
+
+
+        let a = Tensor::randn(Shape::new(vec![32, 27]));
+        let b = Tensor::randn(Shape::new(vec![27, 200]));
+        let c = a << b;
+
+        let a_as_nd = a.item().into_dimensionality::<Ix2>().unwrap();
+        let b_as_nd = b.item().into_dimensionality::<Ix2>().unwrap();
+        let c_dot = a_as_nd.dot(&b_as_nd);
+
+        println!("{:?}", c.item());
+        println!("{:?}", c_dot);
+    }
+
+    #[test]
     fn array_indexing_testbed() {
         let mut a = ArrayD::from_elem(vec![27, 10], 0.0);
         let mut b = ArrayD::from_elem(vec![32, 3], 0.0);

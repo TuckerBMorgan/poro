@@ -1,6 +1,4 @@
 use poro::central::{get_equation, Indexable, Shape, Tensor};
-use rand::prelude::SliceRandom;
-use rand::thread_rng;
 use std::collections::HashMap;
 use std::fs::read_to_string;
 
@@ -35,6 +33,7 @@ fn build_dataset_from_subset(
 fn main() {
     // let mut times = HashMap::new();
 
+
     let names = read_lines("./data/bigram/names.txt");
 
     let mut stoi = HashMap::new();
@@ -45,8 +44,12 @@ fn main() {
         itos.insert(i, c);
         i += 1;
     }
+    //1. Copy the weights and try it in an isolated test
+    //2. Try offsetting before I push them into the gpu
+    //3. upgrade my cuda to 12.5
     let n1 = (names.len() as f32 * 0.8f32) as usize;
     let n2 = (names.len() as f32 * 0.9f32) as usize;
+    
     let (xtr, ytr) = build_dataset_from_subset(&names[..n1], &stoi);
     let (_xdev, _ydev) = build_dataset_from_subset(&names[n1..n2], &stoi);
     let (_cte, _yte) = build_dataset_from_subset(&names[n2..], &stoi);
@@ -63,30 +66,31 @@ fn main() {
     let mut b2 = Tensor::load_from_weight_file("./data/bigram/tensor_b2.json");
     b2.set_requires_grad(true);
 
-    const EPOCH_COUNT: usize = 10;
-    let BATCH_SIZE: usize = 32; //xtr.len();
-    let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![BATCH_SIZE, 3]));
+    const EPOCH_COUNT: usize = 25;
+    let batch_size: usize = xtr.len();
+    let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![batch_size, 3]));
 
-    for epoch in 0..1 {
+    for epoch in 0..EPOCH_COUNT {
         println!("Epoch: {:?}", epoch);
         {
             let mut singleton = get_equation();
             singleton.zero_all_grads();
         }
 
-        for b in 0..BATCH_SIZE {
+        for b in 0..batch_size {
             test_index_tensor.set_index([b, 0].into(), vec![xtr[b][0] as f32].into());
             test_index_tensor.set_index([b, 1].into(), vec![xtr[b][1] as f32].into());
             test_index_tensor.set_index([b, 2].into(), vec![xtr[b][2] as f32].into());
         }
 
         let test = c.view(Indexable::FromTensor(test_index_tensor.tensor_id));
-        let reshape = test.reshape(Shape::new(vec![BATCH_SIZE, 30]));
-        //println!("test.shape: {:?}", reshape.shape);
-        //println!("w1.shape: {:?}", w1.shape);
+        let reshape = test.reshape(Shape::new(vec![batch_size, 30]));
+
         let test_mult = reshape << w1;
         let test_add = test_mult + b1;
         let test_tanh = test_add.tanh();
+
+
         let test_output_ = test_tanh << w2;
         let test_output = test_output_ + b2;
 
@@ -97,8 +101,9 @@ fn main() {
         let test_counts_sum_inverted = test_counts_sum.pow(-1.0);
         let test_probabilities = test_counts * test_counts_sum_inverted;
 
-        let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![BATCH_SIZE, 27]), 0.0);
-        for b in 0..BATCH_SIZE {
+        let mut test_ytrue_onehot = Tensor::element(Shape::new(vec![batch_size, 27]), 0.0);
+        for b in 0..batch_size {
+
             test_ytrue_onehot.set_index([b, ytr[b]].into(), vec![1.0].into());
         }
 
@@ -109,8 +114,8 @@ fn main() {
         let test_mean = test_sum.mean(vec![0]);
 
         println!("Loss: {:?}", test_mean.item());
+
         test_mean.backward();
-        println!("test_output.grad: {:?}", w1.grad());
         {
             let mut singleton = get_equation();
             singleton.update_parameters(-0.1);

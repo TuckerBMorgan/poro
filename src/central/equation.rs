@@ -48,6 +48,20 @@ impl Equation {
             matmul_ptx: None,
         }
     }
+    
+    pub fn allocate_idenitity_tensor(&mut self, shape: Shape) -> TensorID {
+        let mut data = vec![0.0; shape.total_size()];
+        let mut index = 0;
+        for i in 0..shape.indices[0] {
+            for j in 0..shape.indices[1] {
+                if i == j {
+                    data[index] = 1.0;
+                }
+                index += 1;
+            }
+        }
+        self.allocate_tensor(shape, data, Operation::Nop)
+    }
 
     pub fn allocate_tensor(
         &mut self,
@@ -129,68 +143,88 @@ impl Equation {
     pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         let dev: std::sync::Arc<cudarc::driver::CudaDevice> =
             cudarc::driver::CudaDevice::new(0).unwrap();
+
         let a_shape = a.shape();
         let b_shape = b.shape();
+        
         if self.matmul_ptx.is_none() {
             const PTX_SRC: &str = "
-            extern \"C\" __global__ void matmul(float* A, float* B, float* C, int N, int M, int K) {
+            extern \"C\" __global__ void matmul(float* A, float* B, float* C, int M, int N, int K) {
                 int ROW = blockIdx.y * blockDim.y + threadIdx.y;
                 int COL = blockIdx.x * blockDim.x + threadIdx.x;
     
-                float tmpSum = 0;
+                float tmpSum = 0.0;
     
-                if (ROW < N && COL < M) {
+                if (ROW < M && COL < K) {
                     // each thread computes one element of the block sub-matrix
-                    for (int i = 0; i < K; i++) {
-                        tmpSum += A[ROW * K + i] * B[i * M + COL];
+                    for (int i = 0; i < N; i++) {
+                        tmpSum = tmpSum + (A[ROW * N + i] + 0.0000001) * (B[i * K + COL] + 0.0000001);
                     }
-                    C[ROW * M + COL] = tmpSum;
+                    C[ROW * K + COL] = tmpSum;
                 }
             }";
-
             let ptx = compile_ptx(PTX_SRC).unwrap();
             self.matmul_ptx = Some(ptx);
         }
+    
         dev.load_ptx(
             self.matmul_ptx.as_ref().unwrap().clone(),
             "matmul",
             &["matmul"],
         )
         .unwrap();
+        dev.synchronize().unwrap();
         let f = dev.get_func("matmul", "matmul").unwrap();
         let tile_size = 16;
 
-        let n = a_shape[0];
-        let m = b_shape[1];
-        let _k = a_shape[1];
+        let m = a_shape[0];
+        let n = a_shape[1];
+        let k = b_shape[1];
 
+
+        let grid_rows = (m + tile_size - 1) / tile_size;
+        let grid_cols = (k + tile_size - 1) / tile_size;
+
+        let grid_dims =  (grid_cols as u32, grid_rows as u32, 1);
         let cfg = LaunchConfig {
-            block_dim: (16, 16, 1),
-            grid_dim: ((m / tile_size + 1) as u32, (n / tile_size + 1) as u32, 1),
+            block_dim: (tile_size as u32, tile_size as u32, 1),
+            grid_dim: grid_dims,
             shared_mem_bytes: 0,
         };
 
-        let a_on_device = dev.htod_copy(a.clone().into_raw_vec()).unwrap();
-        let b_on_device = dev.htod_copy(b.clone().into_raw_vec()).unwrap();
-        let mut c_host = vec![0.0f32; a_shape[0] * b_shape[1]];
+        // TODO: Find out why I need to add a little to these to avoid a problem
+        let epi = 0.00000001;
+        let new_a : ArrayD<f32> = a + ArrayD::ones(a_shape) * epi;
+        let new_b : ArrayD<f32> = b + ArrayD::ones(b_shape) * epi;
+        let a_on_device = dev.htod_sync_copy(&new_a.to_owned().into_dimensionality::<Ix2>().unwrap().to_owned().into_raw_vec()).unwrap();
+        let b_on_device = dev.htod_sync_copy(&new_b.to_owned().into_dimensionality::<Ix2>().unwrap().to_owned().into_raw_vec()).unwrap();
+        
+        let c_host = vec![0.0f32; a_shape[0] * b_shape[1]];
 
-        let mut out_on_device = dev.alloc_zeros::<f32>(a_shape[0] * b_shape[1]).unwrap();
+        let mut out_on_device = dev.htod_sync_copy(&c_host).unwrap();
 
         unsafe {
+            let result = 
             f.launch(
                 cfg,
                 (
                     &a_on_device,
                     &b_on_device,
                     &mut out_on_device,
-                    a_shape[0],
-                    b_shape[1],
-                    b_shape[0],
+                    m,
+                    n,
+                    k,
                 ),
-            )
-            .unwrap();
+            );
+            match result {
+                Ok(_) => {}
+                Err(e) => {
+                    println!("Error: {:?}", e);
+                }
+            }
         }
-        dev.dtoh_sync_copy_into(&out_on_device, &mut c_host)
+        dev.synchronize().unwrap();
+        let c_host = dev.dtoh_sync_copy(&out_on_device)
             .unwrap();
 
         return ArrayD::from_shape_vec(vec![a_shape[0], b_shape[1]], c_host).unwrap();
@@ -237,8 +271,8 @@ impl Equation {
         // so even if we have a cuda device, we should default to the standard matmul
         // for any case of 2dx2d
         if cudarc::driver::CudaDevice::new(0).is_ok() && a.ndim() == 2 && b.ndim() == 2 {
-            return self.standard_matmul(a, b);
-            //return self.cuda_matmul(a, b);
+           // return self.standard_matmul(a, b);
+            return self.cuda_matmul(a, b);
         } else {
             return self.standard_matmul(a, b);
         }
