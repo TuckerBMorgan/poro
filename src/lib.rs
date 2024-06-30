@@ -138,8 +138,6 @@ mod tests {
 
     #[test]
     fn something_up_with_cuda() {
-
-
         let a = Tensor::randn(Shape::new(vec![32, 27]));
         let b = Tensor::randn(Shape::new(vec![27, 200]));
         let c = a << b;

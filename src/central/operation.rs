@@ -19,6 +19,7 @@ pub enum Operation {
     Mean(TensorID),
     Concat(TensorID, TensorID),
     Reshape(TensorID, Shape),
+    Tanh(TensorID),
 }
 
 impl Operation {
@@ -37,6 +38,7 @@ impl Operation {
             Operation::Mean(a) => Some(*a),
             Operation::Concat(a, _) => Some(*a),
             Operation::Reshape(a, _) => Some(*a),
+            Operation::Tanh(a) => Some(*a),
         }
     }
 }
@@ -57,6 +59,7 @@ impl fmt::Display for Operation {
             Operation::Mean(_a) => write!(f, "Mean()"),
             Operation::Concat(_a, _b) => write!(f, "Concat()"),
             Operation::Reshape(_a, _shape) => write!(f, "Reshape()"),
+            Operation::Tanh(_a) => write!(f, "Tanh()"),
         }
     }
 }

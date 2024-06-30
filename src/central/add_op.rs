@@ -34,21 +34,22 @@ impl Add for Tensor {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
         // grab the data so we can do some shape checks
-        let left_hand_item = self.item();
-        let right_hand_item = rhs.item();
-
-        if left_hand_item.shape() != right_hand_item.shape() {
+        /*
+               let left_hand_item = self.item();
+               let right_hand_item = rhs.item();
+        */
+        if self.shape != rhs.shape {
             // check if we need to broadcast the tensors, and then do so
             // will only broadcast the right hand side tensor
             let right_hand_broadcasted = rhs.broadcast(self.shape);
-            let result_data = self.item() + right_hand_broadcasted.item();
-
             let mut singleton = get_equation();
+            let result_data =
+                singleton.element_wise_add(self.tensor_id, right_hand_broadcasted.tensor_id);
+            //            let result_data = self.item() + right_hand_broadcasted.item();
 
-            let data_as_vec = result_data.into_iter().collect();
             let tensor_id = singleton.allocate_tensor_from_operation(
                 self.shape.clone(),
-                data_as_vec,
+                result_data,
                 Operation::Add(self.tensor_id, right_hand_broadcasted.tensor_id),
             );
 
@@ -59,14 +60,14 @@ impl Add for Tensor {
                 name: ['a'; 10],
             }
         } else {
-            // If they are the same size, preform the add and then return the result tensor
-            let result_data = self.item() + rhs.item();
             let mut singleton = get_equation();
+            // If they are the same size, preform the add and then return the result tensor
+            let result_data = singleton.element_wise_add(self.tensor_id, rhs.tensor_id);
+            //            let result_data = self.item() + rhs.item();
 
-            let data_as_vec = result_data.into_iter().collect();
             let tensor_id = singleton.allocate_tensor_from_operation(
                 self.shape.clone(),
-                data_as_vec,
+                result_data,
                 Operation::Add(self.tensor_id, rhs.tensor_id),
             );
 

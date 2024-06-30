@@ -4,6 +4,7 @@ use super::{
     tensor::TensorID,
 };
 use core::panic;
+use ndarray::parallel::prelude::{IntoParallelIterator, ParallelIterator};
 use ndarray::prelude::*;
 use rand_distr::{Distribution, Normal};
 use std::time::Instant;
@@ -48,7 +49,7 @@ impl Equation {
             matmul_ptx: None,
         }
     }
-    
+
     pub fn allocate_idenitity_tensor(&mut self, shape: Shape) -> TensorID {
         let mut data = vec![0.0; shape.total_size()];
         let mut index = 0;
@@ -140,13 +141,24 @@ impl Equation {
         self.allocate_tensor(shape, data, operation)
     }
 
+    fn add_time(&mut self, operation: &str, now: Instant) {
+        if !self.timings.contains_key(&operation.to_string()) {
+            self.timings.insert(operation.to_string(), 0);
+        }
+        let elapsed = now.elapsed().as_micros();
+        let current_time = self.timings.get(&operation.to_string()).unwrap();
+        self.timings
+            .insert(operation.to_string(), current_time + elapsed);
+    }
+
     pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+        let now = Instant::now();
         let dev: std::sync::Arc<cudarc::driver::CudaDevice> =
             cudarc::driver::CudaDevice::new(0).unwrap();
 
         let a_shape = a.shape();
         let b_shape = b.shape();
-        
+
         if self.matmul_ptx.is_none() {
             const PTX_SRC: &str = "
             extern \"C\" __global__ void matmul(float* A, float* B, float* C, int M, int N, int K) {
@@ -166,14 +178,14 @@ impl Equation {
             let ptx = compile_ptx(PTX_SRC).unwrap();
             self.matmul_ptx = Some(ptx);
         }
-    
+
         dev.load_ptx(
             self.matmul_ptx.as_ref().unwrap().clone(),
             "matmul",
             &["matmul"],
         )
         .unwrap();
-        dev.synchronize().unwrap();
+
         let f = dev.get_func("matmul", "matmul").unwrap();
         let tile_size = 16;
 
@@ -181,40 +193,34 @@ impl Equation {
         let n = a_shape[1];
         let k = b_shape[1];
 
-
         let grid_rows = (m + tile_size - 1) / tile_size;
         let grid_cols = (k + tile_size - 1) / tile_size;
 
-        let grid_dims =  (grid_cols as u32, grid_rows as u32, 1);
+        let grid_dims = (grid_cols as u32, grid_rows as u32, 1);
         let cfg = LaunchConfig {
             block_dim: (tile_size as u32, tile_size as u32, 1),
             grid_dim: grid_dims,
             shared_mem_bytes: 0,
         };
 
+        self.add_time("Setup", now);
+        let now = Instant::now();
+
         // TODO: Find out why I need to add a little to these to avoid a problem
         let epi = 0.00000001;
-        let new_a : ArrayD<f32> = a + ArrayD::ones(a_shape) * epi;
-        let new_b : ArrayD<f32> = b + ArrayD::ones(b_shape) * epi;
-        let a_on_device = dev.htod_sync_copy(&new_a.to_owned().into_dimensionality::<Ix2>().unwrap().to_owned().into_raw_vec()).unwrap();
-        let b_on_device = dev.htod_sync_copy(&new_b.to_owned().into_dimensionality::<Ix2>().unwrap().to_owned().into_raw_vec()).unwrap();
-        
+        let new_a: ArrayD<f32> = a + ArrayD::ones(a_shape) * epi;
+        let new_b: ArrayD<f32> = b + ArrayD::ones(b_shape) * epi;
+        let a_on_device = dev.htod_sync_copy(&new_a.into_raw_vec()).unwrap();
+        let b_on_device = dev.htod_sync_copy(&new_b.into_raw_vec()).unwrap();
+
         let c_host = vec![0.0f32; a_shape[0] * b_shape[1]];
 
         let mut out_on_device = dev.htod_sync_copy(&c_host).unwrap();
 
         unsafe {
-            let result = 
-            f.launch(
+            let result = f.launch(
                 cfg,
-                (
-                    &a_on_device,
-                    &b_on_device,
-                    &mut out_on_device,
-                    m,
-                    n,
-                    k,
-                ),
+                (&a_on_device, &b_on_device, &mut out_on_device, m, n, k),
             );
             match result {
                 Ok(_) => {}
@@ -223,10 +229,10 @@ impl Equation {
                 }
             }
         }
-        dev.synchronize().unwrap();
-        let c_host = dev.dtoh_sync_copy(&out_on_device)
-            .unwrap();
-
+        self.add_time("Launching", now);
+        let now = Instant::now();
+        let c_host = dev.dtoh_sync_copy(&out_on_device).unwrap();
+        self.add_time("Copy back", now);
         return ArrayD::from_shape_vec(vec![a_shape[0], b_shape[1]], c_host).unwrap();
     }
 
@@ -271,11 +277,30 @@ impl Equation {
         // so even if we have a cuda device, we should default to the standard matmul
         // for any case of 2dx2d
         if cudarc::driver::CudaDevice::new(0).is_ok() && a.ndim() == 2 && b.ndim() == 2 {
-           // return self.standard_matmul(a, b);
+            // return self.standard_matmul(a, b);
             return self.cuda_matmul(a, b);
         } else {
             return self.standard_matmul(a, b);
         }
+    }
+
+    pub fn element_wise_add(&self, a: TensorID, b: TensorID) -> Vec<f32> {
+        let a_internal = self.internal_tensor_store.get(&a).unwrap();
+        let b_internal = self.internal_tensor_store.get(&b).unwrap();
+        // I want to do in parrallel
+        let indices = 0..a_internal.shape.total_size();
+
+        let data = indices
+            .into_par_iter()
+            .map(|i| {
+                let a_data = self.data_store[a_internal.data_start_index + i];
+                let b_data = self.data_store[b_internal.data_start_index + i];
+                let result = a_data + b_data;
+                return result;
+            })
+            .collect::<Vec<f32>>();
+
+        data
     }
 
     pub fn get_item(&self, tensor_id: TensorID) -> Vec<f32> {
@@ -341,8 +366,6 @@ impl Equation {
         if !self.timings.contains_key("Backward") {
             self.timings.insert("Backward".to_string(), 0);
         }
-
-        //self.timings.insert("Backward".to_string(), current_time + espaosed);
     }
 
     fn backward_for_value(&mut self, node: TensorID) {
@@ -493,15 +516,27 @@ impl Equation {
                 let grad_update = source_grad.clone();
                 self.set_tensor_grad(a, grad_update);
             }
+            Operation::Tanh(a) => {
+                let mut source_data = self.get_tensor_data(a);
+                let source_grad = self.get_tensor_grad(a);
+                source_data.par_map_inplace(|x| *x = 1.0 - x.tanh().powf(2.0));
+                let grad_update = source_grad + grad.clone() * source_data;
+                self.set_tensor_grad(a, grad_update);
+            }
         }
 
-        if !self.timings.contains_key(&operation.to_string()) {
-            self.timings.insert(operation.to_string(), 0);
+        match operation {
+            Operation::MatMul(_a, _b) => {}
+            _ => {
+                if !self.timings.contains_key(&operation.to_string()) {
+                    self.timings.insert(operation.to_string(), 0);
+                }
+                let elapsed = now.elapsed().as_micros();
+                let current_time = self.timings.get(&operation.to_string()).unwrap();
+                self.timings
+                    .insert(operation.to_string(), current_time + elapsed);
+            }
         }
-        let elapsed = now.elapsed().as_micros();
-        let current_time = self.timings.get(&operation.to_string()).unwrap();
-        self.timings
-            .insert(operation.to_string(), current_time + elapsed);
     }
 
     pub fn get_tensor_data(&self, tensor_id: TensorID) -> ArrayD<f32> {

@@ -231,6 +231,7 @@ impl Tensor {
             name: ['a'; 10],
         }
     }
+
     pub fn tanh(&self) -> Tensor {
         let hold = Tensor::element(Shape::new(vec![1]), 2.0);
         let k = *self * hold;
@@ -238,6 +239,30 @@ impl Tensor {
         let denom_invert = (e + 1.0).pow(-1.0);
         let o = (e - 1.0) * denom_invert;
         return o;
+    }
+
+    pub fn tanh_mapped(&self) -> Tensor {
+        let mut singleton = get_equation();
+
+        let data = singleton
+            .get_item(self.tensor_id)
+            .clone()
+            .par_iter()
+            .map(|x| x.tanh())
+            .collect();
+
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            data,
+            Operation::Tanh(self.tensor_id),
+        );
+
+        Tensor {
+            tensor_id,
+            shape: self.shape,
+            operation: Operation::Tanh(self.tensor_id),
+            name: ['a'; 10],
+        }
     }
 
     pub fn sum(&self, axis: usize) -> Tensor {
