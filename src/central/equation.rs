@@ -35,6 +35,7 @@ pub struct Equation {
     pub timings: HashMap<String, u128>,
     auto_grad: bool,
     pub matmul_ptx: Option<Ptx>,
+    pub operation_map: HashMap<Operation, TensorID>,
 }
 
 impl Equation {
@@ -47,6 +48,7 @@ impl Equation {
             timings: HashMap::new(),
             auto_grad: true,
             matmul_ptx: None,
+            operation_map: HashMap::new(),
         }
     }
 
@@ -75,6 +77,23 @@ impl Equation {
             println!("Data Length: {}", data.len());
             panic!("Shape and data length mismatch");
         }
+
+        match operation {
+            Operation::Nop => {}
+            _ => {
+                if self.operation_map.contains_key(&operation) {
+                    let tensor_id = self.operation_map.get(&operation).unwrap().clone();
+
+                    // Set the data
+                    let internal_tensor = self.internal_tensor_store.get_mut(&tensor_id).unwrap();
+                    for i in 0..internal_tensor.shape.total_size() {
+                        self.data_store[internal_tensor.data_start_index + i] = data[i];
+                    }
+
+                    return self.operation_map.get(&operation).unwrap().clone();
+                }
+            }
+        }
         let tensor_id = TensorID::new(self.value_count);
 
         // Techinally this could be made into a single operation, but I am lazy
@@ -100,6 +119,7 @@ impl Equation {
             .insert(tensor_id, internal_tensor);
 
         self.value_count += 1;
+        self.operation_map.insert(operation, tensor_id);
         return tensor_id;
     }
 
@@ -550,6 +570,13 @@ impl Equation {
 
     pub fn set_tensor_data(&mut self, tensor_id: TensorID, data: ArrayD<f32>) {
         let data: Vec<f32> = data.into_raw_vec();
+        let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
+        for i in 0..internal_tensor.shape.total_size() {
+            self.data_store[internal_tensor.data_start_index + i] = data[i];
+        }
+    }
+
+    pub fn set_tensor_data_from_vec(&mut self, tensor_id: TensorID, data: &Vec<f32>) {
         let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
         for i in 0..internal_tensor.shape.total_size() {
             self.data_store[internal_tensor.data_start_index + i] = data[i];

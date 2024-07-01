@@ -83,6 +83,7 @@ fn main() {
 
     for epoch in 0..EPOCH_COUNT {
         let now = Instant::now();
+        let timeFrame = Instant::now();
         println!("Epoch: {:?}", epoch);
         {
             let mut singleton = get_equation();
@@ -147,5 +148,6 @@ fn main() {
             singleton.update_parameters(-0.1);
         }
         add_time(&mut timings, "Update", now);
+        println!("Time Frame: {:?}", timeFrame.elapsed().as_micros());
     }
 }
