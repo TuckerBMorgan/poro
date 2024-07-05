@@ -447,6 +447,34 @@ impl Tensor {
         }
     }
 
+    // Helper function for the most common use case
+    pub fn transpose(&self) -> Tensor {
+        return self.tranpose_with_provided_axis(0, 1);
+    }
+
+    /// this will swap the indices at the procived indices
+    pub fn tranpose_with_provided_axis(&self, first_index: usize, second_index: usize) -> Tensor {
+        let mut singleton = get_equation();
+
+        let data = singleton.get_item(self.tensor_id).clone();
+        let mut data = ArrayD::from_shape_vec(self.shape.as_ndarray_shape(), data).unwrap();
+
+        data.swap_axes(first_index, second_index);
+
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            data.to_owned().into_raw_vec(),
+            Operation::Transpose(self.tensor_id, first_index, second_index),
+        );
+
+        Tensor {
+            tensor_id,
+            shape: self.shape,
+            operation: Operation::Transpose(self.tensor_id, first_index, second_index),
+            name: ['a'; 10],
+        }
+    }
+
     pub fn max(&self, axis: usize) -> Tensor {
         let mut shape = self.shape.clone().indices;
         shape[axis] = 1;
@@ -477,6 +505,8 @@ impl Tensor {
 
     pub fn reshape(&self, new_shape: Shape) -> Tensor {
         let mut singleton = get_equation();
+        // TOOD: this does not need to be a data copy,
+        // it would be nice if we could simply copy the tensor_id, and the new shape
         let data = singleton.get_item(self.tensor_id).clone();
         let tensor_id = singleton.allocate_tensor_from_operation(
             new_shape.clone(),
@@ -527,18 +557,17 @@ impl Tensor {
         }
     }
 
-    pub fn softmax(&self) -> Tensor {
-        let max = self.max(1);
+    pub fn softmax(&self, axis: usize) -> Tensor {
+        let max = self.max(axis);
         let counts = (*self - max).exp();
-        let sum = counts.sum(1);
+        let sum = counts.sum(axis);
         let sum_inverted = sum.pow(-1.0);
         let softmax = counts * sum_inverted;
-
         softmax
     }
 
     pub fn cross_entropy_loss(&self, trues: Tensor) -> Tensor {
-        let softmax = self.softmax();
+        let softmax = self.softmax(1);
         let log_softmax = softmax.log();
         let loss = trues * log_softmax;
         let sum = loss.sum(1);

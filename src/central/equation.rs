@@ -543,6 +543,13 @@ impl Equation {
                 let grad_update = source_grad + grad.clone() * source_data;
                 self.set_tensor_grad(a, grad_update);
             }
+            Operation::Transpose(a, first_index, second_index) => {
+                let mut grad_clone = grad.clone();
+                grad_clone.swap_axes(first_index, second_index);
+                let source_grad = self.get_tensor_grad(a);
+                let grad_update = source_grad + grad_clone;
+                self.set_tensor_grad(a, grad_update);
+            }
         }
 
         match operation {

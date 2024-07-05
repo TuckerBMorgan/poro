@@ -20,6 +20,7 @@ pub enum Operation {
     Concat(TensorID, TensorID),
     Reshape(TensorID, Shape),
     Tanh(TensorID),
+    Transpose(TensorID, usize, usize),
 }
 
 impl Operation {
@@ -39,6 +40,7 @@ impl Operation {
             Operation::Concat(a, _) => Some(*a),
             Operation::Reshape(a, _) => Some(*a),
             Operation::Tanh(a) => Some(*a),
+            Operation::Transpose(a, _, _) => Some(*a),
         }
     }
 }
@@ -60,6 +62,7 @@ impl fmt::Display for Operation {
             Operation::Concat(_a, _b) => write!(f, "Concat()"),
             Operation::Reshape(_a, _shape) => write!(f, "Reshape()"),
             Operation::Tanh(_a) => write!(f, "Tanh()"),
+            Operation::Transpose(_a, _, _) => write!(f, "Transpose()"),
         }
     }
 }

@@ -1,3 +1,4 @@
+mod attention;
 mod batch_norm;
 mod module;
 mod tanh;

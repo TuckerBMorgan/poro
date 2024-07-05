@@ -43,6 +43,7 @@ impl InternalTensor {
             Operation::Concat(a, b) => vec![a, b],
             Operation::Reshape(a, _) => vec![a],
             Operation::Tanh(a) => vec![a],
+            Operation::Transpose(a, _, _) => vec![a],
         }
     }
 }
