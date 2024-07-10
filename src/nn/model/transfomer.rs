@@ -1,3 +1,29 @@
+use crate::central::*;
+use crate::nn::*;
+
+pub struct PositionalEncoding {
+    encoding: Tensor,
+}
+
+impl PositionalEncoding {
+    pub fn new(d_model: usize, max_len: usize) -> Self {
+        let mut encoding = Tensor::zeroes(vec![max_len, d_model].into());
+        let position = Tensor::arange(0, max_len, 1);
+        let po = Tensor::arange(0, d_model, 2) * (-10000.0 / d_model as f32);
+        let div_term = Tensor::exp(&po);
+        let sin = (position * div_term).sin();
+        let cost = (position * div_term).cos();
+        /*
+        encoding.set_index(, );
+        encoding.index_select(1, 0, d_model, 2).copy_();
+        encoding.index_select(1, 1, d_model, 2).copy_();
+
+        encoding = encoding.unsqueeze(0).transpose(0, 1);
+         */
+        Self { encoding }
+    }
+}
+
 // One day it would be great to get this working in Rust, but for now, here is a Python implementation of a Transformer model using PyTorch:
 /*
 import torch
@@ -14,7 +40,7 @@ class PositionalEncoding(nn.Module):
         self.encoding[:, 0::2] = torch.sin(position * div_term)
         self.encoding[:, 1::2] = torch.cos(position * div_term)
         self.encoding = self.encoding.unsqueeze(0).transpose(0, 1)
-    
+
     def forward(self, x):
         return x + self.encoding[:x.size(0), :]
 
@@ -28,19 +54,19 @@ class MultiHeadSelfAttention(nn.Module):
         self.W_k = nn.Linear(d_model, d_model)
         self.W_v = nn.Linear(d_model, d_model)
         self.W_o = nn.Linear(d_model, d_model)
-    
+
     def forward(self, Q, K, V, mask=None):
         batch_size = Q.size(0)
         Q = self.W_q(Q).view(batch_size, -1, self.num_heads, self.d_k).transpose(1, 2)
         K = self.W_k(K).view(batch_size, -1, self.num_heads, self.d_k).transpose(1, 2)
         V = self.W_v(V).view(batch_size, -1, self.num_heads, self.d_k).transpose(1, 2)
-        
+
         scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(self.d_k)
         if mask is not None:
             scores = scores.masked_fill(mask == 0, -1e9)
         attention_weights = F.softmax(scores, dim=-1)
         output = torch.matmul(attention_weights, V)
-        
+
         output = output.transpose(1, 2).contiguous().view(batch_size, -1, self.num_heads * self.d_k)
         return self.W_o(output)
 
@@ -49,7 +75,7 @@ class FeedForwardNetwork(nn.Module):
         super(FeedForwardNetwork, self).__init__()
         self.linear1 = nn.Linear(d_model, d_ff)
         self.linear2 = nn.Linear(d_ff, d_model)
-    
+
     def forward(self, x):
         return self.linear2(F.relu(self.linear1(x)))
 
@@ -62,7 +88,7 @@ class DecoderLayer(nn.Module):
         self.norm2 = nn.LayerNorm(d_model)
         self.dropout1 = nn.Dropout(0.1)
         self.dropout2 = nn.Dropout(0.1)
-    
+
     def forward(self, x, mask=None):
         attn_output = self.self_attention(x, x, x, mask)
         x = x + self.dropout1(attn_output)
@@ -79,7 +105,7 @@ class DecoderOnlyTransformer(nn.Module):
         self.positional_encoding = PositionalEncoding(d_model, max_len)
         self.layers = nn.ModuleList([DecoderLayer(d_model, num_heads, d_ff) for _ in range(num_layers)])
         self.fc_out = nn.Linear(d_model, vocab_size)
-    
+
     def forward(self, x, mask=None):
         x = self.embedding(x) * math.sqrt(x.size(-1))
         x = self.positional_encoding(x)

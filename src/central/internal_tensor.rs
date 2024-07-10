@@ -44,6 +44,8 @@ impl InternalTensor {
             Operation::Reshape(a, _) => vec![a],
             Operation::Tanh(a) => vec![a],
             Operation::Transpose(a, _, _) => vec![a],
+            Operation::Sin(a) => vec![a],
+            Operation::Cos(a) => vec![a],
         }
     }
 }

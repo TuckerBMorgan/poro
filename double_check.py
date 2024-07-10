@@ -1,14 +1,21 @@
 import math
 import torch
+from torch import nn
 
 
-# I need two tensors, one of shape [3, 2, 2] and one of [2, 2]
+single_head_attention_head = nn.MultiheadAttention(embed_dim=2, num_heads=1)
+# I want to print out the weights of the attention head
 
-# Create the first tensor
-tensor1 = torch.tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9, 10], [11, 12]]])
+# The weights are stored in the `in_proj_weight` attribute of the attention head
+weights = single_head_attention_head.in_proj_weight
+# I want to print out the key, query, and value weights separately
+# first the key weights
+key_weights = weights[:2]
+print(key_weights)
+# next the query weights
+query_weights = weights[2:4]
+print(query_weights)
+# finally the value weights
+value_weights = weights[4:]
 
-# Create the second tensor
-tensor2 = torch.tensor([[1, 2], [3, 4]])
-
-a = tensor1 @ tensor2
-print(a.shape)
+print(value_weights)

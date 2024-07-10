@@ -550,6 +550,18 @@ impl Equation {
                 let grad_update = source_grad + grad_clone;
                 self.set_tensor_grad(a, grad_update);
             }
+            Operation::Sin(a) => {
+                let source_data = self.get_tensor_data(a);
+                let source_grad = self.get_tensor_grad(a);
+                let grad_update = source_grad + grad.clone() * source_data.map(|x| x.cos());
+                self.set_tensor_grad(a, grad_update);
+            }
+            Operation::Cos(a) => {
+                let source_data = self.get_tensor_data(a);
+                let source_grad = self.get_tensor_grad(a);
+                let grad_update = source_grad + grad.clone() * source_data.map(|x| -x.sin());
+                self.set_tensor_grad(a, grad_update);
+            }
         }
 
         match operation {

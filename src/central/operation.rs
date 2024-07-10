@@ -21,6 +21,8 @@ pub enum Operation {
     Reshape(TensorID, Shape),
     Tanh(TensorID),
     Transpose(TensorID, usize, usize),
+    Sin(TensorID),
+    Cos(TensorID),
 }
 
 impl Operation {
@@ -41,6 +43,8 @@ impl Operation {
             Operation::Reshape(a, _) => Some(*a),
             Operation::Tanh(a) => Some(*a),
             Operation::Transpose(a, _, _) => Some(*a),
+            Operation::Sin(a) => Some(*a),
+            Operation::Cos(a) => Some(*a),
         }
     }
 }
@@ -63,6 +67,8 @@ impl fmt::Display for Operation {
             Operation::Reshape(_a, _shape) => write!(f, "Reshape()"),
             Operation::Tanh(_a) => write!(f, "Tanh()"),
             Operation::Transpose(_a, _, _) => write!(f, "Transpose()"),
+            Operation::Sin(_a) => write!(f, "Sin()"),
+            Operation::Cos(_a) => write!(f, "Cos()"),
         }
     }
 }

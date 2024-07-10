@@ -26,6 +26,26 @@ pub struct Tensor {
 }
 
 impl Tensor {
+    pub fn arange(start: usize, stop: usize, step: usize) -> Tensor {
+        let mut data = Vec::new();
+        for i in (start..stop).step_by(step) {
+            data.push(i as f32);
+        }
+        let data_length = data.len();
+        let mut singleton = get_equation();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            Shape::new(vec![data.len()]),
+            data,
+            Operation::Nop,
+        );
+        Tensor {
+            tensor_id,
+            shape: Shape::new(vec![data_length]),
+            operation: Operation::Nop,
+            name: ['a'; 10],
+        }
+    }
+
     pub fn randn(shape: Shape) -> Tensor {
         let mut singleton = get_equation();
         let tensor_id = singleton.allocate_randn_tensor(shape.clone(), Operation::Nop);
@@ -239,6 +259,50 @@ impl Tensor {
         let denom_invert = (e + 1.0).pow(-1.0);
         let o = (e - 1.0) * denom_invert;
         return o;
+    }
+
+    pub fn sin(&self) -> Tensor {
+        let mut singleton = get_equation();
+        let data = singleton
+            .get_item(self.tensor_id)
+            .clone()
+            .par_iter()
+            .map(|x| x.sin())
+            .collect();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            data,
+            Operation::Sin(self.tensor_id),
+        );
+
+        Tensor {
+            tensor_id,
+            shape: self.shape,
+            operation: Operation::Sin(self.tensor_id),
+            name: ['a'; 10],
+        }
+    }
+
+    pub fn cos(&self) -> Tensor {
+        let mut singleton = get_equation();
+        let data = singleton
+            .get_item(self.tensor_id)
+            .clone()
+            .par_iter()
+            .map(|x| x.cos())
+            .collect();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            data,
+            Operation::Cos(self.tensor_id),
+        );
+
+        Tensor {
+            tensor_id,
+            shape: self.shape,
+            operation: Operation::Cos(self.tensor_id),
+            name: ['a'; 10],
+        }
     }
 
     pub fn tanh_mapped(&self) -> Tensor {
