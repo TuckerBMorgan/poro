@@ -1,3 +1,5 @@
+use serde_json::value::Index;
+
 use crate::central::*;
 use crate::nn::*;
 
@@ -12,14 +14,12 @@ impl PositionalEncoding {
         let po = Tensor::arange(0, d_model, 2) * (-10000.0 / d_model as f32);
         let div_term = Tensor::exp(&po);
         let sin = (position * div_term).sin();
-        let cost = (position * div_term).cos();
-        /*
-        encoding.set_index(, );
-        encoding.index_select(1, 0, d_model, 2).copy_();
-        encoding.index_select(1, 1, d_model, 2).copy_();
+        let cos = (position * div_term).cos();
 
-        encoding = encoding.unsqueeze(0).transpose(0, 1);
-         */
+        let sin_tensor_for_indexable = Tensor::arange(0, d_model, 2);
+        let cos_tensor_for_indexable = Tensor::arange(1, d_model, 2);
+        encoding.set_index(Indexable::FromTensor(sin_tensor_for_indexable.tensor_id), sin.item().into_raw_vec());
+        encoding.set_index(Indexable::FromTensor(cos_tensor_for_indexable.tensor_id), cos.item().into_raw_vec());
         Self { encoding }
     }
 }
