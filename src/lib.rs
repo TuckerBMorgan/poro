@@ -188,7 +188,8 @@ mod tests {
 
     #[test]
     fn linear_module() {
-        let mut linear = LinearLayer::new(3, 1);
+        let mut linear_layer_config = LinearLayerConfig::new(3, 1);
+        let mut linear = LinearLayer::new(linear_layer_config);
 
         let inputs = vec![
             vec![2.0f32, 3.0, -1.0],
@@ -358,24 +359,25 @@ mod tests {
         }
 
         let c = Tensor::randn(Shape::new(vec![vocab_size, n_embd]));
-
+        let linear_layer_config = LinearLayerConfig::new(n_embd * block_size, n_hidden);
+        let linear_layer_common_config = LinearLayerConfig::new(n_hidden, n_hidden);
         let mut linear_model: Sequential = vec![
-            LinearLayer::new(n_embd * block_size, n_hidden).into(),
+            LinearLayer::new(linear_layer_config).into(),
             BatchNorm1d::new(n_hidden).into(),
             Tanh::new().into(),
-            LinearLayer::new(n_hidden, n_hidden).into(),
+            LinearLayer::new(linear_layer_common_config).into(),
             BatchNorm1d::new(n_hidden).into(),
             Tanh::new().into(),
-            LinearLayer::new(n_hidden, n_hidden).into(),
+            LinearLayer::new(linear_layer_common_config).into(),
             BatchNorm1d::new(n_hidden).into(),
             Tanh::new().into(),
-            LinearLayer::new(n_hidden, n_hidden).into(),
+            LinearLayer::new(linear_layer_common_config).into(),
             BatchNorm1d::new(n_hidden).into(),
             Tanh::new().into(),
-            LinearLayer::new(n_hidden, n_hidden).into(),
+            LinearLayer::new(linear_layer_common_config).into(),
             BatchNorm1d::new(n_hidden).into(),
             Tanh::new().into(),
-            LinearLayer::new(n_hidden, vocab_size).into(),
+            LinearLayer::new(linear_layer_common_config).into(),
             BatchNorm1d::new(vocab_size).into(),
         ]
         .into();

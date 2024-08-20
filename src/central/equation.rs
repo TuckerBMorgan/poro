@@ -257,9 +257,27 @@ impl Equation {
     }
 
     pub fn standard_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+
+        if a.ndim() == 1 && b.ndim() == 2 {
+            // Convert both down to 2D arrays
+            let a_2d = a.clone().into_dimensionality::<Ix1>().unwrap();
+            let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
+            return a_2d.dot(&b_2d).into_dyn();
+
+        }
+
+        if a.ndim() == 2 && b.ndim() == 1 {
+            // Convert both down to 2D arrays
+            let a_2d = a.clone().into_dimensionality::<Ix2>().unwrap();
+            let b_2d = b.clone().into_dimensionality::<Ix1>().unwrap();
+            return a_2d.dot(&b_2d).into_dyn();
+        }
+
+
         if a.ndim() == 2 && b.ndim() == 2 {
             // Convert both down to 2D arrays
             let a_2d = a.clone().into_dimensionality::<Ix2>().unwrap();
+
             let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
             return a_2d.dot(&b_2d).into_dyn();
         }
@@ -288,6 +306,8 @@ impl Equation {
             }
             return result.into_dyn();
         }
+
+        println!("a dim {:?} b dim {:?}", a.ndim(), b.ndim());
 
         panic!("Not implemented");
     }
@@ -626,8 +646,8 @@ impl Equation {
             Indexable::Double(_, _) => {
                 self.set_double_index_tensor_data(tensor_id, indexable, data);
             }
-            _ => {
-                panic!("Not implemented");
+            Indexable::FromTensor(tensor_id) => {
+                self.set_tensor_index_tensor_data(tensor_id, indexable, data);
             }
         }
     }
@@ -673,6 +693,18 @@ impl Equation {
 
         //let offset = internal_tensor.data_start_index + index;
         //self.data_store[offset] = data[0];
+    }
+
+    fn set_tensor_index_tensor_data(&mut self, tensor_id: TensorID, indexable: Indexable, data: Vec<f32>) {
+        let index = match indexable {
+            Indexable::FromTensor(i) => i,
+            _ => panic!("Wrong Indexable"),
+        };
+        let indices = self.get_tensor_data(index);
+
+        for (count, index) in indices.iter().enumerate() {
+            self.set_single_index_tensor_data(tensor_id, Indexable::Single(*index as usize), vec![data[count]]);
+        }
     }
 
     pub fn set_tensor_grad(&mut self, tensor_id: TensorID, grad: ArrayD<f32>) {

@@ -7,6 +7,8 @@ use crate::central::BackpropagationPacket;
 use ndarray::prelude::*;
 use ndarray::ArrayD;
 
+use super::tensor::NAME_LENGTH;
+
 /// Backward pass for the view operation
 /// This function will take in a `BackpropagationPacket` and then set the gradients of the source tensor.
 /// # Arguments
@@ -121,7 +123,7 @@ impl Tensor {
                         tensor_id,
                         shape: new_shape,
                         operation: Operation::View(self.tensor_id, index),
-                        name: ['a'; 10],
+                        name: ['a'; NAME_LENGTH],
                     };
                 // If the number of indices is 2, then we need to take a slice of the data
                 // and then allocate a new tensor with the data from the old tensor
@@ -137,7 +139,7 @@ impl Tensor {
                         tensor_id,
                         shape: new_shape,
                         operation: Operation::View(self.tensor_id, index),
-                        name: ['a'; 10],
+                        name: ['a'; NAME_LENGTH],
                     };
                 } else {
                     panic!("Indexing not supported for tensors with more than 2 dimensions");
@@ -157,11 +159,14 @@ impl Tensor {
                     tensor_id,
                     shape: new_shape,
                     operation: Operation::View(self.tensor_id, index),
-                    name: ['a'; 10],
+                    name: ['a'; NAME_LENGTH],
                 };
             }
             Indexable::FromTensor(a) => {
+
                 let indices = singleton.get_tensor_data(a);
+                println!("Indices: {:?}", self.shape.clone().indices);
+                println!("Shape: {:?}", indices.shape());
 
                 let this_shape = self.shape.clone().indices;
                 let other_shape = indices.shape();
@@ -183,12 +188,23 @@ impl Tensor {
 
                 let return_shape = return_tensor.shape().to_vec();
 
-                for i in 0..return_shape[0] {
-                    for j in 0..return_shape[1] {
-                        for k in 0..return_shape[2] {
-                            return_tensor[[i, j, k]] = data_as_array[[indices[[i, j]] as usize, k]];
+                println!("Return Shape: {:?}", return_shape);
+
+                if return_shape.len() == 2 {
+                    for i in 0..return_shape[0] {
+                        for j in 0..return_shape[1] {
+                            return_tensor[[i, j]] = data_as_array[[indices[[i]] as usize, j]];
                         }
-                    }
+                    }  
+                }
+                else if return_shape.len() == 3  {
+                    for i in 0..return_shape[0] {
+                        for j in 0..return_shape[1] {
+                            for k in 0..return_shape[2] {
+                                return_tensor[[i, j, k]] = data_as_array[[indices[[i, j]] as usize, k]];
+                            }
+                        }
+                    }    
                 }
 
                 let tensor_id = singleton.allocate_tensor_from_operation(
@@ -200,7 +216,7 @@ impl Tensor {
                     tensor_id,
                     shape: new_shape,
                     operation: Operation::View(self.tensor_id, index),
-                    name: ['a'; 10],
+                    name: ['a'; NAME_LENGTH],
                 };
             }
         }

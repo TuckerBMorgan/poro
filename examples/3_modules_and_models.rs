@@ -2,10 +2,11 @@ use poro::central::*;
 use poro::nn::layers::LinearLayer;
 use poro::nn::model::Sequential;
 use poro::nn::Model;
-
+use poro::nn::LinearLayerConfig;
 fn main() {
+    let linear_layer_config = LinearLayerConfig::new(3, 1);
     // A layer is single module that can be used in a model
-    let layer = LinearLayer::new(3, 1);
+    let layer = LinearLayer::new(linear_layer_config);
 
     // A model is a sequence of layers
     // You can create a model by calling "into" on a vector of layers

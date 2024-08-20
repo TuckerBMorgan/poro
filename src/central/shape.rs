@@ -70,6 +70,16 @@ impl Shape {
     ///
     /// This function will panic if the shapes are not compatible for matrix multiplication.
     pub fn matmul_shape(&self, other: &Shape) -> Shape {
+
+        if self.number_of_indices == 1 && other.number_of_indices == 2 {
+            assert!(self.indices[0] == other.indices[0]);
+            return Shape::new(vec![other.indices[1]]);
+        }
+
+        if self.number_of_indices == 2 && other.number_of_indices == 1 {
+            assert!(self.indices[1] == other.indices[0]);
+            return Shape::new(vec![self.indices[0]]);
+        }
         if self.number_of_indices == 2 && other.number_of_indices == 2 {
             assert!(self.indices[1] == other.indices[0]);
             let mut new_indices = Vec::new();

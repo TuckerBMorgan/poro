@@ -17,13 +17,25 @@ impl TensorID {
     }
 }
 
+pub const NAME_LENGTH: usize = 20;
+
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Tensor {
     pub tensor_id: TensorID,
     pub shape: Shape,
     pub operation: Operation,
-    pub name: [char; 10],
+    pub name: [char; NAME_LENGTH],
 }
+
+pub fn name_from_string(name: &str) -> [char;NAME_LENGTH] {
+    assert!(name.len() <= NAME_LENGTH);    
+    let mut name_array = ['a'; NAME_LENGTH];
+    for (i, c) in name.chars().enumerate() {
+        name_array[i] = c;
+    }
+    name_array
+
+} 
 
 impl Tensor {
     pub fn arange(start: usize, stop: usize, step: usize) -> Tensor {
@@ -42,7 +54,7 @@ impl Tensor {
             tensor_id,
             shape: Shape::new(vec![data_length]),
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: name_from_string("arange"),
         }
     }
 
@@ -53,7 +65,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: name_from_string("randn"),
         }
     }
 
@@ -64,7 +76,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: name_from_string("idenitity"),
         }
     }
 
@@ -108,7 +120,7 @@ impl Tensor {
             tensor_id,
             shape: shape.into(),
             operation: Operation::Nop,
-            name: ['a'; 10], // Note: Adjust as necessary
+            name: ['a'; NAME_LENGTH], // Note: Adjust as necessary
         }
     }
 
@@ -116,7 +128,7 @@ impl Tensor {
         self.tensor_id.id
     }
 
-    pub fn set_name(&mut self, name: [char; 10]) {
+    pub fn set_name(&mut self, name: [char; NAME_LENGTH]) {
         self.name = name;
     }
 
@@ -127,7 +139,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -148,7 +160,7 @@ impl Tensor {
             tensor_id,
             shape: Shape::new(vec![x, y]),
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -159,7 +171,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -170,7 +182,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -182,7 +194,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -225,7 +237,7 @@ impl Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Exp(self.tensor_id),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -248,7 +260,7 @@ impl Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Pow(self.tensor_id, power_as_tensor.tensor_id),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -279,7 +291,7 @@ impl Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Sin(self.tensor_id),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -301,7 +313,7 @@ impl Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Cos(self.tensor_id),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -325,7 +337,7 @@ impl Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Tanh(self.tensor_id),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -354,7 +366,7 @@ impl Tensor {
             tensor_id,
             shape: Shape::new(vec![self.shape.indices[0], new_shape_indicies[1]]),
             operation: Operation::Sum(self.tensor_id, axis),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -378,7 +390,7 @@ impl Tensor {
                 tensor_id,
                 shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
                 operation: Operation::Mean(self.tensor_id),
-                name: ['a'; 10],
+                name: ['a'; NAME_LENGTH],
             };
         }
         if axes.len() == 2 {
@@ -412,7 +424,7 @@ impl Tensor {
                     new_shape_indices[2],
                 ]),
                 operation: Operation::Mean(self.tensor_id),
-                name: ['a'; 10],
+                name: ['a'; NAME_LENGTH],
             };
         } else {
             panic!("Mean only supports 1 or 2 axes")
@@ -471,7 +483,7 @@ impl Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Log(self.tensor_id),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -488,7 +500,7 @@ impl Tensor {
     pub fn broadcast(&self, shape: Shape) -> Tensor {
         let data: Vec<f32> = self
             .item()
-            .broadcast(shape.as_ndarray_shape())
+            .broadcast(shape.as_ndarray_shape())            
             .unwrap()
             .iter()
             .map(|x| *x)
@@ -507,7 +519,7 @@ impl Tensor {
             tensor_id,
             shape,
             operation: Operation::Broadcast(self.tensor_id, shape),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -535,7 +547,7 @@ impl Tensor {
             tensor_id,
             shape: self.shape,
             operation: Operation::Transpose(self.tensor_id, first_index, second_index),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -563,7 +575,7 @@ impl Tensor {
             tensor_id,
             shape: new_shape,
             operation: Operation::Nop,
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -582,7 +594,7 @@ impl Tensor {
             tensor_id,
             shape: new_shape,
             operation: Operation::Reshape(self.tensor_id, new_shape),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 
@@ -617,7 +629,7 @@ impl Tensor {
             tensor_id,
             shape: new_shape,
             operation: Operation::Concat(self.tensor_id, other.tensor_id),
-            name: ['a'; 10],
+            name: ['a'; NAME_LENGTH],
         }
     }
 

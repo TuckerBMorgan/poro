@@ -5,6 +5,8 @@ use crate::central::BackpropagationPacket;
 use ndarray::prelude::*;
 use std::ops::Shl;
 
+use super::tensor::{name_from_string, NAME_LENGTH};
+
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::MatMul(a, b) = backprop_packet.operation {
         // Handle the case when the gradient is a 2D matrix
@@ -194,7 +196,7 @@ impl Shl for Tensor {
             tensor_id,
             shape: matmul_shape,
             operation: Operation::MatMul(self.tensor_id, rhs.tensor_id),
-            name: ['a'; 10],
+            name: name_from_string("MatMul"),
         }
     }
 }

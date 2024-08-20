@@ -4,6 +4,7 @@ use poro::central::{update_parameters, zero_all_grads, Indexable, Shape, Tensor}
 use poro::nn::layers::{BatchNorm1d, LinearLayer, Module, Tanh};
 use poro::nn::model::{Model, Sequential};
 use std::fs::read_to_string;
+use poro::nn::LinearLayerConfig;
 
 struct EmbeddingLayer {
     weight: Tensor,
@@ -14,6 +15,10 @@ impl EmbeddingLayer {
         EmbeddingLayer {
             weight: Tensor::randn(Shape::new(vec![number_of_embeddings, embedding_dims])),
         }
+    }
+
+    pub fn from_tensor(weights: Tensor) -> Self {
+        EmbeddingLayer { weight: weights }
     }
 }
 
@@ -136,22 +141,25 @@ fn main() {
     }
     let n1 = (names.len() as f32 * 0.8f32) as usize;
     let (xtr, ytr) = build_wavenet_dataset_from_subset(&names[..n1], &stoi);
-
+    let linear_layer_config_1 = LinearLayerConfig::new(n_embd * 2, n_hidden);
+    let linear_layer_config_2 = LinearLayerConfig::new(n_hidden * 2, n_hidden);
+    let linear_layer_config_3 = LinearLayerConfig::new(n_hidden * 2, n_hidden);
+    let linear_layer_config_4 = LinearLayerConfig::new(n_hidden, 27);
     let mut model: Sequential = vec![
         EmbeddingLayer::new(27, n_embd).into(),
         FlattenConsecutive::new(2).into(),
-        LinearLayer::new(n_embd * 2, n_hidden).into(),
+        LinearLayer::new(linear_layer_config_1).into(),
         BatchNorm1d::new(n_hidden).into(),
         Tanh::new().into(),
         FlattenConsecutive::new(2).into(),
-        LinearLayer::new(n_hidden * 2, n_hidden).into(),
+        LinearLayer::new(linear_layer_config_2).into(),
         BatchNorm1d::new(n_hidden).into(),
         Tanh::new().into(),
         FlattenConsecutive::new(2).into(),
-        LinearLayer::new(n_hidden * 2, n_hidden).into(),
+        LinearLayer::new(linear_layer_config_3).into(),
         BatchNorm1d::new(n_hidden).into(),
         Tanh::new().into(),
-        LinearLayer::new(n_hidden, 27).into(),
+        LinearLayer::new(linear_layer_config_4).into(),
     ]
     .into();
 

@@ -4,6 +4,8 @@ use crate::central::tensor::Tensor;
 use crate::central::BackpropagationPacket;
 use std::ops::{Div, Mul, Neg};
 
+use super::tensor::NAME_LENGTH;
+
 /// This function is used to perform the backward pass for the multiplication operation.
 /// It takes in a `BackpropagationPacket` and then sets the gradients of the left and right hand side tensors.
 /// # Arguments
@@ -86,7 +88,7 @@ impl Mul for Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Mul(self.tensor_id, broaded_casted_rhs.tensor_id),
-                name: ['a'; 10],
+                name: ['a'; NAME_LENGTH],
             }
         } else {
             let result_data = self.item() * rhs.item();
@@ -104,7 +106,7 @@ impl Mul for Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Mul(self.tensor_id, rhs.tensor_id),
-                name: ['a'; 10],
+                name: ['a'; NAME_LENGTH],
             }
         }
     }

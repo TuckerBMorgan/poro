@@ -50,7 +50,11 @@ impl From<Vec<Box<dyn Module>>> for Sequential {
 
 #[test]
 fn linear_model() {
-    let mut linear_model = Sequential::new(vec![Box::new(LinearLayer::new(3, 1))]);
+    let mut linear_layer_config = LinearLayerConfig::default();
+    linear_layer_config.number_of_inputs = 3;
+    linear_layer_config.number_of_weights = 1;
+
+    let mut linear_model = Sequential::new(vec![Box::new(LinearLayer::new(linear_layer_config))]);
 
     let inputs = vec![
         vec![2.0f32, 3.0, -1.0],

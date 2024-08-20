@@ -7,6 +7,8 @@ use crate::central::BackpropagationPacket;
 pub use ndarray::prelude::*;
 use std::ops::{Add, Sub};
 
+use super::tensor::NAME_LENGTH;
+
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::Add(a, b) = backprop_packet.operation {
         // Get each of current tensor's gradient
@@ -50,7 +52,7 @@ impl Add for Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Add(self.tensor_id, right_hand_broadcasted.tensor_id),
-                name: ['a'; 10],
+                name: ['a'; NAME_LENGTH],
             }
         } else {
             let mut singleton = get_equation();
@@ -67,7 +69,7 @@ impl Add for Tensor {
                 tensor_id,
                 shape: self.shape,
                 operation: Operation::Add(self.tensor_id, rhs.tensor_id),
-                name: ['a'; 10],
+                name: ['a'; NAME_LENGTH],
             }
         }
     }

@@ -1,3 +1,5 @@
+use serde::de;
+
 // This could maybe be its own lib, along with model.rs
 use crate::{central::Tensor, Shape};
 
@@ -10,18 +12,31 @@ pub trait Module {
         }
     }
 }
+#[derive(Debug, Default, Copy, Clone)]
+pub struct LinearLayerConfig {
+    pub number_of_inputs: usize,
+    pub number_of_weights: usize,
+}
 
+impl LinearLayerConfig {
+    pub fn new(number_of_inputs: usize, number_of_weights: usize) -> LinearLayerConfig {
+        LinearLayerConfig { number_of_inputs, number_of_weights }
+    }
+}
 pub struct LinearLayer {
-    weights: Tensor,
-    bias: Tensor,
+    pub weights: Tensor,
+    pub bias: Tensor,
 }
 
 impl LinearLayer {
-    #[allow(unused)]
-    pub fn new(number_of_inputs: usize, number_of_weights: usize) -> LinearLayer {
-        // Initialize the weights and bias tensors
-        let weights = Tensor::randn(Shape::new(vec![number_of_inputs, number_of_weights]));
-        let bias = Tensor::ones(Shape::new(vec![number_of_weights]));
+
+    pub fn new(config: LinearLayerConfig) -> LinearLayer {
+        let weights = Tensor::randn(Shape::new(vec![config.number_of_inputs, config.number_of_weights]));
+        let bias = Tensor::ones(Shape::new(vec![config.number_of_weights]));
+        LinearLayer { weights, bias }
+    }
+
+    pub fn from_weights_and_bias(weights: Tensor, bias: Tensor) -> LinearLayer {
         LinearLayer { weights, bias }
     }
 }
