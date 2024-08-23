@@ -650,4 +650,30 @@ impl Tensor {
         let mean = sum.mean(vec![0]);
         mean
     }
+
+    pub fn split(self, number_of_splits: usize, dimension: usize) -> Vec<Tensor> {
+        let mut singleton = get_equation();
+        let data = singleton.get_item(self.tensor_id).clone();
+        let mut new_tensors = Vec::new();
+        let split_size = data.len() / number_of_splits;
+        for i in 0..number_of_splits {
+            let start = i * split_size;
+            let end = (i + 1) * split_size;
+            let split_data = data[start..end].to_vec();
+            let shape = Shape::new(vec![split_data.len()]);
+            let tensor_id = singleton.allocate_tensor_from_operation(
+                shape.clone(),
+                split_data,
+                Operation::Split(self.tensor_id, i),
+            );
+            new_tensors.push(Tensor {
+                tensor_id,
+                shape,
+                operation: Operation::Split(self.tensor_id, i),
+                name: ['a'; NAME_LENGTH],
+            });
+        }
+        new_tensors
+
+    }
 }

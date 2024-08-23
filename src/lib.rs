@@ -188,7 +188,7 @@ mod tests {
 
     #[test]
     fn linear_module() {
-        let mut linear_layer_config = LinearLayerConfig::new(3, 1);
+        let linear_layer_config = LinearLayerConfig::new(3, 1);
         let mut linear = LinearLayer::new(linear_layer_config);
 
         let inputs = vec![
