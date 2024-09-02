@@ -85,6 +85,14 @@ class CausalSelfAttention(nn.Module):
         y = self.c_proj(y)
         return y
 
+    def add_weights_to_dict(self, weights_dict, id = ""):
+        if self.c_attn.bias is not None:
+            weights_dict[id + "c_attn.bias"] = self.c_attn.bias
+        weights_dict[id + "c_attn.weight"] = self.c_attn.weight        
+        weights_dict[id + "c_proj.weight"] = self.c_proj.weight
+        if self.c_proj.bias is not None:
+            weights_dict[id + "c_proj.bias"] = self.c_proj.bias
+
 class MLP(nn.Module):
 
     def __init__(self, config):
@@ -100,6 +108,14 @@ class MLP(nn.Module):
         x = self.c_proj(x)
         return x
 
+    def add_weights_to_dict(self, weights_dict):
+        weights_dict["c_fc.weight"] = self.c_fc.weight
+        weights_dict["c_proj.weight"] = self.c_proj.weight
+        if self.c_fc.bias is not None:
+            weights_dict["c_fc.bias"] = self.c_fc.bias
+        if self.c_proj.bias is not None:
+            weights_dict["c_proj.bias"] = self.c_proj.bias
+
 class Block(nn.Module):
 
     def __init__(self, config):
@@ -113,6 +129,17 @@ class Block(nn.Module):
         x = x + self.attn(self.ln_1(x))
         x = x + self.mlp(self.ln_2(x))
         return x
+
+    def add_weights_to_dict(self, weights_dict, id = ""):
+        self.attn.add_weights_to_dict(weights_dict, id + "attn.")
+        self.mlp.add_weights_to_dict(weights_dict)
+        weights_dict[id + "ln_1.weight"] = self.ln_1.weight
+        if self.ln_1.bias is not None:
+            weights_dict[id + "ln_1.bias"] = self.ln_1.bias
+        weights_dict[id + "ln_2.weight"] = self.ln_2.weight
+        if self.ln_2.bias is not None:
+            weights_dict[id + "ln_2.bias"] = self.ln_2.bias
+        
 
 # -----------------------------------------------------------------------------
 # The main GPT-2 model
@@ -146,6 +173,19 @@ class GPT(nn.Module):
         self.init_rng.manual_seed(42)
         self.apply(self._init_weights)
 
+    def add_weights_to_dict(self, weights_dict):
+        weights_dict["lm_head.weight"] = self.lm_head.weight
+        for i, block in enumerate(self.transformer.h):
+            block.add_weights_to_dict(weights_dict, f"transformer.h.{i}.")
+        weights_dict["wte.weight"] = self.transformer.wte.weight
+        weights_dict["wpe.weight"] = self.transformer.wpe.weight
+        weights_dict["ln_f.weight"] = self.transformer.ln_f.weight
+        if self.transformer.ln_f.bias is not None:
+            weights_dict["ln_f.bias"] = self.transformer.ln_f.bias
+        if self.lm_head.bias is not None:
+            weights_dict["lm_head.bias"] = self.lm_head.bias
+        weights_dict["lm_head.weight"] = self.lm_head.weight
+    
     def _init_weights(self, module):
         if isinstance(module, nn.Linear):
             # apply special scaled init to the residual projections, per GPT-2 paper
@@ -296,6 +336,13 @@ class GPT(nn.Module):
 
         return idx
 
+    def write_weights_to_file(self, filename):
+        weights_dict = {}
+        self.add_weights_to_dict(weights_dict)
+        # convert to json and then write to file
+        import json
+        with open(filename, "w") as f:
+            json.dump({k: v.tolist() for k, v in weights_dict.items()}, f)
 # -----------------------------------------------------------------------------
 # Our own simple Distributed Data Loader
 
@@ -381,6 +428,15 @@ class DistributedDataLoader:
 # Python -> C bridge utilities for saving params/grads/activations to .bin files
 
 def write_fp32(tensor, file):
+    # first write the length of the tensor's shape
+    shape = torch.tensor(tensor.size(), dtype=torch.int32)
+    # write the number of dimensions
+    file.write(struct.pack("<i", len(shape)))
+    file.write(shape.numpy().tobytes())
+    # then write the tensor's shape
+    
+    
+    # then write the tensor's data
     t = tensor.detach().cpu().to(torch.float32)
     b = t.numpy().tobytes()
     file.write(b)
@@ -397,7 +453,10 @@ def write_tensors(model_tensors, L, file, dtype):
     assert dtype in {"float32", "bfloat16"}
     write_fun = write_fp32 if dtype == "float32" else write_bf16
     write_fun(model_tensors["transformer.wte.weight"], file) # (V, C)
+
+    
     write_fun(model_tensors["transformer.wpe.weight"], file) # (T, C)
+    return;
     for i in range(L): # (L, C)
         write_fun(model_tensors[f"transformer.h.{i}.ln_1.weight"], file)
     for i in range(L): # (L, C)
@@ -472,8 +531,11 @@ def write_model(model, filename, dtype):
     header[7] = wte_padded.size(0) # padded vocab size store in header
     # now write to file
     with open(filename, "wb") as file:
-        file.write(header.numpy().tobytes()) # header
+        head_bytes = header.numpy().tobytes()
+        print(f"header bytes: {head_bytes}")
+        file.write(head_bytes) # header
         write_tensors(params, model.config.n_layer, file, dtype) # params
+        
     print(f"wrote {filename}")
 
 def write_state(model, x, y, logits, loss, filename):
@@ -526,6 +588,7 @@ def write_tokenizer(enc, filename):
 # -----------------------------------------------------------------------------
 # int main
 
+
 def print0(*args, **kwargs):
     # modified print that only prints from the master process
     # if this is not a distributed run, it's just a print
@@ -546,6 +609,17 @@ if __name__ == "__main__":
         "d48": GPTConfig(block_size=1024, vocab_size=50257, n_layer=48, n_head=25, n_embd=1600),
     }['d12']
     model = GPT(model_config)
+    write_model(model, "gpt2.bin", "float32")
+    #model.write_weights_to_file("gpt2.json")
+    mlp_model_config = {
+        "n_embd": 256
+    }
+    test_mlp = MLP(GPTConfig(block_size=1024, vocab_size=50257, n_layer=12, n_head=12, n_embd=768))
+    weights_dict = {}
+    test_mlp.add_weights_to_dict(weights_dict)
+    import json
+    with open("mlp_weights.json", "w") as f:
+        json.dump({k: v.tolist() for k, v in weights_dict.items()}, f)
     print("exit")
     exit()
     # default settings will overfit a tiny batch of data

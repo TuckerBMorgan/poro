@@ -4,6 +4,8 @@ use ndarray::parallel::prelude::{IntoParallelRefIterator, ParallelIterator};
 use serde_json::Value;
 use std::path::Path;
 use std::{fs, vec};
+use std::io::{Read, Result};
+use std::convert::TryInto;
 
 use ndarray::{ArrayD, Axis};
 #[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
@@ -185,6 +187,38 @@ impl Tensor {
             name: ['a'; NAME_LENGTH],
         }
     }
+
+    pub fn from_bytestream<R: Read>(reader: &mut R) -> Result<Self> {
+        // Read the length of the shape (number of dimensions)
+        let mut shape_len_buf = [0u8; 4];
+        reader.read_exact(&mut shape_len_buf)?;
+        let shape_len = i32::from_le_bytes(shape_len_buf);
+        
+        // Read the shape dimensions
+        let mut shape = Vec::with_capacity(shape_len as usize);
+        for _ in 0..shape_len {
+            let mut dim_buf = [0u8; 4];
+            reader.read_exact(&mut dim_buf)?;
+            let dim = i32::from_le_bytes(dim_buf);
+            shape.push(dim);
+        }
+
+        // Calculate the number of elements in the tensor
+        let num_elements: usize = shape.iter().product();
+        
+        // Read the tensor values (f32s)
+        let mut data = Vec::with_capacity(num_elements);
+        for _ in 0..num_elements {
+            let mut value_buf = [0u8; std::mem::size_of::<f32>()];
+            reader.read_exact(&mut value_buf)?;
+            let value = f32::from_le_bytes(value_buf);
+            data.push(value);
+        }
+
+
+        Ok(Tensor::from_vec(data, shape.into()))
+    }
+
 
     pub fn from_vec(data: Vec<f32>, shape: Shape) -> Tensor {
         let mut singleton = get_equation();
@@ -649,31 +683,5 @@ impl Tensor {
         let sum = loss.sum(1);
         let mean = sum.mean(vec![0]);
         mean
-    }
-
-    pub fn split(self, number_of_splits: usize, dimension: usize) -> Vec<Tensor> {
-        let mut singleton = get_equation();
-        let data = singleton.get_item(self.tensor_id).clone();
-        let mut new_tensors = Vec::new();
-        let split_size = data.len() / number_of_splits;
-        for i in 0..number_of_splits {
-            let start = i * split_size;
-            let end = (i + 1) * split_size;
-            let split_data = data[start..end].to_vec();
-            let shape = Shape::new(vec![split_data.len()]);
-            let tensor_id = singleton.allocate_tensor_from_operation(
-                shape.clone(),
-                split_data,
-                Operation::Split(self.tensor_id, i),
-            );
-            new_tensors.push(Tensor {
-                tensor_id,
-                shape,
-                operation: Operation::Split(self.tensor_id, i),
-                name: ['a'; NAME_LENGTH],
-            });
-        }
-        new_tensors
-
     }
 }

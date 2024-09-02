@@ -7,8 +7,9 @@ use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module};
 use poro::nn::model::PositionalEncoding;
 use poro::nn::LinearLayerConfig;
 use poro::Indexable;
-
-
+use serde_json::Value;
+use std::io::{Read, Result};
+use std::convert::TryInto;
 struct NewGLU {
 
 }
@@ -121,6 +122,41 @@ impl MLP {
             gelu: NewGLU {}
         }
     }
+
+    pub fn from_weight_file(filepath: &str) -> MLP {
+        let as_json = std::fs::read_to_string(filepath).unwrap();
+        
+        let json: Value = serde_json::from_str(&as_json).unwrap();
+        //just print keys
+        for key in json.as_object().unwrap().keys() {
+            println!("{}", key);
+        }
+        let as_array = json["c_fc.weight"].as_array().unwrap();
+        let test = as_array.iter().map(|x| x.as_array().unwrap()).flatten().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
+        let c_fc_weights = Tensor::from_vec(test, vec![768, 4 * 768].into());
+        let as_array = json["c_fc.bias"].as_array().unwrap();
+        let test = as_array.iter().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
+        let c_fc_bias = Tensor::from_vec(test, vec![4 * 768].into());
+        let c_fc = LinearLayer::from_weights_and_bias(c_fc_weights, c_fc_bias);
+
+        let as_array = json["c_proj.weight"].as_array().unwrap();
+        let test = as_array.iter().map(|x| x.as_array().unwrap()).flatten().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
+        let c_proj_weights = Tensor::from_vec(test, vec![4 * 768, 768].into());
+        let as_array = json["c_proj.bias"].as_array().unwrap();
+        let test = as_array.iter().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
+        let c_proj_bias = Tensor::from_vec(test, vec![768].into());
+        let c_proj = LinearLayer::from_weights_and_bias(c_proj_weights, c_proj_bias);
+
+        let gelu = NewGLU {};
+
+        MLP {
+            c_fc,
+            c_proj,
+            gelu
+        }
+
+
+    }
 }
 
 impl Module for MLP {
@@ -138,6 +174,7 @@ impl Module for MLP {
         parameters
     }
 }
+
 
 struct BlockConfig {
     embedding_dim: usize,
@@ -202,21 +239,84 @@ impl Module for Block {
 }
 
 struct GPTConfig {
-    embedding_dim: usize,
-    number_of_blocks: usize,
+    block_size: usize,
+    vocab_size: usize,
+    number_of_layers: usize,
     number_of_heads: usize,
+    embedding_dim: usize  
+}
+
+impl GPTConfig {
+    pub fn from_bytestream<R: Read>(reader: &mut R) -> GPTConfig {
+        let mut buffer = [0u8; 4];
+        // magic number
+        
+        reader.read_exact(&mut buffer).unwrap();
+        println!("{:?}", buffer);
+        // version
+        reader.read_exact(&mut buffer).unwrap();
+        println!("{:?}", buffer);
+
+        reader.read_exact(&mut buffer).unwrap();
+        let block_size = u32::from_le_bytes(buffer).try_into().unwrap();
+        reader.read_exact(&mut buffer).unwrap();
+        let vocab_size = u32::from_le_bytes(buffer).try_into().unwrap();
+        reader.read_exact(&mut buffer).unwrap();
+        let number_of_layers = u32::from_le_bytes(buffer).try_into().unwrap();
+        reader.read_exact(&mut buffer).unwrap();
+        let number_of_heads = u32::from_le_bytes(buffer).try_into().unwrap();
+        reader.read_exact(&mut buffer).unwrap();
+        let embedding_dim = u32::from_le_bytes(buffer).try_into().unwrap();
+        println!("Voc")
+        GPTConfig {
+            block_size,
+            vocab_size,
+            number_of_layers,
+            number_of_heads,
+            embedding_dim,
+        }
+    }
 }
 
 struct GPT {
     wte: Embedding,
     wpe: PositionalEncoding,
     blocks: Vec<Block>,
-    
+}
 
+impl GPT {
+    pub fn build_from_checkpoint_file(filepath: &str) -> GPT {
+        let read = &mut std::fs::File::open(filepath).unwrap();   
+        // feed 256 bytes to GPTConfig::from_bytestream
+        let mut buffer = [0; 256 * 4];
+
+        read.read_exact(&mut buffer).unwrap();
+
+        let gpt_config = GPTConfig::from_bytestream(&mut buffer.as_ref());
+        
+        let mut buffer = [0u8; 4];
+        read.read_exact(&mut buffer).unwrap();
+        let number_of_dimensions = i32::from_le_bytes(buffer);
+        println!("{:?}", number_of_dimensions);
+        for i in 0..number_of_dimensions {
+            read.read_exact(&mut buffer).unwrap();
+            let dimension = i32::from_le_bytes(buffer);
+            println!("{:?}", dimension);
+        }
+
+        panic!("Not implemented");
+    }
 }
 
 fn main() {
-    
+    // open the file "gpt2.bin" and feed it to GPTConfig::from_bytestream
+    let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
+    return;
+    let gpt_config = GPTConfig::from_bytestream(&mut std::fs::File::open("gpt2.bin").unwrap());
+
+    return;
+    let _ = MLP::from_weight_file("mlp_weights.json");
+    return;
     let mut position_encoder = PositionalEncoding::new(10, 10);    
     let embeddings_weight = Tensor::load_from_weight_file("./embedding.json");    
     
