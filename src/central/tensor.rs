@@ -202,7 +202,7 @@ impl Tensor {
             let dim = i32::from_le_bytes(dim_buf);
             shape.push(dim);
         }
-
+        
         // Calculate the number of elements in the tensor
         let num_elements: usize = shape.iter().product();
         
