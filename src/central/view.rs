@@ -51,6 +51,9 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             Indexable::Double(i, j) => {
                 new_view_grad[[i, j]] = backprop_packet.grad[0];
             }
+            Indexable::Triple(i, j, k) => {
+                new_view_grad[[i, j, k]] = backprop_packet.grad[0];
+            }
             Indexable::FromTensor(tensor) => {
                 // Get the indices from the tensor
                 let indices = backprop_packet.equation.get_tensor_data(tensor);
@@ -149,6 +152,25 @@ impl Tensor {
                 // If the number of indices is 1, then we can just take the data from the old tensor
                 // and then allocate a new tensor with the data from the old tensor
                 let offset = a * self.shape.indices[1] + b;
+                let data = data[offset];
+                let tensor_id = singleton.allocate_element_tensor(
+                    new_shape,
+                    data,
+                    Operation::View(self.tensor_id, index),
+                );
+                return Tensor {
+                    tensor_id,
+                    shape: new_shape,
+                    operation: Operation::View(self.tensor_id, index),
+                    name: ['a'; NAME_LENGTH],
+                };
+            }
+            Indexable::Triple(a, b, c) => {
+                // If the number of indices is 1, then we can just take the data from the old tensor
+                // and then allocate a new tensor with the data from the old tensor
+                let offset = a * self.shape.indices[1] * self.shape.indices[2]
+                    + b * self.shape.indices[2]
+                    + c;
                 let data = data[offset];
                 let tensor_id = singleton.allocate_element_tensor(
                     new_shape,

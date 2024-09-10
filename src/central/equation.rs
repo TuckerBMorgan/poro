@@ -646,6 +646,9 @@ impl Equation {
             Indexable::Double(_, _) => {
                 self.set_double_index_tensor_data(tensor_id, indexable, data);
             }
+            Indexable::Triple(_, _, _) => {
+                self.set_triple_index_tensor_data(tensor_id, indexable, data);
+            }
             Indexable::FromTensor(tensor_id) => {
                 self.set_tensor_index_tensor_data(tensor_id, indexable, data);
             }
@@ -686,6 +689,34 @@ impl Equation {
                 assert!(internal_tensor.shape.number_of_indices == 2);
                 let offset =
                     internal_tensor.data_start_index + i * internal_tensor.shape.indices[1] + j;
+                self.data_store[offset] = data[0];
+            }
+            _ => panic!("Wrong Indexable"),
+        };
+
+        //let offset = internal_tensor.data_start_index + index;
+        //self.data_store[offset] = data[0];
+    }
+
+    fn set_triple_index_tensor_data(
+        &mut self,
+        tensor_id: TensorID,
+        indexable: Indexable,
+        data: Vec<f32>,
+    ) {
+        let internal_tensor = self.internal_tensor_store.get(&tensor_id).unwrap();
+        // Can't use get_index, bug in it, calculate the offset manually
+        // no need to match down from indexable, as we are only supporting single index
+
+        match indexable {
+            Indexable::Triple(i, j, k) => {
+                // this is for now, as I dont' have a good way to handle the case of more then
+                // a two indices being indexed in this manner
+                assert!(internal_tensor.shape.number_of_indices == 3);
+                let offset = internal_tensor.data_start_index
+                    + i * internal_tensor.shape.indices[1] * internal_tensor.shape.indices[2]
+                    + j * internal_tensor.shape.indices[2]
+                    + k;
                 self.data_store[offset] = data[0];
             }
             _ => panic!("Wrong Indexable"),

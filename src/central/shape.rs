@@ -133,6 +133,9 @@ impl Shape {
             Indexable::Double(_a, _b) => {
                 panic!("Not implemented");
             }
+            Indexable::Triple(_a, _b, _c) => {
+                panic!("Not implemented");
+            }
             Indexable::FromTensor(_) => {
                 panic!("Not implemented");
             }
@@ -156,6 +159,17 @@ impl Shape {
             }
             Indexable::Double(_a, _b) => {
                 if self.number_of_indices == 2 {
+                    return Shape::new(vec![1]);
+                }
+
+                let mut new_indices = vec![];
+                for j in 1..self.number_of_indices {
+                    new_indices.push(self.indices[j]);
+                }
+                Shape::new(new_indices)
+            }
+            Indexable::Triple(_a, _b, _c) => {
+                if self.number_of_indices == 3 {
                     return Shape::new(vec![1]);
                 }
 

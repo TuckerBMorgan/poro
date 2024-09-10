@@ -6,6 +6,8 @@ use std::path::Path;
 use std::{fs, vec};
 use std::io::{Read, Result};
 use std::convert::TryInto;
+use std::io::{self};
+use std::mem::size_of;
 
 use ndarray::{ArrayD, Axis};
 #[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
@@ -188,34 +190,35 @@ impl Tensor {
         }
     }
 
-    pub fn from_bytestream<R: Read>(reader: &mut R) -> Result<Self> {
+
+    pub fn from_bytestream<R: Read>(reader: &mut R) -> io::Result<Self> {
         // Read the length of the shape (number of dimensions)
         let mut shape_len_buf = [0u8; 4];
         reader.read_exact(&mut shape_len_buf)?;
-        let shape_len = i32::from_le_bytes(shape_len_buf);
-        
-        // Read the shape dimensions
-        let mut shape = Vec::with_capacity(shape_len as usize);
-        for _ in 0..shape_len {
-            let mut dim_buf = [0u8; 4];
-            reader.read_exact(&mut dim_buf)?;
-            let dim = i32::from_le_bytes(dim_buf);
-            shape.push(dim);
-        }
-        
+        let shape_len = i32::from_le_bytes(shape_len_buf) as usize;
+    
+        // Read the shape dimensions in a single read
+        let mut shape_buf = vec![0u8; shape_len * size_of::<i32>()];
+        reader.read_exact(&mut shape_buf)?;
+    
+        let shape: Vec<usize> = shape_buf
+            .chunks(size_of::<i32>())
+            .map(|chunk| i32::from_le_bytes(chunk.try_into().unwrap()) as usize)
+            .collect();
+    
         // Calculate the number of elements in the tensor
         let num_elements: usize = shape.iter().product();
-        
-        // Read the tensor values (f32s)
-        let mut data = Vec::with_capacity(num_elements);
-        for _ in 0..num_elements {
-            let mut value_buf = [0u8; std::mem::size_of::<f32>()];
-            reader.read_exact(&mut value_buf)?;
-            let value = f32::from_le_bytes(value_buf);
-            data.push(value);
-        }
-
-
+    
+        // Read all tensor values in a single read
+        let mut data_buf = vec![0u8; num_elements * size_of::<f32>()];
+        reader.read_exact(&mut data_buf)?;
+    
+        // Convert the read bytes to f32 values
+        let data: Vec<f32> = data_buf
+            .chunks(size_of::<f32>())
+            .map(|chunk| f32::from_le_bytes(chunk.try_into().unwrap()))
+            .collect();
+    
         Ok(Tensor::from_vec(data, shape.into()))
     }
 

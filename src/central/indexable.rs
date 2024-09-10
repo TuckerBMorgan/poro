@@ -8,6 +8,7 @@ use super::tensor::TensorID;
 pub enum Indexable {
     Single(usize),
     Double(usize, usize),
+    Triple(usize, usize, usize),
     FromTensor(TensorID),
 }
 
@@ -17,6 +18,7 @@ impl Indexable {
         match self {
             Indexable::Single(_) => 1,
             Indexable::Double(_, _) => 2,
+            Indexable::Triple(_, _, _) => 3,
             Indexable::FromTensor(_) => 1,
         }
     }
@@ -36,7 +38,10 @@ impl Indexable {
             }
             Indexable::Double(_a, _b) => {
                 panic!("Double index not implemented");
-            }
+            },
+            Indexable::Triple(_a, _b, _c) => {
+                panic!("Triple index not implemented");
+            },
             Indexable::FromTensor(_a) => {
                 panic!("Mixed index not implemented");
             }
@@ -57,6 +62,7 @@ impl From<Indexable> for Shape {
         match indexable {
             Indexable::Single(a) => vec![a].into(),
             Indexable::Double(a, b) => vec![a, b].into(),
+            Indexable::Triple(a, b, c) => vec![a, b, c].into(),
             Indexable::FromTensor(_) => panic!("Mixed index not implemented"),
         }
     }
@@ -73,6 +79,7 @@ impl From<Indexable> for Vec<usize> {
         match indexable {
             Indexable::Single(index) => vec![index],
             Indexable::Double(a, b) => vec![a, b],
+            Indexable::Triple(a, b, c) => vec![a, b, c],
             Indexable::FromTensor(_) => vec![1],
         }
     }
@@ -99,5 +106,11 @@ impl From<usize> for Indexable {
 impl From<[usize; 2]> for Indexable {
     fn from([a, b]: [usize; 2]) -> Indexable {
         Indexable::Double(a, b)
+    }
+}
+
+impl From<[usize;3]> for Indexable {
+    fn from([a, b, c]: [usize; 3]) -> Indexable {
+        Indexable::Triple(a, b, c)
     }
 }
