@@ -307,7 +307,17 @@ impl Equation {
             return result.into_dyn();
         }
 
-        println!("a dim {:?} b dim {:?}", a.ndim(), b.ndim());
+        if a.ndim() == 3 && b.ndim() == 1 {
+            let a_3d = a.clone().into_dimensionality::<Ix3>().unwrap();
+            let b_1d = b.clone().into_dimensionality::<Ix1>().unwrap();
+            let mut result = Array3::zeros((a_3d.shape()[0], a_3d.shape()[1], 1));
+            for i in 0..a_3d.shape()[0] {
+                let a_slice = a_3d.slice(s![i, .., ..]);
+                let temp = a_slice.dot(&b_1d);
+                result.slice_mut(s![i, .., ..]).assign(&temp);
+            }
+            return result.into_dyn();
+        }
 
         panic!("Not implemented");
     }
