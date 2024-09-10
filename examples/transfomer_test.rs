@@ -466,10 +466,11 @@ impl GPT {
 
 impl Model for GPT {
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        let x = self.wte.forward(x);
-        let x = x + self.wpe.forward(&x);
+        let toks = self.wte.forward(x);
+        let pos = self.wpe.forward(x);
+        let mut x = toks + pos;
         for block in self.blocks.iter_mut() {
-            let x = block.forward(&x);
+            x = block.forward(&x);
         }
         let x = self.final_layer_norm.forward(&x);
         x

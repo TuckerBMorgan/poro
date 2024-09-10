@@ -29,10 +29,9 @@ impl Module for Embedding {
         let data = self.tensor.item();
         for b in 0..input.shape.indices[0] {
             for t in 0..input.shape.indices[1] {
-                // index self.tensor with input[b, t] and set the result in test_index_tensor
-                let index = input.view([b, t].into()).item()[0] as usize;
-
-            for i in 0..self.model_dimension {
+                let view = input.view([b, t].into());
+                let index = view.item()[[0, 0]] as usize;
+                for i in 0..self.model_dimension {
 
                     let datum = data[[index, i]];
 
