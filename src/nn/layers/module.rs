@@ -2,6 +2,7 @@ use serde::de;
 
 // This could maybe be its own lib, along with model.rs
 use crate::{central::Tensor, Shape};
+use log::info;
 
 pub trait Module {
     fn forward(&mut self, x: &Tensor) -> Tensor;
@@ -43,8 +44,13 @@ impl LinearLayer {
 
 impl Module for LinearLayer {
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        // Perform the forward pass: x * weights + bias
-        (*x << self.weights) + self.bias
+        info!("LinearLayer forward");
+        info!("x.shape: {:?}", x.shape);
+        info!("weights.shape: {:?}", self.weights.shape);
+        info!("bias.shape: {:?}", self.bias.shape);
+        let middle_product = *x << self.weights;
+        info!("middle_product.shape: {:?}", middle_product.shape);
+        middle_product + self.bias
     }
 
     fn get_parameters(&self) -> Vec<Tensor> {

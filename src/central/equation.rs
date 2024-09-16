@@ -15,6 +15,7 @@ use std::{
 
 use cudarc::driver::{LaunchAsync, LaunchConfig};
 use cudarc::nvrtc::{compile_ptx, Ptx};
+use log::info;
 
 pub struct BackpropagationPacket<'a> {
     pub grad: ArrayD<f32>,
@@ -73,9 +74,11 @@ impl Equation {
         operation: Operation,
     ) -> TensorID {
         if shape.total_size() != data.len() {
-            println!("Shape Length: {}", shape.total_size());
-            println!("Data Length: {}", data.len());
-            panic!("Shape and data length mismatch");
+            info!("Shape: {:?}", shape);
+            info!("shape number of indices: {}", shape.number_of_indices);
+            info!("Shape Length: {}", shape.total_size());
+            info!("Data Length: {}", data.len());
+            info!("Shape and data length mismatch");
         }
 
         match operation {

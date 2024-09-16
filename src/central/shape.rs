@@ -113,6 +113,41 @@ impl Shape {
         panic!("Not implemented");
     }
 
+
+    pub fn matmul_shape_generic(&self, other: &Shape) -> Shape {
+        // Check if both shapes have at least 1 axis
+        assert!(self.number_of_indices >= 1 && other.number_of_indices >= 1);
+    
+        // Matrices must satisfy matrix multiplication rules:
+        // The last dimension of self (left) should match the first dimension of other (right).
+        assert!(self.indices[self.number_of_indices - 1] == other.indices[0]);
+    
+        // Build the resulting shape
+        let mut new_indices = Vec::new();
+    
+        // Broadcasting the leading dimensions (all dimensions except the last for `self`
+        // and all dimensions except the first for `other`)
+        for i in 0..(self.number_of_indices - 1).max(other.number_of_indices - 1) {
+            if i < self.number_of_indices - 1 && i < other.number_of_indices - 1 {
+                // Both matrices have this dimension, so we need to broadcast them
+                assert!(self.indices[i] == 1 || other.indices[i + 1] == 1 || self.indices[i] == other.indices[i + 1]);
+                new_indices.push(self.indices[i].max(other.indices[i + 1]));
+            } else if i < self.number_of_indices - 1 {
+                // Only `self` has this dimension
+                new_indices.push(self.indices[i]);
+            } else {
+                // Only `other` has this dimension
+                new_indices.push(other.indices[i + 1]);
+            }
+        }
+    
+        // Append the final dimension from the right matrix
+        new_indices.push(other.indices[other.number_of_indices - 1]);
+    
+        Shape::new(new_indices)
+    }
+    
+
     /// Returns the size of the shape.
     pub fn size(&self) -> usize {
         let mut size = 1;

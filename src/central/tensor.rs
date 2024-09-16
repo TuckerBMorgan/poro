@@ -8,6 +8,7 @@ use std::io::{Read, Result};
 use std::convert::TryInto;
 use std::io::{self};
 use std::mem::size_of;
+use log::info;
 
 use ndarray::{ArrayD, Axis};
 #[derive(Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Debug)]
@@ -191,7 +192,7 @@ impl Tensor {
     }
 
 
-    pub fn from_bytestream<R: Read>(reader: &mut R) -> io::Result<Self> {
+    pub fn from_bytestream<R: Read>(reader: &mut R, reverse_dimensions: bool) -> io::Result<Self> {
         // Read the length of the shape (number of dimensions)
         let mut shape_len_buf = [0u8; 4];
         reader.read_exact(&mut shape_len_buf)?;
@@ -200,14 +201,25 @@ impl Tensor {
         // Read the shape dimensions in a single read
         let mut shape_buf = vec![0u8; shape_len * size_of::<i32>()];
         reader.read_exact(&mut shape_buf)?;
-    
-        let shape: Vec<usize> = shape_buf
+
+        let shape : Vec<usize> = shape_buf
             .chunks(size_of::<i32>())
-            .map(|chunk| i32::from_le_bytes(chunk.try_into().unwrap()) as usize)
-            .collect();
+            .map(|chunk| i32::from_le_bytes(chunk.try_into().unwrap()) as usize).collect();;
+            // Reverse the shape to match the order of the dimensions
+            // since that is what pytorch uses
+
+        let shape = if reverse_dimensions {
+            shape.into_iter().rev().collect()
+        } else {
+            shape
+        };
+
     
         // Calculate the number of elements in the tensor
         let num_elements: usize = shape.iter().product();
+
+        info!("Reading in a tensor with shape: {:?}", shape);
+        info!("Reading in a tensor with num_elements: {:?}", num_elements);
     
         // Read all tensor values in a single read
         let mut data_buf = vec![0u8; num_elements * size_of::<f32>()];
@@ -414,18 +426,25 @@ impl Tensor {
             let mean = sum / item.shape()[axes[0]] as f32;
 
             let mut singleton = get_equation();
-            let data = mean.into_iter().collect();
+            let data : Vec<f32> = mean.into_iter().collect();
             let mut new_shape_indices = self.shape.indices.clone();
             new_shape_indices[axes[0]] = 1;
+            info!("new_shape_indices: {:?}", new_shape_indices);
+            info!("data length: {:?}", data.len());
+            let mut new_shape_indices_vec = new_shape_indices.to_vec();
+            // Cut down new_shape_indices_vec to the correct size
+            // which will be the same as the original shape
+            new_shape_indices_vec.truncate(self.shape.number_of_indices);
+            info!("new_shape_indices_vec: {:?}", new_shape_indices_vec);
             let tensor_id = singleton.allocate_tensor_from_operation(
-                Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
+                Shape::new(new_shape_indices_vec.clone()),
                 data,
                 Operation::Mean(self.tensor_id),
             );
 
             return Tensor {
                 tensor_id,
-                shape: Shape::new(vec![new_shape_indices[0], new_shape_indices[1]]),
+                shape: Shape::new(new_shape_indices_vec),
                 operation: Operation::Mean(self.tensor_id),
                 name: ['a'; NAME_LENGTH],
             };
@@ -574,15 +593,22 @@ impl Tensor {
 
         data.swap_axes(first_index, second_index);
 
+        // create a new shape with the indices swapped
+        let mut new_shape_indices = self.shape.indices.clone();
+        new_shape_indices.swap(first_index, second_index);
+        let mut new_shape_indices = new_shape_indices.to_vec();
+        new_shape_indices.truncate(self.shape.number_of_indices);
+        let new_shape = Shape::new(new_shape_indices);
+
         let tensor_id = singleton.allocate_tensor_from_operation(
-            self.shape.clone(),
+            new_shape.clone(),
             data.to_owned().into_raw_vec(),
             Operation::Transpose(self.tensor_id, first_index, second_index),
         );
 
         Tensor {
             tensor_id,
-            shape: self.shape,
+            shape: new_shape,
             operation: Operation::Transpose(self.tensor_id, first_index, second_index),
             name: ['a'; NAME_LENGTH],
         }

@@ -10,6 +10,47 @@ use poro::Indexable;
 use serde_json::Value;
 use std::io::{Read, Result};
 use std::convert::TryInto;
+use simplelog::*;
+use log::{info, warn};
+
+
+struct LayerNorm {
+    weight: Tensor,
+    bias: Tensor,
+}
+
+impl LayerNorm {
+    pub fn new(embedding_dim: usize) -> Self {
+        let weight = Tensor::randn(vec![embedding_dim].into());
+        let bias = Tensor::randn(vec![embedding_dim].into());
+        LayerNorm {
+            weight,
+            bias,
+        }
+    }
+
+    pub fn from_weights_and_bias(weight: Tensor, bias: Tensor) -> Self {
+        LayerNorm {
+            weight,
+            bias,
+        }
+    }
+}
+
+impl Module for LayerNorm {
+    fn forward(&mut self, x: &Tensor) -> Tensor {
+        let mean = x.mean(vec![0]);
+        let std = x.std(vec![0]);
+        let x = (*x - mean) / std;
+        let x = x * self.weight + self.bias;
+        x
+    }
+
+    fn get_parameters(&self) -> Vec<Tensor> {
+        vec![self.weight.clone(), self.bias.clone()]
+    }
+}
+
 struct NewGLU {
 
 }
@@ -85,12 +126,26 @@ impl CasualSelfAttention {
 
 impl Module for CasualSelfAttention {
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        let query = self.query_attention.forward(x);
-        let key = self.key_attention.forward(x);
-        let value = self.value_attention.forward(x);
+        info!("CasualSelfAttention forward");
+        info!("Query start");
 
-        let attn_weights = query << key.tranpose_with_provided_axis(0, 1);
-        
+        info!("Query shape: {:?}", self.query_attention.weights.shape);
+        info!("Key shape: {:?}", self.key_attention.weights.shape);
+        info!("X shape: {:?}", x.shape);
+
+
+
+        let query = self.query_attention.forward(x);
+        info!("Query done");
+        let key = self.key_attention.forward(x);
+        info!("Key done");
+        let value = self.value_attention.forward(x);
+        info!("Value done");
+        info!("Query shape: {:?}", query.shape);
+        let key_transpose = key.tranpose_with_provided_axis(1, 2);
+        info!("Key transpose shape: {:?}", key_transpose.shape);
+        let attn_weights = query << key_transpose;
+        info!("Attn weights done");
         let attn_weights = attn_weights.softmax(attn_weights.shape.number_of_indices - 1);
         let attn_output = attn_weights << value;
         let x = self.c_proj.forward(&attn_output);
@@ -185,9 +240,13 @@ impl MLP {
 
 impl Module for MLP {
     fn forward(&mut self, x: &Tensor) -> Tensor {
+        info!("MLP forward");
         let x = self.c_fc.forward(x);
+        info!("C_FC done");
         let x = self.gelu.forward(&x);
+        info!("GELU done");
         let x = self.c_proj.forward(&x);
+        info!("C_PROJ done");
         x
     }
 
@@ -206,43 +265,18 @@ struct BlockConfig {
 }
 
 struct Block {
-    ln_1: LinearLayer,
-    ln_2: LinearLayer,
+    ln_1: LayerNorm,
     attn: CasualSelfAttention,
+    ln_2: LayerNorm,
     mlp: MLP,
     embedding_dim: usize,
 }
 
 impl Block {
-    pub fn new(config: BlockConfig) -> Self {
-        let ln_1 = LinearLayer::new(LinearLayerConfig {
-            number_of_inputs: config.embedding_dim,
-            number_of_weights: config.embedding_dim,
-        });
-
-        let ln_2 = LinearLayer::new(LinearLayerConfig {
-            number_of_inputs: config.embedding_dim,
-            number_of_weights: config.embedding_dim,
-        });
-
-        let attn = CasualSelfAttention::new(config.casual_self_attention_config);
-
-        let mlp = MLP::new(MLPConfig {
-            embedding_dim: config.embedding_dim,
-        });
-
-        Block {
-            ln_1,
-            ln_2,
-            attn,
-            mlp,
-            embedding_dim: config.embedding_dim,
-        }
-    }
-
+    /*
     pub fn from_weights_and_bias(ln_1_weights: Tensor, ln_1_bias: Tensor, ln_2_weights: Tensor, ln_2_bias: Tensor, query_weights: Tensor, query_bias: Tensor, key_weights: Tensor, key_bias: Tensor, value_weights: Tensor, value_bias: Tensor, c_proj_weights: Tensor, c_proj_bias: Tensor, mlp_c_fc_weights: Tensor, mlp_c_fc_bias: Tensor, mlp_c_proj_weights: Tensor, mlp_c_proj_bias: Tensor) -> Self {
-        let ln_1 = LinearLayer::from_weights_and_bias(ln_1_weights, ln_1_bias);
-        let ln_2 = LinearLayer::from_weights_and_bias(ln_2_weights, ln_2_bias);
+        let ln_1 = LayerNorm::from_weights_and_bias(ln_1_weights, ln_1_bias);
+        let ln_2 = LayerNorm::from_weights_and_bias(ln_2_weights, ln_2_bias);
         let attn = CasualSelfAttention::from_weights_and_bias(query_weights, query_bias, key_weights, key_bias, value_weights, value_bias, c_proj_weights, c_proj_bias);
         let mlp = MLP::from_weights_and_bias(mlp_c_fc_weights, mlp_c_fc_bias, mlp_c_proj_weights, mlp_c_proj_bias);
 
@@ -254,16 +288,35 @@ impl Block {
             embedding_dim: 768,
         }
     }
+
+     */
+
+    pub fn from_components(ln1: LayerNorm, ln2: LayerNorm, attn: CasualSelfAttention, mlp: MLP) -> Self {
+        Block {
+            ln_1: ln1,
+            ln_2: ln2,
+            attn,
+            mlp,
+            embedding_dim: 768,
+        }
+    }
 }
 
 impl Module for Block {
     fn forward(&mut self, x: &Tensor) -> Tensor {
+        info!("Block forward");
         let x = self.ln_1.forward(x);
+        info!("LayerNorm 1 done");
         let x = self.attn.forward(&x);
+        info!("Attention done");
         let x = x + x;
+        info!("Add done");
         let x = self.ln_2.forward(&x);
+        info!("LayerNorm 2 done");
         let x = self.mlp.forward(&x);
+        info!("MLP done");
         let x = x + x;
+        info!("Add done");
         x
     }
 
@@ -321,7 +374,7 @@ struct GPT {
     wte: Embedding,
     wpe: Embedding,
     blocks: Vec<Block>,
-    final_layer_norm: LinearLayer,
+    final_layer_norm: LayerNorm,
 }
 
 impl GPT {
@@ -334,11 +387,11 @@ impl GPT {
 
         let gpt_config = GPTConfig::from_bytestream(&mut buffer.as_ref());
 
-        println!("Reading in wte weights");
-        let wte_weights = Tensor::from_bytestream(read).unwrap();
+        info!("Reading in wte weights");
+        let wte_weights = Tensor::from_bytestream(read, false).unwrap();
 
-        println!("Reading in wpe weights");
-        let wpe_weights = Tensor::from_bytestream(read).unwrap();
+        info!("Reading in wpe weights");
+        let wpe_weights = Tensor::from_bytestream(read, false).unwrap();
 
         let mut blocks = vec![];
         for _ in 0..gpt_config.number_of_layers {
@@ -346,118 +399,135 @@ impl GPT {
             
         }
 
-        println!("Reading in block weights");
+        info!("Reading in block weights");
         for i in 0..gpt_config.number_of_layers {
-            let block_ln_1_weights = Tensor::from_bytestream(read).unwrap();
+            let block_ln_1_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(block_ln_1_weights);
         }
-        println!("Reading in block biases");
+        info!("Reading in block biases");
         for i in 0..gpt_config.number_of_layers { 
-            let block_ln_1_bias = Tensor::from_bytestream(read).unwrap();
+            let block_ln_1_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(block_ln_1_bias);
         }
 
 
-        println!("Reading in q weights");
+        info!("Reading in q weights");
         for i in 0..gpt_config.number_of_layers {
-            let q_weights = Tensor::from_bytestream(read).unwrap();
+            let q_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(q_weights);
         }
 
-        println!("Reading in k weights");
+        info!("Reading in k weights");
         for i in 0..gpt_config.number_of_layers {
-            let k_weights = Tensor::from_bytestream(read).unwrap();
+            let k_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(k_weights);
         }
 
-        println!("Reading in v weights");
+        info!("Reading in v weights");
         for i in 0..gpt_config.number_of_layers {
-            let v_weights = Tensor::from_bytestream(read).unwrap();
+            let v_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(v_weights);
         }
 
-        println!("Reading in q biases");
+        info!("Reading in q biases");
         for i in 0..gpt_config.number_of_layers {
-            let q_bias = Tensor::from_bytestream(read).unwrap();
+            let q_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(q_bias);
         }
 
-        println!("Reading in k biases");
+        info!("Reading in k biases");
         for i in 0..gpt_config.number_of_layers {
-            let k_bias = Tensor::from_bytestream(read).unwrap();
+            let k_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(k_bias);
         }
-
-        println!("Reading in v biases");
+        
+        info!("Reading in v biases");
         for i in 0..gpt_config.number_of_layers {
-            let v_bias = Tensor::from_bytestream(read).unwrap();
+            let v_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(v_bias);
         }
 
-        println!("Reading in c_proj weights");
+        info!("Reading in c_proj weights");
         for i in 0..gpt_config.number_of_layers {
-            let c_proj_weights = Tensor::from_bytestream(read).unwrap();
+            let c_proj_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(c_proj_weights);
         }
 
-        println!("Reading in c_proj biases");
+        info!("Reading in c_proj biases");
         for i in 0..gpt_config.number_of_layers {
-            let c_proj_bias = Tensor::from_bytestream(read).unwrap();
+            let c_proj_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(c_proj_bias);
         }
 
-        println!("Reading in block weights");
+        info!("Reading in block weights");
         for i in 0..gpt_config.number_of_layers {
-            let block_ln_2_weights = Tensor::from_bytestream(read).unwrap();
+            let block_ln_2_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(block_ln_2_weights);
         }
-        println!("Reading in block biases");
+        info!("Reading in block biases");
         for i in 0..gpt_config.number_of_layers {
-            let block_ln_2_bias = Tensor::from_bytestream(read).unwrap();
+            let block_ln_2_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(block_ln_2_bias);
         }
 
-        println!("MLP weights");
+        info!("MLP weights");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_fc_weights = Tensor::from_bytestream(read).unwrap();
+            let mlp_c_fc_weights = Tensor::from_bytestream(read, true).unwrap();
             blocks[i].push(mlp_c_fc_weights);
         }
 
-        println!("MLP biases");
+        info!("MLP biases");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_fc_bias = Tensor::from_bytestream(read).unwrap();
+            let mlp_c_fc_bias = Tensor::from_bytestream(read, true).unwrap();
             blocks[i].push(mlp_c_fc_bias);
         }
 
-        println!("MLP weights");
+        info!("MLP weights");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_proj_weights = Tensor::from_bytestream(read).unwrap();
+            let mlp_c_proj_weights = Tensor::from_bytestream(read, true).unwrap();
             blocks[i].push(mlp_c_proj_weights);
         }
 
-        println!("MLP biases");
+        info!("MLP biases");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_proj_bias = Tensor::from_bytestream(read).unwrap();
+            let mlp_c_proj_bias = Tensor::from_bytestream(read, true).unwrap();
             blocks[i].push(mlp_c_proj_bias);
         }
 
-        println!("Reading in final layer norm weights");
-        let final_layer_norm_weights = Tensor::from_bytestream(read).unwrap();
+        info!("Reading in final layer norm weights");
+        let final_layer_norm_weights = Tensor::from_bytestream(read, false).unwrap();
 
-        println!("Reading in final layer norm bias");
-        let final_layer_norm_bias = Tensor::from_bytestream(read).unwrap();
+        info!("Reading in final layer norm bias");
+        let final_layer_norm_bias = Tensor::from_bytestream(read, false).unwrap();
 
         let wte = Embedding::from_tensor(wte_weights);
         let wpe = Embedding::from_tensor(wpe_weights);
 
-        let mut blocks = blocks.iter().map(|x| Block::from_weights_and_bias(x[0].clone(), x[1].clone(), x[2].clone(), x[3].clone(), x[4].clone(), x[5].clone(), x[6].clone(), x[7].clone(), x[8].clone(), x[9].clone(), x[10].clone(), x[11].clone(), x[12].clone(), x[13].clone(), x[14].clone(), x[15].clone())).collect::<Vec<Block>>();
+        let mut blocks_vec = vec![];
+        for i in 0..gpt_config.number_of_layers {
+            let ln_1 = LayerNorm::from_weights_and_bias(blocks[i][0].clone(), blocks[i][1].clone());
 
-        let final_layer_norm = LinearLayer::from_weights_and_bias(final_layer_norm_weights, final_layer_norm_bias);
+            let attn = CasualSelfAttention::from_weights_and_bias(
+                    blocks[i][2].clone(), blocks[i][5].clone(), 
+                    blocks[i][3].clone(), blocks[i][6].clone(),
+                    blocks[i][4].clone(), blocks[i][7].clone(),
+                blocks[i][8].clone(), blocks[i][9].clone()
+        );
+
+            let ln_2 = LayerNorm::from_weights_and_bias(blocks[i][10].clone(), blocks[i][11].clone());
+
+            let mlp = MLP::from_weights_and_bias(blocks[i][12].clone(), blocks[i][13].clone(),
+                                                     blocks[i][14].clone(), blocks[i][15].clone());
+            let block = Block::from_components(ln_1, ln_2, attn, mlp);
+            blocks_vec.push(block);
+        }
+
+        let final_layer_norm = LayerNorm::from_weights_and_bias(final_layer_norm_weights, final_layer_norm_bias);
 
         GPT {
             wte,
             wpe,
-            blocks,
+            blocks: blocks_vec,
             final_layer_norm,
         }
     }
@@ -466,13 +536,22 @@ impl GPT {
 
 impl Model for GPT {
     fn forward(&mut self, x: &Tensor) -> Tensor {
+        info!("GPT forward");
         let toks = self.wte.forward(x);
+        info!("WTE done");
         let pos = self.wpe.forward(x);
+        info!("WPE done");
         let mut x = toks + pos;
+        info!("Add done");
+        let mut counts = 0;
         for block in self.blocks.iter_mut() {
+            info!("Block {}", counts);
             x = block.forward(&x);
+            counts += 1;
         }
+        info!("Blocks done");
         let x = self.final_layer_norm.forward(&x);
+        info!("Final layer norm done");
         x
     }
 
@@ -487,8 +566,14 @@ impl Model for GPT {
         parameters
     }
 }
-
+use std::fs::File;
+use std::path::Path;
 fn main() {
+    WriteLogger::init(
+        LevelFilter::Info, // Set the log level
+        Config::default(), // Use the default configuration
+        File::create(Path::new("Transfomer_test.log")).unwrap(), // Create or open the log file
+    ).unwrap();
     // open the file "gpt2.bin" and feed it to GPTConfig::from_bytestream
     let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
     let input = Tensor::randn(vec![1, 1, 1].into());

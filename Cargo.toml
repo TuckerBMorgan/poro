@@ -19,3 +19,5 @@ serde_json = "1.0.117"
 cudarc = { version="0.11.1", features = [
     "cuda-version-from-build-system",
 ]}
+log = "0.4.22"
+simplelog = "0.11"

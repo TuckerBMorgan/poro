@@ -51,7 +51,10 @@ class CausalSelfAttention(nn.Module):
         super().__init__()
         assert config.n_embd % config.n_head == 0
         # key, query, value projections for all heads, but in a batch
-        self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd)
+
+        self.q = nn.Linear(config.n_embd, config.n_embd)
+        self.k = nn.Linear(config.n_embd, config.n_embd)
+        self.v = nn.Linear(config.n_embd, config.n_embd)
         # output projection
         self.c_proj = nn.Linear(config.n_embd, config.n_embd)
         self.c_proj.LLMC_RESIDUAL_SCALE_FLAG = 1
@@ -65,11 +68,15 @@ class CausalSelfAttention(nn.Module):
     def forward(self, x):
         B, T, C = x.size() # batch size, sequence length, embedding dimensionality (n_embd)
         # calculate query, key, values for all heads in batch and move head forward to be the batch dim
-        qkv = self.c_attn(x)
-        q, k, v = qkv.split(self.n_embd, dim=2)
+
+        q = self.q(x)
+        k = self.k(x)
+        v = self.v(x)
+        
         k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
         q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
         v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
+
         if FLASH:
             # flashattention
             y = F.scaled_dot_product_attention(q, k, v, is_causal=True)
@@ -103,6 +110,10 @@ class MLP(nn.Module):
         self.c_proj.LLMC_RESIDUAL_SCALE_FLAG = 1
 
     def forward(self, x):
+        print("MLP start")
+        print(x.shape)
+        print(self.c_fc.weight.shape)
+        print("WHHOOOP")
         x = self.c_fc(x)
         x = self.gelu(x)
         x = self.c_proj(x)
@@ -127,6 +138,7 @@ class Block(nn.Module):
 
     def forward(self, x):
         x = x + self.attn(self.ln_1(x))
+        print(x.shape)
         x = x + self.mlp(self.ln_2(x))
         return x
 
@@ -430,6 +442,7 @@ class DistributedDataLoader:
 def write_fp32(tensor, file):
     # first write the length of the tensor's shape
     shape = torch.tensor(tensor.size(), dtype=torch.int32)
+    print(shape)
     # write the number of dimensions
     file.write(struct.pack("<i", len(shape)))
     file.write(shape.numpy().tobytes())
@@ -452,33 +465,54 @@ def write_tensors(model_tensors, L, file, dtype):
     # writes the GPT-2 model's weights to a binary file
     assert dtype in {"float32", "bfloat16"}
     write_fun = write_fp32 if dtype == "float32" else write_bf16
+    print("writing tensors to file")
+    print("writing wte")
     write_fun(model_tensors["transformer.wte.weight"], file) # (V, C)
-    
+    print("writing wpe")
     write_fun(model_tensors["transformer.wpe.weight"], file) # (T, C)
+    print("writing lm_head")
     for i in range(L): # (L, C)
         write_fun(model_tensors[f"transformer.h.{i}.ln_1.weight"], file)
     for i in range(L): # (L, C)
         write_fun(model_tensors[f"transformer.h.{i}.ln_1.bias"], file)
+    
     for i in range(L): # (L, 3C, C)
-        write_fun(model_tensors[f"transformer.h.{i}.attn.c_attn.weight"], file)
+        write_fun(model_tensors[f"transformer.h.{i}.attn.q.weight"], file)
+        
+    for i in range(L): # (L, 3C, C)
+        write_fun(model_tensors[f"transformer.h.{i}.attn.k.weight"], file) 
+        
+    for i in range(L): # (L, 3C, C)
+        write_fun(model_tensors[f"transformer.h.{i}.attn.v.weight"], file)       
+        
     for i in range(L): # (L, 3C)
-        write_fun(model_tensors[f"transformer.h.{i}.attn.c_attn.bias"], file)
+        write_fun(model_tensors[f"transformer.h.{i}.attn.q.bias"], file)
+    for i in range(L): # (L, 3C)
+        write_fun(model_tensors[f"transformer.h.{i}.attn.k.bias"], file)
+    for i in range(L): # (L, 3C)
+        write_fun(model_tensors[f"transformer.h.{i}.attn.v.bias"], file)
+    
+    
     for i in range(L): # (L, C, C)
         write_fun(model_tensors[f"transformer.h.{i}.attn.c_proj.weight"], file)
     for i in range(L): # (L, C)
         write_fun(model_tensors[f"transformer.h.{i}.attn.c_proj.bias"], file)
+
     for i in range(L): # (L, C)
         write_fun(model_tensors[f"transformer.h.{i}.ln_2.weight"], file)
     for i in range(L): # (L, C)
         write_fun(model_tensors[f"transformer.h.{i}.ln_2.bias"], file)
+    print("writing mlp")
     for i in range(L): # (L, 4C, C)
         write_fun(model_tensors[f"transformer.h.{i}.mlp.c_fc.weight"], file)
     for i in range(L): # (L, 4C)
         write_fun(model_tensors[f"transformer.h.{i}.mlp.c_fc.bias"], file)
+    print("writing mlp--")
     for i in range(L): # (L, C, 4C)
         write_fun(model_tensors[f"transformer.h.{i}.mlp.c_proj.weight"], file)
     for i in range(L): # (L, C)
         write_fun(model_tensors[f"transformer.h.{i}.mlp.c_proj.bias"], file)
+        
     write_fun(model_tensors["transformer.ln_f.weight"], file) # (C, )
     write_fun(model_tensors["transformer.ln_f.bias"], file) # (C, )
 
@@ -607,19 +641,11 @@ if __name__ == "__main__":
         "d48": GPTConfig(block_size=1024, vocab_size=50257, n_layer=48, n_head=25, n_embd=1600),
     }['d12']
     model = GPT(model_config)
-    write_model(model, "gpt2.bin", "float32")
-    #model.write_weights_to_file("gpt2.json")
-    mlp_model_config = {
-        "n_embd": 256
-    }
-    test_mlp = MLP(GPTConfig(block_size=1024, vocab_size=50257, n_layer=12, n_head=12, n_embd=768))
-    weights_dict = {}
-    test_mlp.add_weights_to_dict(weights_dict)
-    import json
-    with open("mlp_weights.json", "w") as f:
-        json.dump({k: v.tolist() for k, v in weights_dict.items()}, f)
-    print("exit")
+    test_input = torch.randint(0, 50257, (4, 64))
+    
+    model(test_input)
     exit()
+
     # default settings will overfit a tiny batch of data
     # and save model weights and debug state to disk on the first iteration
     parser = argparse.ArgumentParser()
