@@ -13,8 +13,11 @@ use std::{
     vec,
 };
 
+#[cfg(target_os = "windows")]
 use cudarc::driver::{LaunchAsync, LaunchConfig};
+#[cfg(target_os = "windows")]
 use cudarc::nvrtc::{compile_ptx, Ptx};
+
 use log::info;
 
 pub struct BackpropagationPacket<'a> {
@@ -35,11 +38,14 @@ pub struct Equation {
     pub advanced_logging: bool,
     pub timings: HashMap<String, u128>,
     auto_grad: bool,
+    #[cfg(target_os = "windows")]
     pub matmul_ptx: Option<Ptx>,
     pub operation_map: HashMap<Operation, TensorID>,
 }
 
 impl Equation {
+
+    #[cfg(target_os = "windows")]
     pub fn new() -> Equation {
         Equation {
             data_store: Vec::new(),
@@ -49,6 +55,18 @@ impl Equation {
             timings: HashMap::new(),
             auto_grad: true,
             matmul_ptx: None,
+            operation_map: HashMap::new(),
+        }
+    }
+    #[cfg(target_os = "macos")]
+    pub fn new() -> Equation {
+        Equation {
+            data_store: Vec::new(),
+            value_count: 0,
+            internal_tensor_store: HashMap::new(),
+            advanced_logging: false,
+            timings: HashMap::new(),
+            auto_grad: true,
             operation_map: HashMap::new(),
         }
     }
@@ -174,6 +192,7 @@ impl Equation {
             .insert(operation.to_string(), current_time + elapsed);
     }
 
+    #[cfg(target_os = "windows")]
     pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         let now = Instant::now();
         let dev: std::sync::Arc<cudarc::driver::CudaDevice> =
@@ -325,6 +344,7 @@ impl Equation {
         panic!("Not implemented");
     }
 
+    #[cfg(target_os = "windows")]
     pub fn matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         // I have only done the 2D case for now
         // so even if we have a cuda device, we should default to the standard matmul
@@ -335,6 +355,15 @@ impl Equation {
         } else {
             return self.standard_matmul(a, b);
         }
+    }
+
+    #[cfg(target_os = "macos")]
+    pub fn matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+        // I have only done the 2D case for now
+        // so even if we have a cuda device, we should default to the standard matmul
+        // for any case of 2dx2d
+
+        return self.standard_matmul(a, b);
     }
 
     pub fn element_wise_add(&self, a: TensorID, b: TensorID) -> Vec<f32> {

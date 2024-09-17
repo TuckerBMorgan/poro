@@ -641,7 +641,9 @@ if __name__ == "__main__":
         "d48": GPTConfig(block_size=1024, vocab_size=50257, n_layer=48, n_head=25, n_embd=1600),
     }['d12']
     model = GPT(model_config)
+    write_model(model, f"gpt2.bin", dtype="float32")
     test_input = torch.randint(0, 50257, (4, 64))
+    
     
     model(test_input)
     exit()
