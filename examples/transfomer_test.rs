@@ -13,6 +13,49 @@ use std::convert::TryInto;
 use simplelog::*;
 use log::{info, warn};
 
+use std::io::{BufWriter, Write};
+use std::fs::OpenOptions;
+
+fn write_f32_vector_to_file(path: &str, data: &[f32]) -> std::io::Result<()> {
+    // Create or open the file
+    let file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)?;
+
+    // Create a buffered writer to improve performance
+    let mut writer = BufWriter::new(file);
+    
+    // Write each f32 value to the file
+    for &value in data {
+        // Write the float value as a string
+        writeln!(writer, "{}", value)?;
+    }
+    
+    // Ensure all data is flushed to the file
+    writer.flush()?;
+    
+    Ok(())
+}
+
+fn write_string_vector_to_file(path: &str, data: &str) -> std::io::Result<()> {
+    // Create or open the file
+    let file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)?;
+
+    // Create a buffered writer to improve performance
+    let mut writer = BufWriter::new(file);
+
+        // Write the float value as a string
+        writeln!(writer, "{}", data)?;
+    
+    // Ensure all data is flushed to the file
+    writer.flush()?;
+    
+    Ok(())
+}
 
 struct LayerNorm {
     weight: Tensor,
@@ -273,23 +316,6 @@ struct Block {
 }
 
 impl Block {
-    /*
-    pub fn from_weights_and_bias(ln_1_weights: Tensor, ln_1_bias: Tensor, ln_2_weights: Tensor, ln_2_bias: Tensor, query_weights: Tensor, query_bias: Tensor, key_weights: Tensor, key_bias: Tensor, value_weights: Tensor, value_bias: Tensor, c_proj_weights: Tensor, c_proj_bias: Tensor, mlp_c_fc_weights: Tensor, mlp_c_fc_bias: Tensor, mlp_c_proj_weights: Tensor, mlp_c_proj_bias: Tensor) -> Self {
-        let ln_1 = LayerNorm::from_weights_and_bias(ln_1_weights, ln_1_bias);
-        let ln_2 = LayerNorm::from_weights_and_bias(ln_2_weights, ln_2_bias);
-        let attn = CasualSelfAttention::from_weights_and_bias(query_weights, query_bias, key_weights, key_bias, value_weights, value_bias, c_proj_weights, c_proj_bias);
-        let mlp = MLP::from_weights_and_bias(mlp_c_fc_weights, mlp_c_fc_bias, mlp_c_proj_weights, mlp_c_proj_bias);
-
-        Block {
-            ln_1,
-            ln_2,
-            attn,
-            mlp,
-            embedding_dim: 768,
-        }
-    }
-
-     */
 
     pub fn from_components(ln1: LayerNorm, ln2: LayerNorm, attn: CasualSelfAttention, mlp: MLP) -> Self {
         Block {
@@ -305,17 +331,36 @@ impl Block {
 impl Module for Block {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         info!("Block forward");
-        let x = self.ln_1.forward(x);
+        let y = self.ln_1.forward(x);
+                // Create or open the file
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing linear 1");
+        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
         info!("LayerNorm 1 done");
-        let x = self.attn.forward(&x);
+        
+        let y = self.attn.forward(&y);
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing attenion forward");
+        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+
         info!("Attention done");
-        let x = x + x;
+        let y = x + y;
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing Add");
+        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+
         info!("Add done");
-        let x = self.ln_2.forward(&x);
+        let y = self.ln_2.forward(&y);
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing linear 2");
+        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+
         info!("LayerNorm 2 done");
-        let x = self.mlp.forward(&x);
+        let y = self.mlp.forward(&y);
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing mlp foward");
+        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+
         info!("MLP done");
-        let x = x + x;
+        let x = x + y;
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing add 2");
+        write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+
         info!("Add done");
         x
     }
@@ -538,14 +583,26 @@ impl Model for GPT {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         info!("GPT forward");
         let toks = self.wte.forward(x);
+
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing Toks");
+        write_f32_vector_to_file("./rust_checkfile.txt", &toks.item().into_raw_vec());
+
         info!("WTE done");
         let pos = self.wpe.forward(x);
+
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing Pos");
+        write_f32_vector_to_file("./rust_checkfile.txt", &pos.item().into_raw_vec());
+
         info!("WPE done");
         let mut x = toks + pos;
+        write_string_vector_to_file("./rust_checkfile.txt", "Writing toks + pos");
+        write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
         info!("Add done");
         let mut counts = 0;
         for block in self.blocks.iter_mut() {
             info!("Block {}", counts);
+            let count_str = &(String::from("Block ") + &counts.to_string());
+            write_string_vector_to_file("./rust_checkfile.txt", count_str);
             x = block.forward(&x);
             counts += 1;
         }

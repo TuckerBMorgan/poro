@@ -34,6 +34,14 @@ from torch.distributed import init_process_group, destroy_process_group
 from torch.distributed.optim import ZeroRedundancyOptimizer
 import torch.distributed as dist
 
+def write_floats_to_file(path: str, data: list[float]) -> None:
+    with open(path, 'a') as file:
+        for value in data:
+            file.write(f"{value}\n")
+
+def append_string_to_file(path: str, content: str) -> None:
+    with open(path, 'a') as file:
+        file.write(f"{content}\n")
 # -----------------------------------------------------------------------------
 # PyTorch nn.Module definitions for the GPT-2 model
 
@@ -137,7 +145,11 @@ class Block(nn.Module):
         self.mlp = MLP(config)
 
     def forward(self, x):
-        x = x + self.attn(self.ln_1(x))
+        y = self.ln_1(x)
+        append_string_to_file("./python_checkfile.txt", "Writing Linear 1")
+        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+        y = self.attn(x)
+        x = x + x
         print(x.shape)
         x = x + self.mlp(self.ln_2(x))
         return x
@@ -219,6 +231,8 @@ class GPT(nn.Module):
 
         # forward the GPT model itself
         tok_emb = self.transformer.wte(idx) # token embeddings of shape (b, t, n_embd)
+        append_string_to_file("./python_checkfile.txt", "Writing Toks")
+        write_floats_to_file("./python_checkfile.txt", tok_emb.detach().numpy().flatten().tolist())
         pos_emb = self.transformer.wpe(pos) # position embeddings of shape (t, n_embd)
         x = tok_emb + pos_emb
 

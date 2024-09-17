@@ -1,1279 +1,1279 @@
-04:01:50 [INFO] Reading in wte weights
-04:01:50 [INFO] Reading in a tensor with shape: [50304, 768]
-04:01:50 [INFO] Reading in a tensor with num_elements: 38633472
-04:01:54 [INFO] Reading in wpe weights
-04:01:54 [INFO] Reading in a tensor with shape: [1024, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 786432
-04:01:54 [INFO] Reading in block weights
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in block biases
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in a tensor with shape: [768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 768
-04:01:54 [INFO] Reading in q weights
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in k weights
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:54 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:54 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in v weights
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:55 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:55 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in q biases
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in k biases
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in v biases
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in c_proj weights
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in a tensor with shape: [768, 768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 589824
-04:01:56 [INFO] Reading in c_proj biases
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in block weights
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in block biases
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] Reading in a tensor with shape: [768]
-04:01:56 [INFO] Reading in a tensor with num_elements: 768
-04:01:56 [INFO] MLP weights
-04:01:56 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:56 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:56 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:56 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:56 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:56 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:57 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:57 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:57 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:57 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:57 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:57 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:57 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:57 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:57 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:57 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:58 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:58 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:58 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:58 [INFO] Reading in a tensor with shape: [768, 3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:58 [INFO] MLP biases
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] Reading in a tensor with shape: [3072]
-04:01:58 [INFO] Reading in a tensor with num_elements: 3072
-04:01:58 [INFO] MLP weights
-04:01:58 [INFO] Reading in a tensor with shape: [3072, 768]
-04:01:58 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:58 [INFO] Reading in a tensor with shape: [3072, 768]
-04:01:58 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:59 [INFO] Reading in a tensor with shape: [3072, 768]
-04:01:59 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:59 [INFO] Reading in a tensor with shape: [3072, 768]
-04:01:59 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:59 [INFO] Reading in a tensor with shape: [3072, 768]
-04:01:59 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:59 [INFO] Reading in a tensor with shape: [3072, 768]
-04:01:59 [INFO] Reading in a tensor with num_elements: 2359296
-04:01:59 [INFO] Reading in a tensor with shape: [3072, 768]
-04:01:59 [INFO] Reading in a tensor with num_elements: 2359296
-04:02:00 [INFO] Reading in a tensor with shape: [3072, 768]
-04:02:00 [INFO] Reading in a tensor with num_elements: 2359296
-04:02:00 [INFO] Reading in a tensor with shape: [3072, 768]
-04:02:00 [INFO] Reading in a tensor with num_elements: 2359296
-04:02:00 [INFO] Reading in a tensor with shape: [3072, 768]
-04:02:00 [INFO] Reading in a tensor with num_elements: 2359296
-04:02:00 [INFO] Reading in a tensor with shape: [3072, 768]
-04:02:00 [INFO] Reading in a tensor with num_elements: 2359296
-04:02:00 [INFO] Reading in a tensor with shape: [3072, 768]
-04:02:00 [INFO] Reading in a tensor with num_elements: 2359296
-04:02:01 [INFO] MLP biases
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in final layer norm weights
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] Reading in final layer norm bias
-04:02:01 [INFO] Reading in a tensor with shape: [768]
-04:02:01 [INFO] Reading in a tensor with num_elements: 768
-04:02:01 [INFO] GPT forward
-04:02:01 [INFO] WTE done
-04:02:01 [INFO] WPE done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] Block 0
-04:02:01 [INFO] Block forward
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 1 done
-04:02:01 [INFO] CasualSelfAttention forward
-04:02:01 [INFO] Query start
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Query done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Value done
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attn weights done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attention done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 2 done
-04:02:01 [INFO] MLP forward
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_FC done
-04:02:01 [INFO] GELU done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_PROJ done
-04:02:01 [INFO] MLP done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] Block 1
-04:02:01 [INFO] Block forward
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 1 done
-04:02:01 [INFO] CasualSelfAttention forward
-04:02:01 [INFO] Query start
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Query done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Value done
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attn weights done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attention done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 2 done
-04:02:01 [INFO] MLP forward
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_FC done
-04:02:01 [INFO] GELU done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_PROJ done
-04:02:01 [INFO] MLP done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] Block 2
-04:02:01 [INFO] Block forward
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 1 done
-04:02:01 [INFO] CasualSelfAttention forward
-04:02:01 [INFO] Query start
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Query done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Value done
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attn weights done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attention done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 2 done
-04:02:01 [INFO] MLP forward
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_FC done
-04:02:01 [INFO] GELU done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_PROJ done
-04:02:01 [INFO] MLP done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] Block 3
-04:02:01 [INFO] Block forward
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 1 done
-04:02:01 [INFO] CasualSelfAttention forward
-04:02:01 [INFO] Query start
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Query done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Value done
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attn weights done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Attention done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 2 done
-04:02:01 [INFO] MLP forward
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_FC done
-04:02:01 [INFO] GELU done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] C_PROJ done
-04:02:01 [INFO] MLP done
-04:02:01 [INFO] Add done
-04:02:01 [INFO] Block 4
-04:02:01 [INFO] Block forward
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:01 [INFO] data length: 768
-04:02:01 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:01 [INFO] LayerNorm 1 done
-04:02:01 [INFO] CasualSelfAttention forward
-04:02:01 [INFO] Query start
-04:02:01 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] Query done
-04:02:01 [INFO] LinearLayer forward
-04:02:01 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:01 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Value done
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attn weights done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attention done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 2 done
-04:02:02 [INFO] MLP forward
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_FC done
-04:02:02 [INFO] GELU done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_PROJ done
-04:02:02 [INFO] MLP done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] Block 5
-04:02:02 [INFO] Block forward
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 1 done
-04:02:02 [INFO] CasualSelfAttention forward
-04:02:02 [INFO] Query start
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Query done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Value done
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attn weights done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attention done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 2 done
-04:02:02 [INFO] MLP forward
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_FC done
-04:02:02 [INFO] GELU done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_PROJ done
-04:02:02 [INFO] MLP done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] Block 6
-04:02:02 [INFO] Block forward
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 1 done
-04:02:02 [INFO] CasualSelfAttention forward
-04:02:02 [INFO] Query start
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Query done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Value done
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attn weights done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attention done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 2 done
-04:02:02 [INFO] MLP forward
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_FC done
-04:02:02 [INFO] GELU done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_PROJ done
-04:02:02 [INFO] MLP done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] Block 7
-04:02:02 [INFO] Block forward
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 1 done
-04:02:02 [INFO] CasualSelfAttention forward
-04:02:02 [INFO] Query start
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Query done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Value done
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attn weights done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attention done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 2 done
-04:02:02 [INFO] MLP forward
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_FC done
-04:02:02 [INFO] GELU done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_PROJ done
-04:02:02 [INFO] MLP done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] Block 8
-04:02:02 [INFO] Block forward
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 1 done
-04:02:02 [INFO] CasualSelfAttention forward
-04:02:02 [INFO] Query start
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Query done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Value done
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attn weights done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attention done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 2 done
-04:02:02 [INFO] MLP forward
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_FC done
-04:02:02 [INFO] GELU done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_PROJ done
-04:02:02 [INFO] MLP done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] Block 9
-04:02:02 [INFO] Block forward
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 1 done
-04:02:02 [INFO] CasualSelfAttention forward
-04:02:02 [INFO] Query start
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Query done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Value done
-04:02:02 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attn weights done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] Attention done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] LayerNorm 2 done
-04:02:02 [INFO] MLP forward
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_FC done
-04:02:02 [INFO] GELU done
-04:02:02 [INFO] LinearLayer forward
-04:02:02 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:02 [INFO] C_PROJ done
-04:02:02 [INFO] MLP done
-04:02:02 [INFO] Add done
-04:02:02 [INFO] Block 10
-04:02:02 [INFO] Block forward
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:02 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:02 [INFO] data length: 768
-04:02:02 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] LayerNorm 1 done
-04:02:03 [INFO] CasualSelfAttention forward
-04:02:03 [INFO] Query start
-04:02:03 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Query done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Key done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Value done
-04:02:03 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Attn weights done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Attention done
-04:02:03 [INFO] Add done
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] LayerNorm 2 done
-04:02:03 [INFO] MLP forward
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] C_FC done
-04:02:03 [INFO] GELU done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] C_PROJ done
-04:02:03 [INFO] MLP done
-04:02:03 [INFO] Add done
-04:02:03 [INFO] Block 11
-04:02:03 [INFO] Block forward
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] LayerNorm 1 done
-04:02:03 [INFO] CasualSelfAttention forward
-04:02:03 [INFO] Query start
-04:02:03 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Query done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Key done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Value done
-04:02:03 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Attn weights done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] Attention done
-04:02:03 [INFO] Add done
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] LayerNorm 2 done
-04:02:03 [INFO] MLP forward
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] C_FC done
-04:02:03 [INFO] GELU done
-04:02:03 [INFO] LinearLayer forward
-04:02:03 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
-04:02:03 [INFO] C_PROJ done
-04:02:03 [INFO] MLP done
-04:02:03 [INFO] Add done
-04:02:03 [INFO] Blocks done
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
-04:02:03 [INFO] data length: 768
-04:02:03 [INFO] new_shape_indices_vec: [1, 1, 768]
-04:02:03 [INFO] Final layer norm done
+04:40:23 [INFO] Reading in wte weights
+04:40:23 [INFO] Reading in a tensor with shape: [50304, 768]
+04:40:23 [INFO] Reading in a tensor with num_elements: 38633472
+04:40:26 [INFO] Reading in wpe weights
+04:40:26 [INFO] Reading in a tensor with shape: [1024, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 786432
+04:40:26 [INFO] Reading in block weights
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in block biases
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in a tensor with shape: [768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 768
+04:40:26 [INFO] Reading in q weights
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in k weights
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:26 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:26 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in v weights
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in q biases
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in k biases
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in v biases
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in a tensor with shape: [768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 768
+04:40:27 [INFO] Reading in c_proj weights
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:27 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:27 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in a tensor with shape: [768, 768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 589824
+04:40:28 [INFO] Reading in c_proj biases
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in block weights
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in block biases
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] Reading in a tensor with shape: [768]
+04:40:28 [INFO] Reading in a tensor with num_elements: 768
+04:40:28 [INFO] MLP weights
+04:40:28 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:28 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:28 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:28 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:28 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:28 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:28 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:28 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:29 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:29 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:29 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:29 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:29 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:29 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:29 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:29 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:29 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:29 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:30 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:30 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:30 [INFO] Reading in a tensor with shape: [768, 3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:30 [INFO] MLP biases
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] Reading in a tensor with shape: [3072]
+04:40:30 [INFO] Reading in a tensor with num_elements: 3072
+04:40:30 [INFO] MLP weights
+04:40:30 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:30 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:30 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:30 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:30 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:30 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:31 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:31 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:31 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:31 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:31 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:31 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:31 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:31 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:31 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:31 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:31 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:31 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:32 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:32 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:32 [INFO] Reading in a tensor with shape: [3072, 768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 2359296
+04:40:32 [INFO] MLP biases
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in final layer norm weights
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] Reading in final layer norm bias
+04:40:32 [INFO] Reading in a tensor with shape: [768]
+04:40:32 [INFO] Reading in a tensor with num_elements: 768
+04:40:32 [INFO] GPT forward
+04:40:32 [INFO] WTE done
+04:40:32 [INFO] WPE done
+04:40:32 [INFO] Add done
+04:40:32 [INFO] Block 0
+04:40:32 [INFO] Block forward
+04:40:32 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:32 [INFO] data length: 768
+04:40:32 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:32 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:32 [INFO] data length: 768
+04:40:32 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:32 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:32 [INFO] data length: 768
+04:40:32 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:32 [INFO] LayerNorm 1 done
+04:40:32 [INFO] CasualSelfAttention forward
+04:40:32 [INFO] Query start
+04:40:32 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:32 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:32 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:32 [INFO] LinearLayer forward
+04:40:32 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:32 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:32 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Query done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Value done
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attn weights done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attention done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 2 done
+04:40:33 [INFO] MLP forward
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_FC done
+04:40:33 [INFO] GELU done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_PROJ done
+04:40:33 [INFO] MLP done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] Block 1
+04:40:33 [INFO] Block forward
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 1 done
+04:40:33 [INFO] CasualSelfAttention forward
+04:40:33 [INFO] Query start
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Query done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Value done
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attn weights done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attention done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 2 done
+04:40:33 [INFO] MLP forward
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_FC done
+04:40:33 [INFO] GELU done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_PROJ done
+04:40:33 [INFO] MLP done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] Block 2
+04:40:33 [INFO] Block forward
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 1 done
+04:40:33 [INFO] CasualSelfAttention forward
+04:40:33 [INFO] Query start
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Query done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Value done
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attn weights done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attention done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 2 done
+04:40:33 [INFO] MLP forward
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_FC done
+04:40:33 [INFO] GELU done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_PROJ done
+04:40:33 [INFO] MLP done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] Block 3
+04:40:33 [INFO] Block forward
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 1 done
+04:40:33 [INFO] CasualSelfAttention forward
+04:40:33 [INFO] Query start
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Query done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Value done
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attn weights done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attention done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 2 done
+04:40:33 [INFO] MLP forward
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_FC done
+04:40:33 [INFO] GELU done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_PROJ done
+04:40:33 [INFO] MLP done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] Block 4
+04:40:33 [INFO] Block forward
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 1 done
+04:40:33 [INFO] CasualSelfAttention forward
+04:40:33 [INFO] Query start
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Query done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Value done
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attn weights done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attention done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 2 done
+04:40:33 [INFO] MLP forward
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_FC done
+04:40:33 [INFO] GELU done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_PROJ done
+04:40:33 [INFO] MLP done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] Block 5
+04:40:33 [INFO] Block forward
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 1 done
+04:40:33 [INFO] CasualSelfAttention forward
+04:40:33 [INFO] Query start
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Query done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Value done
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attn weights done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attention done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 2 done
+04:40:33 [INFO] MLP forward
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_FC done
+04:40:33 [INFO] GELU done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] C_PROJ done
+04:40:33 [INFO] MLP done
+04:40:33 [INFO] Add done
+04:40:33 [INFO] Block 6
+04:40:33 [INFO] Block forward
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:33 [INFO] data length: 768
+04:40:33 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:33 [INFO] LayerNorm 1 done
+04:40:33 [INFO] CasualSelfAttention forward
+04:40:33 [INFO] Query start
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Query done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Value done
+04:40:33 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] Attn weights done
+04:40:33 [INFO] LinearLayer forward
+04:40:33 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:33 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attention done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 2 done
+04:40:34 [INFO] MLP forward
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_FC done
+04:40:34 [INFO] GELU done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_PROJ done
+04:40:34 [INFO] MLP done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] Block 7
+04:40:34 [INFO] Block forward
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 1 done
+04:40:34 [INFO] CasualSelfAttention forward
+04:40:34 [INFO] Query start
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Query done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Value done
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attn weights done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attention done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 2 done
+04:40:34 [INFO] MLP forward
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_FC done
+04:40:34 [INFO] GELU done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_PROJ done
+04:40:34 [INFO] MLP done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] Block 8
+04:40:34 [INFO] Block forward
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 1 done
+04:40:34 [INFO] CasualSelfAttention forward
+04:40:34 [INFO] Query start
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Query done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Value done
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attn weights done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attention done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 2 done
+04:40:34 [INFO] MLP forward
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_FC done
+04:40:34 [INFO] GELU done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_PROJ done
+04:40:34 [INFO] MLP done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] Block 9
+04:40:34 [INFO] Block forward
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 1 done
+04:40:34 [INFO] CasualSelfAttention forward
+04:40:34 [INFO] Query start
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Query done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Value done
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attn weights done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attention done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 2 done
+04:40:34 [INFO] MLP forward
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_FC done
+04:40:34 [INFO] GELU done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_PROJ done
+04:40:34 [INFO] MLP done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] Block 10
+04:40:34 [INFO] Block forward
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 1 done
+04:40:34 [INFO] CasualSelfAttention forward
+04:40:34 [INFO] Query start
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Query done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Value done
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attn weights done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attention done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 2 done
+04:40:34 [INFO] MLP forward
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_FC done
+04:40:34 [INFO] GELU done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_PROJ done
+04:40:34 [INFO] MLP done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] Block 11
+04:40:34 [INFO] Block forward
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 1 done
+04:40:34 [INFO] CasualSelfAttention forward
+04:40:34 [INFO] Query start
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] X shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Query done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Value done
+04:40:34 [INFO] Query shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Key transpose shape: Shape { number_of_indices: 3, indices: [1, 768, 1, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attn weights done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] Attention done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] LayerNorm 2 done
+04:40:34 [INFO] MLP forward
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [768, 3072, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [3072, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_FC done
+04:40:34 [INFO] GELU done
+04:40:34 [INFO] LinearLayer forward
+04:40:34 [INFO] x.shape: Shape { number_of_indices: 3, indices: [1, 1, 3072, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] weights.shape: Shape { number_of_indices: 2, indices: [3072, 768, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] bias.shape: Shape { number_of_indices: 1, indices: [768, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] middle_product.shape: Shape { number_of_indices: 3, indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0] }
+04:40:34 [INFO] C_PROJ done
+04:40:34 [INFO] MLP done
+04:40:34 [INFO] Add done
+04:40:34 [INFO] Blocks done
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] new_shape_indices: [1, 1, 768, 0, 0, 0, 0, 0, 0, 0]
+04:40:34 [INFO] data length: 768
+04:40:34 [INFO] new_shape_indices_vec: [1, 1, 768]
+04:40:34 [INFO] Final layer norm done
