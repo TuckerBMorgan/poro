@@ -1,3 +1,5 @@
+use log::info;
+
 use crate::{Shape, Tensor};
 
 use super::Module;
@@ -27,14 +29,13 @@ impl Module for Embedding {
     fn forward(&mut self, input: &Tensor) -> Tensor {
         let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![input.shape.indices[0], input.shape.indices[1], self.model_dimension]));
         let data = self.tensor.item();
+
         for b in 0..input.shape.indices[0] {
             for t in 0..input.shape.indices[1] {
                 let view = input.view([b, t].into());
-                let index = view.item()[[0, 0]] as usize;
+                let index = view.item()[[0]] as usize;
                 for i in 0..self.model_dimension {
-
                     let datum = data[[index, i]];
-
                     test_index_tensor.set_index(
                         [b,t, i].into(),
                         vec![datum]

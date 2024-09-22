@@ -44,12 +44,7 @@ impl LinearLayer {
 
 impl Module for LinearLayer {
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        info!("LinearLayer forward");
-        info!("x.shape: {:?}", x.shape);
-        info!("weights.shape: {:?}", self.weights.shape);
-        info!("bias.shape: {:?}", self.bias.shape);
         let middle_product = *x << self.weights;
-        info!("middle_product.shape: {:?}", middle_product.shape);
         middle_product + self.bias
     }
 

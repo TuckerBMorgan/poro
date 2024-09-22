@@ -82,8 +82,8 @@ impl LayerNorm {
 
 impl Module for LayerNorm {
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        let mean = x.mean(vec![0]);
-        let std = x.std(vec![0]);
+        let mean = x.mean(vec![2]);
+        let std = x.std(vec![2]);
         let x = (*x - mean) / std;
         let x = x * self.weight + self.bias;
         x
@@ -171,27 +171,35 @@ impl Module for CasualSelfAttention {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         info!("CasualSelfAttention forward");
         info!("Query start");
+        let B = x.shape.indices[0];
+        let T = x.shape.indices[1];
+        let C = x.shape.indices[2];
 
-        info!("Query shape: {:?}", self.query_attention.weights.shape);
-        info!("Key shape: {:?}", self.key_attention.weights.shape);
-        info!("X shape: {:?}", x.shape);
 
-
+        let num_heads = 12;
+        println!("Num heads: {}", num_heads);
+        println!("B: {}, T: {}, C: {}", B, T, C);
 
         let query = self.query_attention.forward(x);
-        info!("Query done");
-        let key = self.key_attention.forward(x);
-        info!("Key done");
-        let value = self.value_attention.forward(x);
-        info!("Value done");
+        let query = query.reshape(vec![B, T, num_heads, C / num_heads].into()).tranpose_with_provided_axis(1, 2);
         info!("Query shape: {:?}", query.shape);
-        let key_transpose = key.tranpose_with_provided_axis(1, 2);
-        info!("Key transpose shape: {:?}", key_transpose.shape);
-        let attn_weights = query << key_transpose;
+
+        let key = self.key_attention.forward(x);
+        let key = key.reshape(vec![B, T, num_heads, C / num_heads].into()).tranpose_with_provided_axis(1, 2);
+        info!("Key shape: {:?}", key.shape);
+
+        let value = self.value_attention.forward(x);
+        let value = value.reshape(vec![B, T, num_heads, C / num_heads].into()).tranpose_with_provided_axis(1, 2);
+        info!("Value shape: {:?}", value.shape);
+
+        let attn_weights = query << key;
         info!("Attn weights done");
         let attn_weights = attn_weights.softmax(attn_weights.shape.number_of_indices - 1);
+        info!("Softmax done");
         let attn_output = attn_weights << value;
+        info!("Attn output done");
         let x = self.c_proj.forward(&attn_output);
+        info!("C_proj done");
         x
     }
 
@@ -333,33 +341,33 @@ impl Module for Block {
         info!("Block forward");
         let y = self.ln_1.forward(x);
                 // Create or open the file
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing linear 1");
-        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
         info!("LayerNorm 1 done");
         
         let y = self.attn.forward(&y);
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing attenion forward");
-        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Attn");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("Attention done");
-        let y = x + y;
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing Add");
-        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let y = *x + y;
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing Add");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("Add done");
         let y = self.ln_2.forward(&y);
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing linear 2");
-        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing linear 2");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("LayerNorm 2 done");
         let y = self.mlp.forward(&y);
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing mlp foward");
-        write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing mlp foward");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("MLP done");
-        let x = x + y;
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing add 2");
-        write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+        let x = *x + y;
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing add 2");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
 
         info!("Add done");
         x
@@ -584,26 +592,27 @@ impl Model for GPT {
         info!("GPT forward");
         let toks = self.wte.forward(x);
 
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing Toks");
-        write_f32_vector_to_file("./rust_checkfile.txt", &toks.item().into_raw_vec());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Toks");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &toks.item().into_raw_vec());
 
         info!("WTE done");
-        let pos = self.wpe.forward(x);
+        let pos_arange = Tensor::arange(0, x.shape.indices[1], 1).reshape(vec![1, x.shape.indices[1]].into());
+        let pos = self.wpe.forward(&pos_arange);
 
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing Pos");
-        write_f32_vector_to_file("./rust_checkfile.txt", &pos.item().into_raw_vec());
+
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Pos");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &pos.item().into_raw_vec());
 
         info!("WPE done");
         let mut x = toks + pos;
-        write_string_vector_to_file("./rust_checkfile.txt", "Writing toks + pos");
-        write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$TokPos");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
         info!("Add done");
         let mut counts = 0;
         for block in self.blocks.iter_mut() {
             info!("Block {}", counts);
-            let count_str = &(String::from("Block ") + &counts.to_string());
-            write_string_vector_to_file("./rust_checkfile.txt", count_str);
             x = block.forward(&x);
+            panic!("Block done");
             counts += 1;
         }
         info!("Blocks done");
@@ -631,10 +640,21 @@ fn main() {
         Config::default(), // Use the default configuration
         File::create(Path::new("Transfomer_test.log")).unwrap(), // Create or open the log file
     ).unwrap();
+    let file_path = "./rust_checkfile.txt";
+
+    // Open the file with write mode to truncate it (clear contents)
+    let mut file = OpenOptions::new().write(true).truncate(true).open(file_path).unwrap();
+
+    // Optionally, you can write something to the file, here it's just empty
+    file.write_all(b"").unwrap();
+
+    let test_input_file_path = "./test_input.bin";
+    let test_input = Tensor::from_bytestream(&mut File::open(test_input_file_path).unwrap(), false).unwrap();
+    println!("{:?}", test_input.shape);
     // open the file "gpt2.bin" and feed it to GPTConfig::from_bytestream
     let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
     let input = Tensor::randn(vec![1, 1, 1].into());
-    let output = gpt.forward(&input);
+    let output = gpt.forward(&test_input);
     return;
     let gpt_config = GPTConfig::from_bytestream(&mut std::fs::File::open("gpt2.bin").unwrap());
 

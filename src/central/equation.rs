@@ -341,7 +341,7 @@ impl Equation {
             return result.into_dyn();
         }
 
-        panic!("Not implemented");
+        panic!("a shape: {:?}, b shape: {:?}", a.shape(), b.shape());
     }
 
     #[cfg(target_os = "windows")]
