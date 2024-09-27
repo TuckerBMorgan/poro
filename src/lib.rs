@@ -55,6 +55,20 @@ mod tests {
     }
 
     #[test]
+    fn transpose_test() {
+        let a = Tensor::from_vec(vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0], vec![2, 3].into());
+        let a_array = ArrayD::from_shape_vec(vec![2, 3], vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+            .unwrap();
+        let a_array_t = a_array.t();
+        println!("{:?}", a_array_t);
+        println!("{:?}", a.item());
+        let b = a.transpose();
+        let result = b.item();
+        println!("{:?}", result);
+        assert!(result == arr2(&[[1.0, 4.0], [2.0, 5.0], [3.0, 6.0]]).into_dyn());
+    }
+
+    #[test]
     fn micrograd_copy_test() {
         let x1 = Tensor::element(Shape::new(vec![1]), 2.0);
         let x2 = Tensor::element(Shape::new(vec![1]), 0.0);

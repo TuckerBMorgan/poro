@@ -4,6 +4,7 @@ use super::{
     tensor::TensorID,
 };
 use core::panic;
+use ndarray::linalg::general_mat_mul;
 use ndarray::parallel::prelude::{IntoParallelIterator, ParallelIterator};
 use ndarray::prelude::*;
 use rand_distr::{Distribution, Normal};
@@ -96,6 +97,7 @@ impl Equation {
             info!("shape number of indices: {}", shape.number_of_indices);
             info!("Shape Length: {}", shape.total_size());
             info!("Data Length: {}", data.len());
+            info!("Operation: {:?}", operation);
             info!("Shape and data length mismatch");
         }
 
@@ -278,6 +280,56 @@ impl Equation {
         return ArrayD::from_shape_vec(vec![a_shape[0], b_shape[1]], c_host).unwrap();
     }
 
+    fn matmul_4d(a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+        // Ensure both arrays are 4-dimensional
+        if a.ndim() != 4 || b.ndim() != 4 {
+            panic!("Both arrays must be 4-dimensional.");
+        }
+    
+        let shape_a = a.shape();
+        let shape_b = b.shape();
+    
+        // Check inner dimensions for compatibility
+        if shape_a[3] != shape_b[2] {
+            panic!(
+                "Dimension mismatch: a.shape[3] ({}) != b.shape[2] ({})",
+                shape_a[3], shape_b[2]
+            );
+        }
+    
+        // Check that the outer dimensions match
+        if shape_a[0] != shape_b[0] || shape_a[1] != shape_b[1] {
+            panic!("Outer dimensions of arrays do not match.");
+        }
+    
+        // Determine the shape of the result array
+        let result_shape = [shape_a[0], shape_a[1], shape_a[2], shape_b[3]];
+        let mut result = ArrayD::<f32>::zeros(IxDyn(&result_shape));
+    
+        // Iterate over the first two dimensions
+        for i in 0..shape_a[0] {
+            for j in 0..shape_a[1] {
+                // Extract 2D slices from both arrays
+                let a_slice = a.slice(s![i, j, .., ..]);
+                let b_slice = b.slice(s![i, j, .., ..]);
+    
+                // Convert slices to 2D arrays
+                let a_mat = a_slice.into_dimensionality::<Ix2>().unwrap();
+                let b_mat = b_slice.into_dimensionality::<Ix2>().unwrap();
+    
+                // Perform matrix multiplication
+                let res = a_mat.dot(&b_mat);
+    
+                // Assign the result back to the corresponding slice in the result array
+                result
+                    .slice_mut(s![i, j, .., ..])
+                    .assign(&res);
+            }
+        }
+    
+        result
+    }
+
     pub fn standard_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
 
         if a.ndim() == 1 && b.ndim() == 2 {
@@ -292,6 +344,7 @@ impl Equation {
             // Convert both down to 2D arrays
             let a_2d = a.clone().into_dimensionality::<Ix2>().unwrap();
             let b_2d = b.clone().into_dimensionality::<Ix1>().unwrap();
+
             return a_2d.dot(&b_2d).into_dyn();
         }
 
@@ -339,6 +392,10 @@ impl Equation {
                 result.slice_mut(s![i, .., ..]).assign(&temp);
             }
             return result.into_dyn();
+        }
+
+        if a.ndim() == 4 && b.ndim() == 4 {
+            return Equation::matmul_4d(a, b);
         }
 
         panic!("a shape: {:?}, b shape: {:?}", a.shape(), b.shape());

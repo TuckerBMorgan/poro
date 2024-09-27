@@ -15,7 +15,7 @@ use log::{info, warn};
 
 use std::io::{BufWriter, Write};
 use std::fs::OpenOptions;
-
+use ndarray::prelude::*;
 fn write_f32_vector_to_file(path: &str, data: &[f32]) -> std::io::Result<()> {
     // Create or open the file
     let file = OpenOptions::new()
@@ -176,30 +176,55 @@ impl Module for CasualSelfAttention {
         let C = x.shape.indices[2];
 
 
+
         let num_heads = 12;
-        println!("Num heads: {}", num_heads);
-        println!("B: {}, T: {}, C: {}", B, T, C);
+       
+        let query = self.query_attention.forward(&x);
+        let key = self.key_attention.forward(&x);
+        let value = self.value_attention.forward(&x);
 
-        let query = self.query_attention.forward(x);
+
+
+
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Query");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query.item().into_raw_vec());
+
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Key");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key.item().into_raw_vec());
+
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Value");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &value.item().into_raw_vec());
+
+        
         let query = query.reshape(vec![B, T, num_heads, C / num_heads].into()).tranpose_with_provided_axis(1, 2);
-        info!("Query shape: {:?}", query.shape);
-
-        let key = self.key_attention.forward(x);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$QueryT");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query.item().into_raw_vec());
         let key = key.reshape(vec![B, T, num_heads, C / num_heads].into()).tranpose_with_provided_axis(1, 2);
-        info!("Key shape: {:?}", key.shape);
-
-        let value = self.value_attention.forward(x);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$KeyT");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key.item().into_raw_vec());
         let value = value.reshape(vec![B, T, num_heads, C / num_heads].into()).tranpose_with_provided_axis(1, 2);
-        info!("Value shape: {:?}", value.shape);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$ValueT");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &value.item().into_raw_vec());
+
+        let key_super_tranposed = key.tranpose_with_provided_axis(2, 3);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$KeyST");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key_super_tranposed.item().into_raw_vec());
+        let query_key = query << key_super_tranposed;
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$QueryKey");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query_key.item().into_raw_vec());
+        let denom = 1.0 / (key.shape.indices[key.shape.number_of_indices - 1] as f32).sqrt();
+        let attn_weights = query_key * denom;
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnWeights");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
+
+        panic!("Done");
+
 
         let attn_weights = query << key;
-        info!("Attn weights done");
         let attn_weights = attn_weights.softmax(attn_weights.shape.number_of_indices - 1);
-        info!("Softmax done");
         let attn_output = attn_weights << value;
-        info!("Attn output done");
+        let attn_output = attn_output.tranpose_with_provided_axis(1, 2).reshape(vec![B, T, C].into());
         let x = self.c_proj.forward(&attn_output);
-        info!("C_proj done");
         x
     }
 
@@ -341,13 +366,13 @@ impl Module for Block {
         info!("Block forward");
         let y = self.ln_1.forward(x);
                 // Create or open the file
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
         info!("LayerNorm 1 done");
         
         let y = self.attn.forward(&y);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Attn");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Attn");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("Attention done");
         let y = *x + y;
@@ -592,21 +617,21 @@ impl Model for GPT {
         info!("GPT forward");
         let toks = self.wte.forward(x);
 
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Toks");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &toks.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Toks");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &toks.item().into_raw_vec());
 
         info!("WTE done");
         let pos_arange = Tensor::arange(0, x.shape.indices[1], 1).reshape(vec![1, x.shape.indices[1]].into());
         let pos = self.wpe.forward(&pos_arange);
 
 
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Pos");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &pos.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Pos");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &pos.item().into_raw_vec());
 
         info!("WPE done");
         let mut x = toks + pos;
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$TokPos");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$TokPos");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
         info!("Add done");
         let mut counts = 0;
         for block in self.blocks.iter_mut() {

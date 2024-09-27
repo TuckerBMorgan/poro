@@ -76,28 +76,49 @@ class CausalSelfAttention(nn.Module):
     def forward(self, x):
         B, T, C = x.size() # batch size, sequence length, embedding dimensionality (n_embd)
         # calculate query, key, values for all heads in batch and move head forward to be the batch dim
-
         q = self.q(x)
         k = self.k(x)
         v = self.v(x)
+
         
 
-                
-        k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
+        append_string_to_file("./python_checkfile.txt", "$Query")
+        write_floats_to_file("./python_checkfile.txt", q.detach().numpy().flatten().tolist())
+        append_string_to_file("./python_checkfile.txt", "$Key")
+        write_floats_to_file("./python_checkfile.txt", k.detach().numpy().flatten().tolist())
+        append_string_to_file("./python_checkfile.txt", "$Value")
+        write_floats_to_file("./python_checkfile.txt", v.detach().numpy().flatten().tolist())
+
         q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
+        append_string_to_file("./python_checkfile.txt", "$QueryT")
+        write_floats_to_file("./python_checkfile.txt", q.detach().numpy().flatten().tolist())
+
+        k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
+        append_string_to_file("./python_checkfile.txt", "$KeyT")
+        write_floats_to_file("./python_checkfile.txt", k.detach().numpy().flatten().tolist())
         v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
-        
-        print(k.shape)
-        print(q.shape)
-        print(v.shape)
+        append_string_to_file("./python_checkfile.txt", "$ValueT")
+        write_floats_to_file("./python_checkfile.txt", v.detach().numpy().flatten().tolist())
         
         if FLASH:
             # flashattention
             y = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         else:
-            # manual implementation of attention
+        # manual implementation of attention
             # this materializes the large (T,T) matrix for all the queries and keys
+            key_super_tranposed = k.transpose(-2, -1)
+            append_string_to_file("./python_checkfile.txt", "$KeyST")
+            write_floats_to_file("./python_checkfile.txt", key_super_tranposed.detach().numpy().flatten().tolist())
+            query_key = q @ key_super_tranposed
+            append_string_to_file("./python_checkfile.txt", "$QueryKey")
+            write_floats_to_file("./python_checkfile.txt", query_key.detach().numpy().flatten().tolist())
+            denom = (1.0 / math.sqrt(k.size(-1)))
+            query_key = query_key * denom
+            append_string_to_file("./python_checkfile.txt", "$QueryKeyNorm")
+            write_floats_to_file("./python_checkfile.txt", query_key.detach().numpy().flatten().tolist())
+            exit()
             att = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
+            print("Att shape", att.shape)
             att = att.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
             att = F.softmax(att, dim=-1)
             y = att @ v # (B, nh, T, T) x (B, nh, T, hs) -> (B, nh, T, hs)
@@ -148,11 +169,11 @@ class Block(nn.Module):
 
     def forward(self, x):
         y = self.ln_1(x)
-        append_string_to_file("./python_checkfile.txt", "$Linear_1")
-        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+        #append_string_to_file("./python_checkfile.txt", "$Linear_1")
+        #write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         y = self.attn(y)
-        append_string_to_file("./python_checkfile.txt", "$Attn")
-        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+        #append_string_to_file("./python_checkfile.txt", "$Attn")
+        #write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         x = x + y
         x = x + self.mlp(self.ln_2(y))
         return x
@@ -234,14 +255,14 @@ class GPT(nn.Module):
 
         # forward the GPT model itself
         tok_emb = self.transformer.wte(idx) # token embeddings of shape (b, t, n_embd)
-        append_string_to_file("./python_checkfile.txt", "$Toks")
-        write_floats_to_file("./python_checkfile.txt", tok_emb.detach().numpy().flatten().tolist())
+        #append_string_to_file("./python_checkfile.txt", "$Toks")
+        #write_floats_to_file("./python_checkfile.txt", tok_emb.detach().numpy().flatten().tolist())
         pos_emb = self.transformer.wpe(pos) # position embeddings of shape (t, n_embd)
-        append_string_to_file("./python_checkfile.txt", "$Pos")
-        write_floats_to_file("./python_checkfile.txt", pos_emb.detach().numpy().flatten().tolist())
+        #append_string_to_file("./python_checkfile.txt", "$Pos")
+        #write_floats_to_file("./python_checkfile.txt", pos_emb.detach().numpy().flatten().tolist())
         x = tok_emb + pos_emb
-        append_string_to_file("./python_checkfile.txt", "$TokPos")
-        write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
+        #append_string_to_file("./python_checkfile.txt", "$TokPos")
+        #write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
         count = 0
         print(x.shape)
         print(x.mean().shape)

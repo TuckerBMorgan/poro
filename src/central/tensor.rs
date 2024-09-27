@@ -402,18 +402,27 @@ impl Tensor {
 
         let mut singleton = get_equation();
 
-        let mut new_shape_indicies = self.shape.indices.clone();
-        new_shape_indicies[axis] = 1;
+        let mut new_shape_indices = vec![];
+
+        for i in 0..self.shape.number_of_indices {
+            if i != axis {
+                new_shape_indices.push(self.shape.indices[i]);
+            }
+            else if i == axis {
+                new_shape_indices.push(1);
+            }
+        }
+
 
         let tensor_id = singleton.allocate_tensor(
-            Shape::new(vec![new_shape_indicies[0], new_shape_indicies[1]]),
+            Shape::new(new_shape_indices.clone()),
             data,
             Operation::Sum(self.tensor_id, axis),
         );
 
         Tensor {
             tensor_id,
-            shape: Shape::new(vec![self.shape.indices[0], new_shape_indicies[1]]),
+            shape: Shape::new(new_shape_indices),
             operation: Operation::Sum(self.tensor_id, axis),
             name: ['a'; NAME_LENGTH],
         }
@@ -579,6 +588,68 @@ impl Tensor {
         }
     }
 
+    fn swap_axes(data: Vec<f32>, shape: &Vec<usize>, axis1: usize, axis2: usize) -> Vec<f32> {
+
+        // Swap the axes in the shape to get the new shape
+        let mut new_shape = shape.to_vec();
+        new_shape.swap(axis1, axis2);
+    
+        // Compute strides for the input and output shapes
+        let input_strides = Tensor::compute_strides(shape);
+        let output_strides = Tensor::compute_strides(&new_shape);
+    
+        // Prepare the output data vector
+        let mut output_data = vec![0.0; data.len()];
+    
+        // Iterate over each index in the input data
+        for idx in 0..data.len() {
+            // Convert linear index to multi-dimensional index for input
+            let mut multi_idx = vec![0; shape.len()];
+            let mut remaining = idx;
+            for (i, &stride) in input_strides.iter().enumerate() {
+                multi_idx[i] = remaining / stride;
+                remaining %= stride;
+            }
+    
+            // Swap the axes in the multi-dimensional index
+            multi_idx.swap(axis1, axis2);
+    
+            // Convert the multi-dimensional index back to a linear index for output
+            let mut out_idx = 0;
+            for (i, &val) in multi_idx.iter().enumerate() {
+                out_idx += val * output_strides[i];
+            }
+    
+            // Assign the value to the output data vector
+            output_data[out_idx] = data[idx];
+        }
+
+        output_data
+    }
+    
+    // Helper function to compute strides for a given shape
+    fn compute_strides(shape: &[usize]) -> Vec<usize> {
+        let n = shape.len();
+        let mut strides = vec![0; n];
+        strides[n - 1] = 1;
+        for i in (0..n - 1).rev() {
+            strides[i] = strides[i + 1] * shape[i + 1];
+        }
+        strides
+    }
+
+    fn transpose_inside(matrix: Vec<f32>, rows: usize, cols: usize) -> Vec<f32> {
+        let mut transposed = vec![0.0; rows * cols];
+        
+        for r in 0..rows {
+            for c in 0..cols {
+                transposed[c * rows + r] = matrix[r * cols + c];
+            }
+        }
+        
+        transposed
+    }
+
     // Helper function for the most common use case
     pub fn transpose(&self) -> Tensor {
         return self.tranpose_with_provided_axis(0, 1);
@@ -587,12 +658,15 @@ impl Tensor {
     /// this will swap the indices at the procived indices
     pub fn tranpose_with_provided_axis(&self, first_index: usize, second_index: usize) -> Tensor {
         let mut singleton = get_equation();
-
         let data = singleton.get_item(self.tensor_id).clone();
-        let mut data = ArrayD::from_shape_vec(self.shape.as_ndarray_shape(), data).unwrap();
 
-        data.swap_axes(first_index, second_index);
+        let mut indices = vec![];
+        let current_shape = self.shape;
+        for i in 0..self.shape.number_of_indices {
 
+            indices.push(current_shape.indices[i]);
+        }
+        let data = Tensor::swap_axes(data, &indices, first_index, second_index);
         // create a new shape with the indices swapped
         let mut new_shape_indices = self.shape.indices.clone();
         new_shape_indices.swap(first_index, second_index);
@@ -602,7 +676,7 @@ impl Tensor {
 
         let tensor_id = singleton.allocate_tensor_from_operation(
             new_shape.clone(),
-            data.to_owned().into_raw_vec(),
+            data,
             Operation::Transpose(self.tensor_id, first_index, second_index),
         );
 
@@ -616,18 +690,30 @@ impl Tensor {
 
     pub fn max(&self, axis: usize) -> Tensor {
         let mut shape = self.shape.clone().indices;
+        let number_of_indices = self.shape.number_of_indices;
+
         shape[axis] = 1;
         // Find the max value along the second axis (axis 1)
         let max_values = self.item().map_axis(Axis(axis), |row| {
             *row.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap()
         });
         // Reshape the result to [32, 1]
-
-        let result = max_values.into_shape((shape[0], shape[1])).unwrap();
-
+        let mut new_shape = vec![];
+        for i in 0..number_of_indices {
+            if i != axis {
+                new_shape.push(shape[i]);
+            } else {
+                new_shape.push(1);
+            }
+        }
+        println!("new_shape: {:?}", new_shape);
+        let result = max_values.into_shape(new_shape.clone()).unwrap();
+        println!("result: {:?}", result.shape());
         let mut singleton = get_equation();
         // HACK: this should be generic to any sized shape, but I am not sure how to do that
-        let new_shape = Shape::new(vec![shape[0], shape[1]]);
+        let new_shape = Shape::new(new_shape);
+        println!("new_shape: {:?}", new_shape);
+        info!("new_sssshape: {:?}", new_shape);
         let tensor_id = singleton.allocate_tensor_from_operation(
             new_shape,
             result.iter().map(|x| *x).collect(),
@@ -697,7 +783,9 @@ impl Tensor {
     }
 
     pub fn softmax(&self, axis: usize) -> Tensor {
+        info!("Softmax");
         let max = self.max(axis);
+        info!("After max");
         let counts = (*self - max).exp();
         let sum = counts.sum(axis);
         let sum_inverted = sum.pow(-1.0);

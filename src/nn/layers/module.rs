@@ -43,9 +43,10 @@ impl LinearLayer {
 }
 
 impl Module for LinearLayer {
+    
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        let middle_product = *x << self.weights;
-        middle_product + self.bias
+        let weight_transpose = self.weights.transpose();
+        (*x << weight_transpose) + self.bias
     }
 
     fn get_parameters(&self) -> Vec<Tensor> {

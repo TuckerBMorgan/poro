@@ -110,6 +110,18 @@ impl Shape {
             new_indices.push(self.indices[1]);
             return Shape::new(new_indices);
         }
+
+        if self.number_of_indices == 4 && other.number_of_indices == 4 {
+            assert!(self.indices[3] == other.indices[2]);
+            let mut new_indices = Vec::new();
+            new_indices.push(self.indices[0]);
+            new_indices.push(self.indices[1]);
+            new_indices.push(self.indices[2]);
+            new_indices.push(other.indices[3]);
+            return Shape::new(new_indices);
+        }
+
+
         panic!("Not implemented");
     }
 
