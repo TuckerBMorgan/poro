@@ -86,6 +86,20 @@ impl Equation {
         self.allocate_tensor(shape, data, Operation::Nop)
     }
 
+    pub fn allocate_tril_tensor(&mut self, shape: Shape) -> TensorID {
+        let mut data = vec![0.0; shape.total_size()];
+        let mut index = 0;
+        for i in 0..shape.indices[0] {
+            for j in 0..shape.indices[1] {
+                if i >= j {
+                    data[index] = 1.0;
+                }
+                index += 1;
+            }
+        }
+        self.allocate_tensor(shape, data, Operation::Nop)
+    }
+
     pub fn allocate_tensor(
         &mut self,
         shape: Shape,
@@ -680,6 +694,9 @@ impl Equation {
                 let source_grad = self.get_tensor_grad(a);
                 let grad_update = source_grad + grad.clone() * source_data.map(|x| -x.sin());
                 self.set_tensor_grad(a, grad_update);
+            },
+            Operation::MaskedFill(a, b, c) => {
+                panic!("Masked fill Not Implemented");
             }
         }
 

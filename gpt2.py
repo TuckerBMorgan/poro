@@ -114,11 +114,32 @@ class CausalSelfAttention(nn.Module):
             write_floats_to_file("./python_checkfile.txt", query_key.detach().numpy().flatten().tolist())
             denom = (1.0 / math.sqrt(k.size(-1)))
             query_key = query_key * denom
-            append_string_to_file("./python_checkfile.txt", "$QueryKeyNorm")
+            append_string_to_file("./python_checkfile.txt", "$AttnWeights")
             write_floats_to_file("./python_checkfile.txt", query_key.detach().numpy().flatten().tolist())
+            premask = self.bias[:,:,:T,:T]
+            print(premask.shape)
+            append_string_to_file("./python_checkfile.txt", "$Premask")
+            write_floats_to_file("./python_checkfile.txt", premask.detach().numpy().flatten().tolist())
+            att = query_key.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
+            append_string_to_file("./python_checkfile.txt", "$Filled")
+            write_floats_to_file("./python_checkfile.txt", att.detach().numpy().flatten().tolist())
+            att = F.softmax(att, dim=-1)
+            append_string_to_file("./python_checkfile.txt", "$Softmax")
+            write_floats_to_file("./python_checkfile.txt", att.detach().numpy().flatten().tolist())
+            y = att @ v
+            append_string_to_file("./python_checkfile.txt", "$AttnOutput")
+            write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+            y = y.transpose(1, 2).contiguous().view(B, T, C) # re-assemble all head outputs side by side
+            append_string_to_file("./python_checkfile.txt", "$AttnOutputReshape")
+            write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+            y = self.c_proj(y)
+            append_string_to_file("./python_checkfile.txt", "$CProj")
+            write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
             exit()
             att = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
-            print("Att shape", att.shape)
+
+            
+            
             att = att.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
             att = F.softmax(att, dim=-1)
             y = att @ v # (B, nh, T, T) x (B, nh, T, hs) -> (B, nh, T, hs)

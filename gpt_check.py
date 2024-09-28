@@ -9,6 +9,9 @@ def calculate_percent_error(value1, value2):
     """Calculates the percent error between two numbers"""
     if value1 == value2 == 0:
         return 0.0
+    # handle masking of -inf values
+    if value1 == float('-inf') or value2 == float('-inf'):
+        return 0.0
     try:
         return abs((value1 - value2) / value1) * 100
     except ZeroDivisionError:

@@ -23,6 +23,7 @@ pub enum Operation {
     Transpose(TensorID, usize, usize),
     Sin(TensorID),
     Cos(TensorID),
+    MaskedFill(TensorID, TensorID, isize),
 }
 
 impl Operation {
@@ -45,6 +46,7 @@ impl Operation {
             Operation::Transpose(a, _, _) => Some(*a),
             Operation::Sin(a) => Some(*a),
             Operation::Cos(a) => Some(*a),
+            Operation::MaskedFill(a, _, _) => Some(*a),
         }
     }
 }
@@ -69,6 +71,7 @@ impl fmt::Display for Operation {
             Operation::Transpose(_a, _, _) => write!(f, "Transpose()"),
             Operation::Sin(_a) => write!(f, "Sin()"),
             Operation::Cos(_a) => write!(f, "Cos()"),
+            Operation::MaskedFill(_a, _b, _c) => write!(f, "MaskedFill()"),
         }
     }
 }

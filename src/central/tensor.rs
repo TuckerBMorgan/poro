@@ -63,6 +63,44 @@ impl Tensor {
         }
     }
 
+    pub fn tril(shape: Shape) -> Tensor {
+        assert!(shape.number_of_indices == 2);
+        let mut singleton = get_equation();
+        let tensor_id = singleton.allocate_tril_tensor(shape.clone());
+        Tensor {
+            tensor_id,
+            shape,
+            operation: Operation::Nop,
+            name: name_from_string("tril"),
+        }
+    }
+
+    pub fn masked_fill(&self, mask: &Tensor, value: f32) -> Tensor {
+        let mut singleton = get_equation();
+        let data = singleton.get_item(self.tensor_id).clone();
+        let mask_data = singleton.get_item(mask.tensor_id).clone();
+        let mut new_data = Vec::new();
+        for i in 0..data.len() {
+            if mask_data[i] == 0.0 {
+                new_data.push(value);
+            } else {
+                new_data.push(data[i]);
+            }
+        }
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            self.shape.clone(),
+            new_data,
+            Operation::MaskedFill(self.tensor_id, mask.tensor_id, value as isize),
+        );
+
+        Tensor {
+            tensor_id,
+            shape: self.shape,
+            operation: Operation::MaskedFill(self.tensor_id, mask.tensor_id, value as isize),
+            name: name_from_string("masked_fill"),
+        }
+    }
+
     pub fn randn(shape: Shape) -> Tensor {
         let mut singleton = get_equation();
         let tensor_id = singleton.allocate_randn_tensor(shape.clone(), Operation::Nop);
@@ -143,27 +181,6 @@ impl Tensor {
         Tensor {
             tensor_id,
             shape,
-            operation: Operation::Nop,
-            name: ['a'; NAME_LENGTH],
-        }
-    }
-
-    pub fn tril(x: usize, y: usize) -> Tensor {
-        let mut array = vec![0.0; x * y];
-        for i in 0..x {
-            for j in 0..y {
-                if i >= j {
-                    array[i * y + j] = 1.0;
-                }
-            }
-        }
-        let mut singleton = get_equation();
-        let tensor_id =
-            singleton.allocate_tensor_from_operation(Shape::new(vec![x, y]), array, Operation::Nop);
-
-        Tensor {
-            tensor_id,
-            shape: Shape::new(vec![x, y]),
             operation: Operation::Nop,
             name: ['a'; NAME_LENGTH],
         }

@@ -1,432 +1,435 @@
-02:12:58 [INFO] Reading in a tensor with shape: [4, 64]
-02:12:58 [INFO] Reading in a tensor with num_elements: 256
-02:12:58 [INFO] Reading in wte weights
-02:12:58 [INFO] Reading in a tensor with shape: [50304, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 38633472
-02:12:58 [INFO] Reading in wpe weights
-02:12:58 [INFO] Reading in a tensor with shape: [1024, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 786432
-02:12:58 [INFO] Reading in block weights
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in block biases
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in q weights
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in k weights
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in v weights
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in q biases
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in k biases
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in v biases
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in c_proj weights
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in a tensor with shape: [768, 768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 589824
-02:12:58 [INFO] Reading in c_proj biases
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in block weights
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in block biases
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] Reading in a tensor with shape: [768]
-02:12:58 [INFO] Reading in a tensor with num_elements: 768
-02:12:58 [INFO] MLP weights
-02:12:58 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:58 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [768, 3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] MLP biases
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] Reading in a tensor with shape: [3072]
-02:12:59 [INFO] Reading in a tensor with num_elements: 3072
-02:12:59 [INFO] MLP weights
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] Reading in a tensor with shape: [3072, 768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 2359296
-02:12:59 [INFO] MLP biases
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in final layer norm weights
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] Reading in final layer norm bias
-02:12:59 [INFO] Reading in a tensor with shape: [768]
-02:12:59 [INFO] Reading in a tensor with num_elements: 768
-02:12:59 [INFO] GPT forward
-02:12:59 [INFO] WTE done
-02:12:59 [INFO] WPE done
-02:12:59 [INFO] Add done
-02:12:59 [INFO] Block 0
-02:12:59 [INFO] Block forward
-02:12:59 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-02:12:59 [INFO] data length: 256
-02:12:59 [INFO] new_shape_indices_vec: [4, 64, 1]
-02:12:59 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-02:12:59 [INFO] data length: 256
-02:12:59 [INFO] new_shape_indices_vec: [4, 64, 1]
-02:12:59 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-02:12:59 [INFO] data length: 256
-02:12:59 [INFO] new_shape_indices_vec: [4, 64, 1]
-02:12:59 [INFO] LayerNorm 1 done
-02:12:59 [INFO] CasualSelfAttention forward
-02:12:59 [INFO] Query start
+19:46:45 [INFO] Reading in a tensor with shape: [4, 64]
+19:46:45 [INFO] Reading in a tensor with num_elements: 256
+19:46:45 [INFO] Reading in wte weights
+19:46:45 [INFO] Reading in a tensor with shape: [50304, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 38633472
+19:46:45 [INFO] Reading in wpe weights
+19:46:45 [INFO] Reading in a tensor with shape: [1024, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 786432
+19:46:45 [INFO] Reading in block weights
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in block biases
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in q weights
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in k weights
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in v weights
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in q biases
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in k biases
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in v biases
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in c_proj weights
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in a tensor with shape: [768, 768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 589824
+19:46:45 [INFO] Reading in c_proj biases
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in block weights
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in block biases
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] Reading in a tensor with shape: [768]
+19:46:45 [INFO] Reading in a tensor with num_elements: 768
+19:46:45 [INFO] MLP weights
+19:46:45 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:45 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:45 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:45 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [768, 3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] MLP biases
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] Reading in a tensor with shape: [3072]
+19:46:46 [INFO] Reading in a tensor with num_elements: 3072
+19:46:46 [INFO] MLP weights
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] Reading in a tensor with shape: [3072, 768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 2359296
+19:46:46 [INFO] MLP biases
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in final layer norm weights
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] Reading in final layer norm bias
+19:46:46 [INFO] Reading in a tensor with shape: [768]
+19:46:46 [INFO] Reading in a tensor with num_elements: 768
+19:46:46 [INFO] GPT forward
+19:46:46 [INFO] WTE done
+19:46:46 [INFO] WPE done
+19:46:46 [INFO] Add done
+19:46:46 [INFO] Block 0
+19:46:46 [INFO] Block forward
+19:46:46 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+19:46:46 [INFO] data length: 256
+19:46:46 [INFO] new_shape_indices_vec: [4, 64, 1]
+19:46:46 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+19:46:46 [INFO] data length: 256
+19:46:46 [INFO] new_shape_indices_vec: [4, 64, 1]
+19:46:46 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+19:46:46 [INFO] data length: 256
+19:46:46 [INFO] new_shape_indices_vec: [4, 64, 1]
+19:46:46 [INFO] LayerNorm 1 done
+19:46:46 [INFO] CasualSelfAttention forward
+19:46:46 [INFO] Query start
+19:46:47 [INFO] Softmax
+19:46:47 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+19:46:47 [INFO] After max

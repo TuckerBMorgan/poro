@@ -174,7 +174,7 @@ impl Module for CasualSelfAttention {
         let B = x.shape.indices[0];
         let T = x.shape.indices[1];
         let C = x.shape.indices[2];
-
+        println!("{:?}", x.shape);
 
 
         let num_heads = 12;
@@ -216,7 +216,27 @@ impl Module for CasualSelfAttention {
         let attn_weights = query_key * denom;
         let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnWeights");
         let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
+        let mask = Tensor::tril(vec![T, T].into()).reshape(vec![1, 1, T, T].into());
 
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Premask");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &mask.item().into_raw_vec());
+        println!("Attn weights {:?}", attn_weights.shape);
+        let mask_broadcasted = mask.broadcast(vec![B, num_heads, T, T].into());
+        let filled = attn_weights.masked_fill(&mask_broadcasted, std::f32::NEG_INFINITY);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Filled");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &filled.item().into_raw_vec());
+        let attn_weights = filled.softmax(attn_weights.shape.number_of_indices - 1);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Softmax");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
+        let attn_output = attn_weights << value;
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnOutput");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_output.item().into_raw_vec());
+        let attn_output = attn_output.tranpose_with_provided_axis(1, 2).reshape(vec![B, T, C].into());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnOutputReshape");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_output.item().into_raw_vec());
+        let x = self.c_proj.forward(&attn_output);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$CProj");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
         panic!("Done");
 
 
