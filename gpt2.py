@@ -135,17 +135,7 @@ class CausalSelfAttention(nn.Module):
             y = self.c_proj(y)
             append_string_to_file("./python_checkfile.txt", "$CProj")
             write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
-            exit()
-            att = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
-
-            
-            
-            att = att.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
-            att = F.softmax(att, dim=-1)
-            y = att @ v # (B, nh, T, T) x (B, nh, T, hs) -> (B, nh, T, hs)
-        y = y.transpose(1, 2).contiguous().view(B, T, C) # re-assemble all head outputs side by side
         # output projection
-        y = self.c_proj(y)
         return y
 
     def add_weights_to_dict(self, weights_dict, id = ""):
@@ -190,13 +180,23 @@ class Block(nn.Module):
 
     def forward(self, x):
         y = self.ln_1(x)
-        #append_string_to_file("./python_checkfile.txt", "$Linear_1")
-        #write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+        append_string_to_file("./python_checkfile.txt", "$Linear_1")
+        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         y = self.attn(y)
-        #append_string_to_file("./python_checkfile.txt", "$Attn")
-        #write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+        append_string_to_file("./python_checkfile.txt", "$Attn")
+        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         x = x + y
-        x = x + self.mlp(self.ln_2(y))
+        append_string_to_file("./python_checkfile.txt", "$Residual")
+        write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
+        y = self.ln_2(x)
+        append_string_to_file("./python_checkfile.txt", "$Linear_2")
+        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+        y = self.mlp(y)
+        append_string_to_file("./python_checkfile.txt", "$MLP")
+        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+        x = x + y
+        append_string_to_file("./python_checkfile.txt", "$Residual_2")
+        write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
         return x
 
     def add_weights_to_dict(self, weights_dict, id = ""):
@@ -291,10 +291,12 @@ class GPT(nn.Module):
 
         for block in self.transformer.h:
             x = block(x)
-            exit()
             count += 1
-        x = self.transformer.ln_f(x)
 
+        x = self.transformer.ln_f(x)
+        append_string_to_file("./python_checkfile.txt", "$LN")
+        write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
+        exit()
         if targets is not None:
             # if we are given some desired targets also calculate the loss
             logits = self.lm_head(x)

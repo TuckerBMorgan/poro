@@ -102,8 +102,10 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             backprop_packet
                 .equation
                 .set_tensor_grad(b, result.into_dyn() + right_hand_grad);
-        } else {
-            panic!("Not implemented");
+        }     
+        else {
+            
+            panic!("Not implementerd for dim {}", backprop_packet.grad.ndim());
         }
     } else {
         panic!("Invalid operation type for backward pass");

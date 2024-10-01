@@ -19,6 +19,8 @@ use cudarc::driver::{LaunchAsync, LaunchConfig};
 #[cfg(target_os = "windows")]
 use cudarc::nvrtc::{compile_ptx, Ptx};
 
+use cudarc::cublas::*;
+
 use log::info;
 
 pub struct BackpropagationPacket<'a> {
@@ -210,9 +212,14 @@ impl Equation {
 
     #[cfg(target_os = "windows")]
     pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+        use cudarc::{cublas, driver::result::device};
+
+
+
         let now = Instant::now();
         let dev: std::sync::Arc<cudarc::driver::CudaDevice> =
             cudarc::driver::CudaDevice::new(0).unwrap();
+        let d= cublas::CudaBlas::new(dev).unwrap();
 
         let a_shape = a.shape();
         let b_shape = b.shape();
@@ -243,6 +250,8 @@ impl Equation {
             &["matmul"],
         )
         .unwrap();
+
+
 
         let f = dev.get_func("matmul", "matmul").unwrap();
         let tile_size = 16;

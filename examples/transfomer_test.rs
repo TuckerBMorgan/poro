@@ -237,14 +237,6 @@ impl Module for CasualSelfAttention {
         let x = self.c_proj.forward(&attn_output);
         let _ = write_string_vector_to_file("./rust_checkfile.txt", "$CProj");
         let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
-        panic!("Done");
-
-
-        let attn_weights = query << key;
-        let attn_weights = attn_weights.softmax(attn_weights.shape.number_of_indices - 1);
-        let attn_output = attn_weights << value;
-        let attn_output = attn_output.tranpose_with_provided_axis(1, 2).reshape(vec![B, T, C].into());
-        let x = self.c_proj.forward(&attn_output);
         x
     }
 
@@ -336,6 +328,7 @@ impl MLP {
 
 impl Module for MLP {
     fn forward(&mut self, x: &Tensor) -> Tensor {
+        info!("X shape {:?}", x.shape);
         info!("MLP forward");
         let x = self.c_fc.forward(x);
         info!("C_FC done");
@@ -386,33 +379,33 @@ impl Module for Block {
         info!("Block forward");
         let y = self.ln_1.forward(x);
                 // Create or open the file
-        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
-        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
         info!("LayerNorm 1 done");
         
         let y = self.attn.forward(&y);
-        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Attn");
-        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Attn");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("Attention done");
-        let y = *x + y;
-        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing Add");
-        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let x = *x + y;
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Residual");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("Add done");
-        let y = self.ln_2.forward(&y);
-        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing linear 2");
-        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let y = self.ln_2.forward(&x);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_2");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("LayerNorm 2 done");
         let y = self.mlp.forward(&y);
-        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing mlp foward");
-        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$MLP");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("MLP done");
-        let x = *x + y;
-        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "Writing add 2");
-        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+        let x = x + y;
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Residual_2");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
 
         info!("Add done");
         x
@@ -570,25 +563,25 @@ impl GPT {
 
         info!("MLP weights");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_fc_weights = Tensor::from_bytestream(read, true).unwrap();
+            let mlp_c_fc_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(mlp_c_fc_weights);
         }
 
         info!("MLP biases");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_fc_bias = Tensor::from_bytestream(read, true).unwrap();
+            let mlp_c_fc_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(mlp_c_fc_bias);
         }
 
         info!("MLP weights");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_proj_weights = Tensor::from_bytestream(read, true).unwrap();
+            let mlp_c_proj_weights = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(mlp_c_proj_weights);
         }
 
         info!("MLP biases");
         for i in 0..gpt_config.number_of_layers {
-            let mlp_c_proj_bias = Tensor::from_bytestream(read, true).unwrap();
+            let mlp_c_proj_bias = Tensor::from_bytestream(read, false).unwrap();
             blocks[i].push(mlp_c_proj_bias);
         }
 
@@ -657,11 +650,15 @@ impl Model for GPT {
         for block in self.blocks.iter_mut() {
             info!("Block {}", counts);
             x = block.forward(&x);
-            panic!("Block done");
             counts += 1;
         }
         info!("Blocks done");
         let x = self.final_layer_norm.forward(&x);
+        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$LN");
+        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+        let x = x.cross_entropy_loss(x);
+        println!("{:?}", x.item());
+        x.backward();
         info!("Final layer norm done");
         x
     }
