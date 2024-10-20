@@ -212,14 +212,12 @@ impl Equation {
 
     #[cfg(target_os = "windows")]
     pub fn cuda_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
-        use cudarc::{cublas, driver::result::device};
-
 
 
         let now = Instant::now();
         let dev: std::sync::Arc<cudarc::driver::CudaDevice> =
             cudarc::driver::CudaDevice::new(0).unwrap();
-        let d= cublas::CudaBlas::new(dev).unwrap();
+
 
         let a_shape = a.shape();
         let b_shape = b.shape();
@@ -353,77 +351,144 @@ impl Equation {
         result
     }
 
-    pub fn standard_matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+fn broadcast_shapes(shape_a: &[usize], shape_b: &[usize]) -> Option<Vec<usize>> {
+    let ndim_a = shape_a.len();
+    let ndim_b = shape_b.len();
+    let ndim = std::cmp::max(ndim_a, ndim_b);
 
-        if a.ndim() == 1 && b.ndim() == 2 {
-            // Convert both down to 2D arrays
-            let a_2d = a.clone().into_dimensionality::<Ix1>().unwrap();
-            let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
-            return a_2d.dot(&b_2d).into_dyn();
+    let mut shape_a_padded = vec![1; ndim - ndim_a];
+    shape_a_padded.extend_from_slice(shape_a);
 
+    let mut shape_b_padded = vec![1; ndim - ndim_b];
+    shape_b_padded.extend_from_slice(shape_b);
+
+    let mut broadcasted_shape = Vec::with_capacity(ndim);
+
+    for (&dim_a, &dim_b) in shape_a_padded.iter().zip(shape_b_padded.iter()) {
+        if dim_a == dim_b || dim_a == 1 || dim_b == 1 {
+            broadcasted_shape.push(std::cmp::max(dim_a, dim_b));
+        } else {
+            return None;
         }
-
-        if a.ndim() == 2 && b.ndim() == 1 {
-            // Convert both down to 2D arrays
-            let a_2d = a.clone().into_dimensionality::<Ix2>().unwrap();
-            let b_2d = b.clone().into_dimensionality::<Ix1>().unwrap();
-
-            return a_2d.dot(&b_2d).into_dyn();
-        }
-
-
-        if a.ndim() == 2 && b.ndim() == 2 {
-            // Convert both down to 2D arrays
-            let a_2d = a.clone().into_dimensionality::<Ix2>().unwrap();
-
-            let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
-            return a_2d.dot(&b_2d).into_dyn();
-        }
-
-        if a.ndim() == 3 && b.ndim() == 2 {
-            let a_3d = a.clone().into_dimensionality::<Ix3>().unwrap();
-            let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
-            let mut result = Array3::zeros((a_3d.shape()[0], a_3d.shape()[1], b_2d.shape()[1]));
-            for i in 0..a_3d.shape()[0] {
-                let a_slice = a_3d.slice(s![i, .., ..]);
-                let temp = a_slice.dot(&b_2d);
-                result.slice_mut(s![i, .., ..]).assign(&temp);
-            }
-            return result.into_dyn();
-        }
-
-        if a.ndim() == 3 && b.ndim() == 3 {
-            let a_3d = a.clone().into_dimensionality::<Ix3>().unwrap();
-            let b_3d = b.clone().into_dimensionality::<Ix3>().unwrap();
-            let mut result = Array3::zeros((a_3d.shape()[0], a_3d.shape()[1], b_3d.shape()[2]));
-            for i in 0..a_3d.shape()[0] {
-                let a_slice = a_3d.slice(s![i, .., ..]);
-                let b_slice = b_3d.slice(s![i, .., ..]);
-                let temp = a_slice.dot(&b_slice);
-                result.slice_mut(s![i, .., ..]).assign(&temp);
-            }
-            return result.into_dyn();
-        }
-
-        if a.ndim() == 3 && b.ndim() == 1 {
-            let a_3d = a.clone().into_dimensionality::<Ix3>().unwrap();
-            let b_1d = b.clone().into_dimensionality::<Ix1>().unwrap();
-            let mut result = Array3::zeros((a_3d.shape()[0], a_3d.shape()[1], 1));
-            for i in 0..a_3d.shape()[0] {
-                let a_slice = a_3d.slice(s![i, .., ..]);
-                let temp = a_slice.dot(&b_1d);
-                result.slice_mut(s![i, .., ..]).assign(&temp);
-            }
-            return result.into_dyn();
-        }
-
-        if a.ndim() == 4 && b.ndim() == 4 {
-            return Equation::matmul_4d(a, b);
-        }
-
-        panic!("a shape: {:?}, b shape: {:?}", a.shape(), b.shape());
     }
 
+    Some(broadcasted_shape)
+}
+
+pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+    use ndarray::prelude::*;
+
+    // Store original shapes and dimensions
+    let a_shape_orig = a.shape().to_vec();
+    let b_shape_orig = b.shape().to_vec();
+    let a_ndim_orig = a.ndim();
+    let b_ndim_orig = b.ndim();
+
+    let mut a = a.to_owned();
+    let mut b = b.to_owned();
+    let mut a_shape = a_shape_orig.clone();
+    let mut b_shape = b_shape_orig.clone();
+
+    // Handle the case where both arrays are 1-D (vectors)
+    if a.ndim() == 1 && b.ndim() == 2 {
+        // Convert both down to 2D arrays
+        let a_2d = a.clone().into_dimensionality::<Ix1>().unwrap();
+        let b_2d = b.clone().into_dimensionality::<Ix2>().unwrap();
+        return a_2d.dot(&b_2d).into_dyn();
+
+    }
+
+    // If a is 1-D, reshape to (1, K)
+    if a_ndim_orig == 1 {
+        a_shape.insert(0, 1); // Now shape is (1, K)
+        a = a.into_shape(a_shape.clone()).unwrap();
+    }
+
+    // If b is 1-D, reshape to (K, 1)
+    if b_ndim_orig == 1 {
+        b_shape.push(1); // Now shape is (K, 1)
+        b = b.into_shape(b_shape.clone()).unwrap();
+    }
+
+    // Now, both a and b have at least 2 dimensions.
+
+    // Get the batch shapes (all dimensions except the last two)
+    let batch_shape_a = &a_shape[..a_shape.len() - 2];
+    let batch_shape_b = &b_shape[..b_shape.len() - 2];
+
+    // Broadcast the batch shapes to a common shape
+    let batch_shape = match Equation::broadcast_shapes(batch_shape_a, batch_shape_b) {
+        Some(shape) => shape,
+        None => panic!(
+            "Shapes cannot be broadcast together: {:?} and {:?}",
+            a_shape_orig, b_shape_orig
+        ),
+    };
+
+    // Reshape a and b to have shapes [batch_shape..., M, K] and [batch_shape..., K, N]
+    let M = a_shape[a_shape.len() - 2];
+    let K_a = a_shape[a_shape.len() - 1];
+    let K_b = b_shape[b_shape.len() - 2];
+    let N = b_shape[b_shape.len() - 1];
+
+    assert_eq!(
+        K_a, K_b,
+        "Inner dimensions must match for matmul: {} != {}",
+        K_a, K_b
+    );
+
+    let mut a_broadcast_shape = batch_shape.clone();
+    a_broadcast_shape.push(M);
+    a_broadcast_shape.push(K_a);
+
+    let mut b_broadcast_shape = batch_shape.clone();
+    b_broadcast_shape.push(K_b);
+    b_broadcast_shape.push(N);
+
+    // Broadcast a and b to these shapes
+    let a_broadcasted = a.broadcast(a_broadcast_shape.clone()).unwrap().to_owned();
+    let b_broadcasted = b.broadcast(b_broadcast_shape.clone()).unwrap().to_owned();
+
+    // Reshape a and b to 3-D arrays for batch processing
+    let batch_size: usize = batch_shape.iter().product();
+    let a_reshaped = a_broadcasted.into_shape((batch_size, M, K_a)).unwrap();
+    let b_reshaped = b_broadcasted.into_shape((batch_size, K_b, N)).unwrap();
+
+    // Perform batch matrix multiplication
+    let mut result = Array::zeros((batch_size, M, N));
+
+    for i in 0..batch_size {
+        let a_i = a_reshaped.index_axis(Axis(0), i);
+        let b_i = b_reshaped.index_axis(Axis(0), i);
+
+        let res_i = a_i.dot(&b_i);
+
+        result.index_axis_mut(Axis(0), i).assign(&res_i);
+    }
+
+    // Reshape result back to batch_shape + [M, N]
+    let mut result_shape = batch_shape.clone();
+    result_shape.push(M);
+    result_shape.push(N);
+
+    let mut final_result = result.into_shape(result_shape).unwrap();
+
+    // If original a was 1-D, remove the first dimension
+    if a_ndim_orig == 1 {
+        let shape = final_result.shape();
+        let new_shape = shape[1..].to_vec();
+        final_result = final_result.into_shape(new_shape).unwrap();
+    }
+
+    // If original b was 1-D, remove the last dimension
+    if b_ndim_orig == 1 {
+        let shape = final_result.shape();
+        let new_shape = shape[..shape.len() - 1].to_vec();
+        final_result = final_result.into_shape(new_shape).unwrap();
+    }
+
+    final_result.into_dyn()
+}
     #[cfg(target_os = "windows")]
     pub fn matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         // I have only done the 2D case for now

@@ -1,7 +1,7 @@
 use crate::nn::layers::LinearLayer;
 use crate::nn::Module;
 use crate::Tensor;
-use crate::nn::layers::module::LinearLayerConfig;
+use crate::nn::layers::linear::LinearLayerConfig;
 
 pub struct AttentionHead {
     pub q: LinearLayer,

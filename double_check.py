@@ -1,55 +1,66 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import struct
+import math
 
-class DecoderOnlyTransformer(nn.Module):
-    def __init__(self, embed_dim, num_heads, num_layers):
-        super(DecoderOnlyTransformer, self).__init__()
-        self.layers = nn.ModuleList([
-            DecoderLayer(embed_dim, num_heads) for _ in range(num_layers)
-        ])
+
+def write_fp32(tensor, file):
+    # first write the length of the tensor's shape
+    shape = torch.tensor(tensor.size(), dtype=torch.int32)
+    # write the number of dimensions
+    file.write(struct.pack("<i", len(shape)))
+    file.write(shape.numpy().tobytes())
+    # then write the tensor's shape
+    # then write the tensor's data
+    t = tensor.detach().cpu().to(torch.float32)
+    b = t.numpy().tobytes()
+    file.write(b)
+
+
+class NewGELU(nn.Module):
+    """Careful there are a few versions of GeLU, this one is the exact one used by OpenAI"""
+    def forward(self, input):
+        return 0.5 * input * (1.0 + torch.tanh(math.sqrt(2.0 / math.pi) * (input + 0.044715 * torch.pow(input, 3.0))))
+
+
+class MLP(nn.Module):
+
+    def __init__(self, config):
+        super().__init__()
+        self.c_fc    = nn.Linear(config["n_embd"], 4 * config["n_embd"])
+        self.gelu    = NewGELU()
+        self.c_proj  = nn.Linear(4 * config["n_embd"], config["n_embd"])
+        self.c_proj.LLMC_RESIDUAL_SCALE_FLAG = 1
 
     def forward(self, x):
-        for layer in self.layers:
-            x = layer(x)
+        x = self.c_fc(x)
+        x = self.gelu(x)
+        x = self.c_proj(x)
         return x
 
-class AttentionHead(nn.Module):
-    def __init__(self, embed_dim, head_dim):
-        super(AttentionHead, self).__init__()
-        self.query = nn.Linear(embed_dim, head_dim)
-        self.key = nn.Linear(embed_dim, head_dim)
-        self.value = nn.Linear(embed_dim, head_dim)
-        self.scale = head_dim ** -0.5
 
-    def forward(self, x):
-        q = self.query(x)
-        k = self.key(x)
-        v = self.value(x)
-        print(v)
-        attn_weights = torch.matmul(q, k.transpose(-2, -1))
-        attn_weights = F.softmax(attn_weights, dim=-1)
+torch.manual_seed(42)
+mlp_config = {}
+mlp_config["n_embd"] = 768
 
-        attn_output = torch.matmul(attn_weights, v)
-        return attn_output, attn_weights
+mlp = MLP(mlp_config)
 
-torch.manual_seed(1133)
+liner_1_weight_file = open("data/tests/mlp/linear_1_weights.txt", "wb")
+linear_1_bias_file = open("data/tests/mlp/linear_1_bias.txt", "wb")
+liner_2_weight_file = open("data/tests/mlp/linear_2_weights.txt", "wb")
+linear_2_bias_file = open("data/tests/mlp/linear_2_bias.txt", "wb")
+test_input_file = open("data/tests/mlp/test_input.txt", "wb")
+output_file = open("data/tests/mlp/output.txt", "wb")
 
-# Example usage:
-embed_dim = 10
-head_dim = 1
-x = torch.arange(0, 10).view(1, 10).float()
+test_input = torch.randn(1, 768)
 
-attention_head = AttentionHead(embed_dim, head_dim)
-output, weights = attention_head(x)
-print(output)
-import json
-'''
-json.dump(attention_head.query.weight.tolist(), open('query.json', 'w'))
-json.dump(attention_head.key.weight.tolist(), open('key.json', 'w'))
-json.dump(attention_head.value.weight.tolist(), open('value.json', 'w'))
+output = mlp(test_input)
 
-json.dump(attention_head.query.bias.tolist(), open('query_bias.json', 'w'))
-json.dump(attention_head.key.bias.tolist(), open('key_bias.json', 'w'))
-json.dump(attention_head.value.bias.tolist(), open('value_bias.json', 'w'))
-'''
+
+write_fp32(mlp.c_fc.weight, liner_1_weight_file)
+write_fp32(mlp.c_proj.weight, liner_2_weight_file)
+write_fp32(mlp.c_fc.bias, linear_1_bias_file)
+write_fp32(mlp.c_proj.bias, linear_2_bias_file)
+write_fp32(test_input, test_input_file)
+write_fp32(output, output_file)

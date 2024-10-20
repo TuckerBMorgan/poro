@@ -34,6 +34,7 @@ mod tests {
         let result = a.grad();
         assert!(result == arr2(&[[4.0]]).into_dyn());
     }
+    
 
     #[test]
     fn basic_exp_test() {
@@ -202,7 +203,7 @@ mod tests {
 
     #[test]
     fn linear_module() {
-        let linear_layer_config = LinearLayerConfig::new(3, 1);
+        let linear_layer_config = LinearLayerConfig::new(3, 3);
         let mut linear = LinearLayer::new(linear_layer_config);
 
         let inputs = vec![

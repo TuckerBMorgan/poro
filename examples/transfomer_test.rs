@@ -3,7 +3,7 @@ use std::env::consts::ARCH;
 
 use poro::nn::model::DecoderOnlyTransformer;
 use poro::central::Tensor;
-use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module};
+use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module, MLP};
 use poro::nn::model::PositionalEncoding;
 use poro::nn::LinearLayerConfig;
 use poro::Indexable;
@@ -94,21 +94,6 @@ impl Module for LayerNorm {
     }
 }
 
-struct NewGLU {
-
-}
-
-impl Module for NewGLU {
-    fn forward(&mut self, x: &Tensor) -> Tensor {
-        let x_pow = x.pow(3.0);
-        let why = 1.0 + ((2.0 / 3.14f32).sqrt() * (*x + 0.044715 * x_pow)).tanh();
-        return 0.5 * *x * why;
-    }
-
-    fn get_parameters(&self) -> Vec<Tensor> {
-        Vec::new()
-    }
-}
 
 struct CasualSelfAttentionConfig {
     number_of_heads: usize,
@@ -251,101 +236,6 @@ impl Module for CasualSelfAttention {
 }
 
 
- struct MLPConfig {
-    embedding_dim: usize,
- }
-
-struct MLP {
-    c_fc: LinearLayer,
-    c_proj: LinearLayer,
-    gelu: NewGLU,
-}
-
-impl MLP {
-    pub fn new(config: MLPConfig) -> Self {
-        let c_fc = LinearLayer::new(LinearLayerConfig {
-            number_of_inputs: config.embedding_dim,
-            number_of_weights: 4 * config.embedding_dim,
-        });
-
-        let c_proj = LinearLayer::new(LinearLayerConfig {
-            number_of_inputs: 4 * config.embedding_dim,
-            number_of_weights: config.embedding_dim,
-        });
-
-        MLP {
-            c_fc,
-            c_proj,
-            gelu: NewGLU {}
-        }
-    }
-
-    pub fn from_weights_and_bias(c_fc_weights: Tensor, c_fc_bias: Tensor, c_proj_weights: Tensor, c_proj_bias: Tensor) -> Self {
-        let c_fc = LinearLayer::from_weights_and_bias(c_fc_weights, c_fc_bias);
-        let c_proj = LinearLayer::from_weights_and_bias(c_proj_weights, c_proj_bias);
-        MLP {
-            c_fc,
-            c_proj,
-            gelu: NewGLU {}
-        }
-    }
-
-    pub fn from_weight_file(filepath: &str) -> MLP {
-        let as_json = std::fs::read_to_string(filepath).unwrap();
-        
-        let json: Value = serde_json::from_str(&as_json).unwrap();
-        //just print keys
-        for key in json.as_object().unwrap().keys() {
-            println!("{}", key);
-        }
-        let as_array = json["c_fc.weight"].as_array().unwrap();
-        let test = as_array.iter().map(|x| x.as_array().unwrap()).flatten().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
-        let c_fc_weights = Tensor::from_vec(test, vec![768, 4 * 768].into());
-        let as_array = json["c_fc.bias"].as_array().unwrap();
-        let test = as_array.iter().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
-        let c_fc_bias = Tensor::from_vec(test, vec![4 * 768].into());
-        let c_fc = LinearLayer::from_weights_and_bias(c_fc_weights, c_fc_bias);
-
-        let as_array = json["c_proj.weight"].as_array().unwrap();
-        let test = as_array.iter().map(|x| x.as_array().unwrap()).flatten().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
-        let c_proj_weights = Tensor::from_vec(test, vec![4 * 768, 768].into());
-        let as_array = json["c_proj.bias"].as_array().unwrap();
-        let test = as_array.iter().map(|x| x.as_f64().unwrap() as f32).collect::<Vec<f32>>();
-        let c_proj_bias = Tensor::from_vec(test, vec![768].into());
-        let c_proj = LinearLayer::from_weights_and_bias(c_proj_weights, c_proj_bias);
-
-        let gelu = NewGLU {};
-
-        MLP {
-            c_fc,
-            c_proj,
-            gelu
-        }
-
-
-    }
-}
-
-impl Module for MLP {
-    fn forward(&mut self, x: &Tensor) -> Tensor {
-        info!("X shape {:?}", x.shape);
-        info!("MLP forward");
-        let x = self.c_fc.forward(x);
-        info!("C_FC done");
-        let x = self.gelu.forward(&x);
-        info!("GELU done");
-        let x = self.c_proj.forward(&x);
-        info!("C_PROJ done");
-        x
-    }
-
-    fn get_parameters(&self) -> Vec<Tensor> {
-        let mut parameters = Vec::new();
-        parameters.extend(self.c_fc.get_parameters());
-        parameters.extend(self.c_proj.get_parameters());
-        parameters
-    }
-}
 
 
 struct BlockConfig {
@@ -701,7 +591,6 @@ fn main() {
     let gpt_config = GPTConfig::from_bytestream(&mut std::fs::File::open("gpt2.bin").unwrap());
 
     return;
-    let _ = MLP::from_weight_file("mlp_weights.json");
     return;
     let mut position_encoder = PositionalEncoding::new(10, 10);    
     let embeddings_weight = Tensor::load_from_weight_file("./embedding.json");    

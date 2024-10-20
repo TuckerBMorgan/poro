@@ -10,7 +10,49 @@ use super::tensor::{name_from_string, NAME_LENGTH};
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::MatMul(a, b) = backprop_packet.operation {
         // Handle the case when the gradient is a 2D matrix
-        if backprop_packet.grad.ndim() == 2 {
+        if backprop_packet.grad.ndim() == 1 {
+            // Convert the gradient to a 2D matrix
+            let out_grad = backprop_packet.grad.clone();
+            // Get the data of the right-hand operand of the MatMul operation
+            let right_hand_data = backprop_packet.equation.get_tensor_data(b);
+            let right_hand_data_tranpose = right_hand_data.t();
+
+            // Transpose the right-hand data
+
+            // Get the gradient of the left-hand operand of the MatMul operation
+            let left_hand_grad = backprop_packet.equation.get_tensor_grad(a);
+            // Update the gradient of the left-hand operand
+            // Gradient of A in A*B with respect to the loss is given by (dL/dZ) * B^T
+            let hold = left_hand_grad
+                + backprop_packet
+                    .equation
+                    .matmul(&out_grad, &right_hand_data_tranpose.to_owned());
+            //let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
+            backprop_packet.equation.set_tensor_grad(a, hold);
+
+            // Get the data of the left-hand operand of the MatMul operation
+            let left_hand_data = backprop_packet.equation.get_tensor_data(a);
+
+            // Get the gradient of the right-hand operand of the MatMul operation
+            let right_hand_grad = backprop_packet.equation.get_tensor_grad(b);
+            // Transpose the left-hand data
+            let other = left_hand_data.t();
+            // Update the gradient of the right-hand operand
+            // Gradient of B in A*B with respect to the loss is given by A^T * (dL/dZ)
+
+            let other_len = other.len();
+            let out_grad_len = out_grad.len();
+            let other_reshape = other.into_shape((other_len, 1)).unwrap().to_owned().into_dyn();
+            let out_grad_reshape = out_grad.into_shape((1, out_grad_len)).unwrap().to_owned().into_dyn();
+
+            let temp = right_hand_grad
+                + backprop_packet
+                    .equation
+                    .matmul(&other_reshape, &out_grad_reshape);
+
+            backprop_packet.equation.set_tensor_grad(b, temp);
+        }
+        else if backprop_packet.grad.ndim() == 2 {
             // Convert the gradient to a 2D matrix
             let out_grad = backprop_packet.grad.clone();
             // Get the data of the right-hand operand of the MatMul operation

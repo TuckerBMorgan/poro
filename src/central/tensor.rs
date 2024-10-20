@@ -800,9 +800,7 @@ impl Tensor {
     }
 
     pub fn softmax(&self, axis: usize) -> Tensor {
-        info!("Softmax");
         let max = self.max(axis);
-        info!("After max");
         let counts = (*self - max).exp();
         let sum = counts.sum(axis);
         let sum_inverted = sum.pow(-1.0);
@@ -811,10 +809,10 @@ impl Tensor {
     }
 
     pub fn cross_entropy_loss(&self, trues: Tensor) -> Tensor {
-        let softmax = self.softmax(1);
+        let softmax = self.softmax(0);
         let log_softmax = softmax.log();
         let loss = trues * log_softmax;
-        let sum = loss.sum(1);
+        let sum = loss.sum(0);
         let mean = sum.mean(vec![0]);
         mean
     }
