@@ -21,6 +21,8 @@ def write_fp32(tensor, file):
 class NewGELU(nn.Module):
     """Careful there are a few versions of GeLU, this one is the exact one used by OpenAI"""
     def forward(self, input):
+        print(torch.pow(input, 3.0))
+        print((1.0 + torch.tanh(math.sqrt(2.0 / math.pi) * (input + 0.044715 * torch.pow(input, 3.0)))))
         return 0.5 * input * (1.0 + torch.tanh(math.sqrt(2.0 / math.pi) * (input + 0.044715 * torch.pow(input, 3.0))))
 
 
@@ -52,10 +54,15 @@ liner_2_weight_file = open("data/tests/mlp/linear_2_weights.txt", "wb")
 linear_2_bias_file = open("data/tests/mlp/linear_2_bias.txt", "wb")
 test_input_file = open("data/tests/mlp/test_input.txt", "wb")
 output_file = open("data/tests/mlp/output.txt", "wb")
+fake_target_file = open("data/tests/mlp/fake_target.txt", "wb")
+expected_loss = open("data/tests/mlp/expected_loss.txt", "wb")
 
 test_input = torch.randn(1, 768)
+fake_target = torch.randn(1, 768)
 
 output = mlp(test_input)
+
+loss = F.mse_loss(output, fake_target)
 
 
 write_fp32(mlp.c_fc.weight, liner_1_weight_file)
@@ -64,3 +71,5 @@ write_fp32(mlp.c_fc.bias, linear_1_bias_file)
 write_fp32(mlp.c_proj.bias, linear_2_bias_file)
 write_fp32(test_input, test_input_file)
 write_fp32(output, output_file)
+write_fp32(fake_target, fake_target_file)
+write_fp32(torch.tensor([[loss]]), expected_loss)

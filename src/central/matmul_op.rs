@@ -5,7 +5,7 @@ use crate::central::BackpropagationPacket;
 use ndarray::prelude::*;
 use std::ops::Shl;
 
-use super::tensor::{name_from_string, NAME_LENGTH};
+use super::tensor::name_from_string;
 
 pub fn backward(backprop_packet: BackpropagationPacket) {
     if let Operation::MatMul(a, b) = backprop_packet.operation {
