@@ -57,6 +57,12 @@ output_file = open("data/tests/mlp/output.txt", "wb")
 fake_target_file = open("data/tests/mlp/fake_target.txt", "wb")
 expected_loss = open("data/tests/mlp/expected_loss.txt", "wb")
 
+linear_1_weight_grad_file = open("data/tests/mlp/linear_1_weight_grad.txt", "wb")
+linear_1_bias_grad_file = open("data/tests/mlp/linear_1_bias_grad.txt", "wb")
+linear_2_weight_grad_file = open("data/tests/mlp/linear_2_weight_grad.txt", "wb")
+linear_2_bias_grad_file = open("data/tests/mlp/linear_2_bias_grad.txt", "wb")
+
+
 test_input = torch.randn(1, 768)
 fake_target = torch.randn(1, 768)
 
@@ -64,6 +70,7 @@ output = mlp(test_input)
 
 loss = F.mse_loss(output, fake_target)
 
+loss.backward()
 
 write_fp32(mlp.c_fc.weight, liner_1_weight_file)
 write_fp32(mlp.c_proj.weight, liner_2_weight_file)
@@ -73,3 +80,7 @@ write_fp32(test_input, test_input_file)
 write_fp32(output, output_file)
 write_fp32(fake_target, fake_target_file)
 write_fp32(torch.tensor([[loss]]), expected_loss)
+write_fp32(mlp.c_fc.weight.grad, linear_1_weight_grad_file)
+write_fp32(mlp.c_proj.weight.grad, linear_2_weight_grad_file)
+write_fp32(mlp.c_fc.bias.grad, linear_1_bias_grad_file)
+write_fp32(mlp.c_proj.bias.grad, linear_2_bias_grad_file)

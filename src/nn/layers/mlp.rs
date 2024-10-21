@@ -9,9 +9,7 @@ struct NewGLU {
 impl Module for NewGLU {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         let x_pow = x.pow(3.0);
-        println!("{:?}", x_pow.item());
         let why = 1.0 + ((2.0 / PI).sqrt() * (*x + 0.044715 * x_pow)).tanh_mapped();
-        println!("{:?}", why.item());
         return 0.5 * *x * why;
     }
 
@@ -78,6 +76,7 @@ impl Module for MLP {
 }
 
 mod tests {
+    use crate::nn::layers::linear;
     use crate::nn::layers::mlp::MLP;
     use crate::nn::layers::module::Module;
     use crate::central::Tensor;
@@ -95,6 +94,10 @@ mod tests {
         let expected_output_path = "data/tests/mlp/output.txt";
         let fake_target = "data/tests/mlp/fake_target.txt";
         let expected_loss = "data/tests/mlp/expected_loss.txt";
+        let linear_1_weight_grad_path = "data/tests/mlp/linear_1_weight_grad.txt";
+        let linear_1_bias_grad_path = "data/tests/mlp/linear_1_bias_grad.txt";
+        let linear_2_weight_grad_path = "data/tests/mlp/linear_2_weight_grad.txt";
+        let linear_2_bias_grad_path = "data/tests/mlp/linear_2_bias_grad.txt";
 
         let mut linear_1_weight_file = File::open(linear_1_weights_path).unwrap();
         let mut linear_1_bias_file = File::open(linear_1_bias_path).unwrap();
@@ -104,6 +107,10 @@ mod tests {
         let mut expected_output_file = File::open(expected_output_path).unwrap();
         let mut fake_target_file = File::open(fake_target).unwrap();
         let mut expected_loss_file = File::open(expected_loss).unwrap();
+        let mut linear_1_weight_grad_file = File::open(linear_1_weight_grad_path).unwrap();
+        let mut linear_1_bias_grad_file = File::open(linear_1_bias_grad_path).unwrap();
+        let mut linear_2_weight_grad_file = File::open(linear_2_weight_grad_path).unwrap();
+        let mut linear_2_bias_grad_file = File::open(linear_2_bias_grad_path).unwrap();
 
 
         let linear_1_weights = Tensor::from_bytestream(&mut linear_1_weight_file, false).unwrap();
@@ -113,7 +120,12 @@ mod tests {
         let test_input = Tensor::from_bytestream(&mut test_input_file, false).unwrap();
         let expected_output = Tensor::from_bytestream(&mut expected_output_file, false).unwrap();
         let fake_target = Tensor::from_bytestream(&mut fake_target_file, false).unwrap();
-        let expected_loss = Tensor::from_bytestream(&mut expected_loss_file, false).unwrap();        
+        let expected_loss = Tensor::from_bytestream(&mut expected_loss_file, false).unwrap();
+
+        let expected_linear_1_weight_grad = Tensor::from_bytestream(&mut linear_1_weight_grad_file, false).unwrap();
+        let expected_linear_1_bias_grad = Tensor::from_bytestream(&mut linear_1_bias_grad_file, false).unwrap();
+        let expected_linear_2_weight_grad = Tensor::from_bytestream(&mut linear_2_weight_grad_file, false).unwrap();
+        let expected_linear_2_bias_grad = Tensor::from_bytestream(&mut linear_2_bias_grad_file, false).unwrap();       
 
         let mut mlp = MLP::from_weights_and_bias(linear_1_weights, linear_1_bias, linear_2_weights, linear_2_bias);
         let output = mlp.forward(&test_input);
@@ -128,6 +140,44 @@ mod tests {
 
         for i in 0..mse_loss.shape.size() {
             assert!((mse_loss.item()[[0, i]] - expected_loss.item()[[0, i]]).abs() < 1e-4);
+        }
+
+        // weight grad check
+        mse_loss.backward();
+
+        let linear_1_weight_bias = mlp.c_fc.bias.grad();
+        let data = expected_linear_1_bias_grad.item();
+        for i in 0..expected_linear_1_bias_grad.shape.size() {
+            let left = linear_1_weight_bias[i];
+            let right = data[[i]];
+            assert!((left - right).abs() < 1e-4);
+        }
+        let linear_1_weight_grad = mlp.c_fc.weights.grad();
+        let shape = linear_1_weight_grad.shape();
+        let data = expected_linear_1_weight_grad.item();
+        for x in 0..shape[0] {
+            for y in 0..shape[1] {
+                let left = linear_1_weight_grad[[x, y]];
+                let right = data[[x, y]];
+                assert!((left - right).abs() < 1e-4);
+            }
+        }
+        let linear_2_weight_bias = mlp.c_proj.bias.grad();
+        let data = expected_linear_2_bias_grad.item();
+        for i in 0..expected_linear_2_bias_grad.shape.size() {
+            let left = linear_2_weight_bias[i];
+            let right = data[[i]];
+            assert!((left - right).abs() < 1e-4);
+        }
+        let linear_2_weight_grad = mlp.c_proj.weights.grad();
+        let shape = linear_2_weight_grad.shape();
+        let data = expected_linear_2_weight_grad.item();
+        for x in 0..shape[0] {
+            for y in 0..shape[1] {
+                let left = linear_2_weight_grad[[x, y]];
+                let right = data[[x, y]];
+                assert!((left - right).abs() < 1e-4);
+            }
         }
 
 
