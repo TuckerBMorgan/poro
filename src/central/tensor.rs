@@ -310,6 +310,7 @@ impl Tensor {
     pub fn pow(&self, power: f32) -> Tensor {
         let power_as_tensor = Tensor::element(vec![1].into(), power);
         let mut singleton = get_equation();
+
         let data = singleton
             .get_item(self.tensor_id)
             .clone()
@@ -447,10 +448,9 @@ impl Tensor {
 
     pub fn mean(&self, axes: Vec<usize>) -> Tensor {
         if axes.len() == 1 {
-            let item = self.item();
-            let sum = item.sum_axis(Axis(axes[0]));
-            let mean = sum / item.shape()[axes[0]] as f32;
 
+            let item = self.item();
+            let mean = item.mean_axis(Axis(axes[0])).unwrap();
             let mut singleton = get_equation();
             let data : Vec<f32> = mean.into_iter().collect();
             let mut new_shape_indices = self.shape.indices.clone();
@@ -477,9 +477,9 @@ impl Tensor {
         }
         if axes.len() == 2 {
             let item = self.item();
-            let sum = item.sum_axis(Axis(axes[0])).sum_axis(Axis(axes[1] - 1));
-            let mean = sum / (item.shape()[axes[0]] * item.shape()[axes[1]]) as f32;
-
+            let sum = item.sum_axis(Axis(axes[0])).sum_axis(Axis(axes[1]));
+            let mean = item.mean();
+            println!("Wait is this the mean {:?}", mean);
             let mut singleton = get_equation();
 
             let data = mean.into_iter().collect();

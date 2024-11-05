@@ -3,7 +3,7 @@ use std::env::consts::ARCH;
 
 use poro::nn::model::DecoderOnlyTransformer;
 use poro::central::Tensor;
-use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module, MLP};
+use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module, MLP, LayerNorm};
 use poro::nn::model::PositionalEncoding;
 use poro::nn::LinearLayerConfig;
 use poro::Indexable;
@@ -57,42 +57,6 @@ fn write_string_vector_to_file(path: &str, data: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-struct LayerNorm {
-    weight: Tensor,
-    bias: Tensor,
-}
-
-impl LayerNorm {
-    pub fn new(embedding_dim: usize) -> Self {
-        let weight = Tensor::randn(vec![embedding_dim].into());
-        let bias = Tensor::randn(vec![embedding_dim].into());
-        LayerNorm {
-            weight,
-            bias,
-        }
-    }
-
-    pub fn from_weights_and_bias(weight: Tensor, bias: Tensor) -> Self {
-        LayerNorm {
-            weight,
-            bias,
-        }
-    }
-}
-
-impl Module for LayerNorm {
-    fn forward(&mut self, x: &Tensor) -> Tensor {
-        let mean = x.mean(vec![2]);
-        let std = x.std(vec![2]);
-        let x = (*x - mean) / std;
-        let x = x * self.weight + self.bias;
-        x
-    }
-
-    fn get_parameters(&self) -> Vec<Tensor> {
-        vec![self.weight.clone(), self.bias.clone()]
-    }
-}
 
 
 struct CasualSelfAttentionConfig {
