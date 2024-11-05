@@ -94,9 +94,7 @@ mod tests {
         for (o, e) in ouput_as_flat_array.iter().zip(expected_as_flat_array.iter()) {
             assert!((o - e).abs() < 1e-4, "Output {} is not approximately equal to expected {}", o, e);
         }
-        let testing = output - fake_target;
-        println!("fake_target: {:?}", (testing.pow(2.0)).reshape(vec![2 * 768].into()).mean(vec![0]).item());
-        println!("expected_loss: {:?}", expected_loss.item());
+
         let diff = output - fake_target;
 
 
@@ -118,7 +116,12 @@ mod tests {
             assert!((g - eg).abs() < 1e-2, "Gradient {} is not approximately equal to expected gradient {}", g, eg);
         }
 
-        
+        let expected_layer_norm_bias_grad_output_flatten = layer_norm_bias_grad.item().iter().map(|x| x.clone()).collect::<Vec<f32>>();
+        let layer_norm_bias_grad_output_flatten = layer_norm.bias.grad().iter().map(|x| x.clone()).collect::<Vec<f32>>();
+
+        for (g, eg) in layer_norm_bias_grad_output_flatten.iter().zip(expected_layer_norm_bias_grad_output_flatten.iter()) {
+            assert!((g - eg).abs() < 1e-2, "Gradient {} is not approximately equal to expected gradient {}", g, eg);
+        }
 
 
 

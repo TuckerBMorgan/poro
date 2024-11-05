@@ -7,6 +7,7 @@ mod dropout;
 mod linear;
 mod mlp;
 mod layer_norm;
+mod casual_self_attention;
 
 pub use batch_norm::BatchNorm1d;
 pub use module::Module;
@@ -17,3 +18,4 @@ pub use dropout::Dropout;
 pub use linear::{LinearLayer, LinearLayerConfig};
 pub use mlp::MLP;
 pub use layer_norm::LayerNorm; 
+pub use casual_self_attention::{CasualSelfAttention, CasualSelfAttentionConfig};
