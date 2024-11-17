@@ -313,8 +313,8 @@ impl Equation {
         // Check inner dimensions for compatibility
         if shape_a[3] != shape_b[2] {
             panic!(
-                "Dimension mismatch: a.shape[3] ({}) != b.shape[2] ({})",
-                shape_a[3], shape_b[2]
+                "Dimension mismatch: a.shape[3] ({}) != b.shape[2] ({}) for arrays with shapes {:?} and {:?}",
+                shape_a[3], shape_b[2], shape_a, shape_b
             );
         }
     
@@ -376,6 +376,10 @@ fn broadcast_shapes(shape_a: &[usize], shape_b: &[usize]) -> Option<Vec<usize>> 
 }
 
 pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
+
+    if a.ndim() == 4 && b.ndim() == 4 {
+        return Equation::matmul_4d(a, b);
+    }
     use ndarray::prelude::*;
 
     // Store original shapes and dimensions
@@ -769,8 +773,19 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 let grad_update = source_grad + grad.clone() * source_data.map(|x| -x.sin());
                 self.set_tensor_grad(a, grad_update);
             },
-            Operation::MaskedFill(a, b, c) => {
-                panic!("Masked fill Not Implemented");
+            Operation::MaskedFill(origin_tensor, mask, mask_value) => {
+                let source_data = self.get_item(origin_tensor);
+                let source_grad = self.get_item(origin_tensor);
+                let source_grad_for_shape = self.get_tensor_grad(origin_tensor);
+                let mask_data = self.get_item(mask);
+                let mut grad_update = source_grad.clone();
+                for i in 0..source_data.len() {
+                    if mask_data[i] == mask_value as f32 {
+                        grad_update[i] = 0.0;
+                    }
+                }
+                let grad_update_as_array = ArrayD::from_shape_vec(source_grad_for_shape.shape(), grad_update).unwrap();
+                self.set_tensor_grad(origin_tensor,  grad_update_as_array);
             }
         }
 

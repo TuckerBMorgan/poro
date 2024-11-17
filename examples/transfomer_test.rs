@@ -57,20 +57,11 @@ fn write_string_vector_to_file(path: &str, data: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-
-
-
-struct BlockConfig {
-    embedding_dim: usize,
-    casual_self_attention_config: CasualSelfAttentionConfig,
-}
-
 struct Block {
     ln_1: LayerNorm,
     attn: CasualSelfAttention,
     ln_2: LayerNorm,
     mlp: MLP,
-    embedding_dim: usize,
 }
 
 impl Block {
@@ -81,7 +72,6 @@ impl Block {
             ln_2: ln2,
             attn,
             mlp,
-            embedding_dim: 768,
         }
     }
 }

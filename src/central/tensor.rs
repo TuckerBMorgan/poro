@@ -723,13 +723,11 @@ impl Tensor {
                 new_shape.push(1);
             }
         }
-        println!("new_shape: {:?}", new_shape);
+
         let result = max_values.into_shape(new_shape.clone()).unwrap();
-        println!("result: {:?}", result.shape());
         let mut singleton = get_equation();
         // HACK: this should be generic to any sized shape, but I am not sure how to do that
         let new_shape = Shape::new(new_shape);
-        println!("new_shape: {:?}", new_shape);
         info!("new_sssshape: {:?}", new_shape);
         let tensor_id = singleton.allocate_tensor_from_operation(
             new_shape,

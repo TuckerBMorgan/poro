@@ -144,7 +144,45 @@ pub fn backward(backprop_packet: BackpropagationPacket) {
             backprop_packet
                 .equation
                 .set_tensor_grad(b, result.into_dyn() + right_hand_grad);
-        }     
+        }
+        else if backprop_packet.grad.ndim() == 4 {
+            // Convert the gradient to a 2D matrix
+            let out_grad = backprop_packet.grad.clone();
+            // Get the data of the right-hand operand of the MatMul operation
+            let mut right_hand_data = backprop_packet.equation.get_tensor_data(b);
+            right_hand_data.swap_axes(2, 3);
+            
+            // Transpose the right-hand data
+
+            // Get the gradient of the left-hand operand of the MatMul operation
+            let left_hand_grad = backprop_packet.equation.get_tensor_grad(a);
+            // Update the gradient of the left-hand operand
+            // Gradient of A in A*B with respect to the loss is given by (dL/dZ) * B^T
+            let hold = left_hand_grad
+                + backprop_packet
+                    .equation
+                    .matmul(&out_grad, &right_hand_data.to_owned());
+            //let hold = left_hand_grad + out_grad.clone().dot(&other).into_dyn();
+            backprop_packet.equation.set_tensor_grad(a, hold);
+
+            // Get the data of the left-hand operand of the MatMul operation
+            let mut left_hand_data = backprop_packet.equation.get_tensor_data(a);
+
+            // Get the gradient of the right-hand operand of the MatMul operation
+            let right_hand_grad = backprop_packet.equation.get_tensor_grad(b);
+            // Transpose the left-hand data
+            left_hand_data.swap_axes(2, 3);
+            // Update the gradient of the right-hand operand
+            // Gradient of B in A*B with respect to the loss is given by A^T * (dL/dZ)
+
+
+            let temp = right_hand_grad
+                + backprop_packet
+                    .equation
+                    .matmul(&left_hand_data.to_owned(), &out_grad.to_owned());
+
+            backprop_packet.equation.set_tensor_grad(b, temp);
+        }
         else {
             
             panic!("Not implementerd for dim {}", backprop_packet.grad.ndim());
