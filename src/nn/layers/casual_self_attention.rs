@@ -177,7 +177,7 @@ impl Module for CasualSelfAttention {
         let mut parameters = Vec::new();
         parameters.extend(self.query_attention.get_parameters());
         parameters.extend(self.key_attention.get_parameters());
-        parameters.extend(self.value_attention.get_parameters());
+    parameters.extend(self.value_attention.get_parameters());
         parameters.extend(self.c_proj.get_parameters());
         parameters
     }

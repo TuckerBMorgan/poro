@@ -1,21 +1,17 @@
 
-use std::env::consts::ARCH;
-
 use poro::nn::model::DecoderOnlyTransformer;
 use poro::central::Tensor;
 use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module, MLP, LayerNorm, CasualSelfAttention, CasualSelfAttentionConfig};
 use poro::nn::model::PositionalEncoding;
-use poro::nn::LinearLayerConfig;
-use poro::Indexable;
-use serde_json::Value;
-use std::io::{Read, Result};
+use std::io::{Read, Seek};
 use std::convert::TryInto;
 use simplelog::*;
-use log::{info, warn};
+use log::info;
 
 use std::io::{BufWriter, Write};
 use std::fs::OpenOptions;
-use ndarray::prelude::*;
+
+use tokenizers::tokenizer::{Result, Tokenizer};
 fn write_f32_vector_to_file(path: &str, data: &[f32]) -> std::io::Result<()> {
     // Create or open the file
     let file = OpenOptions::new()
@@ -376,9 +372,53 @@ impl Model for GPT {
         parameters
     }
 }
+
+fn u8_to_u16(data: &[u8]) -> Vec<u16> {
+    data.chunks_exact(2) // Split into chunks of 2 bytes
+        .map(|chunk| u16::from_le_bytes([chunk[0], chunk[1]])) // Convert to u16
+        .collect() // Collect into a Vec<u16>
+}
+
+struct DataLoader {
+    tokens: Tensor
+}
+impl DataLoader {
+    pub fn new() -> Self {
+        // load the file at "./data/tiny_shakespeare/tiny_shakespeare_train.bin"
+
+        //read the header which is 256 * 4 bytes
+        let mut buffer = [0; 256 * 4];
+        let read = &mut std::fs::File::open("./data/tinyshakespeare/tiny_shakespeare_val.bin").unwrap();
+        read.read_exact(&mut buffer).unwrap();
+
+        // read the rest into a tensor
+        let mut vec_buffer = Vec::new();
+        let  as_vec = read.read_to_end(&mut vec_buffer).unwrap();
+
+
+
+        let vec_buffer = u8_to_u16(&vec_buffer);
+        // combine the u8 into u16s
+        
+
+
+        let vec_buffer = vec_buffer.iter().map(|x| *x as f32).collect::<Vec<f32>>();
+        let tokens = Tensor::from_vec(vec_buffer, vec![1, as_vec].into());
+
+        DataLoader {
+            tokens
+        }
+    }
+}
 use std::fs::File;
 use std::path::Path;
 fn main() {
+
+    let data_loead = DataLoader::new();
+    return;
+    let tokenizer = Tokenizer::from_pretrained("gpt2", None).unwrap();
+    println!("{:?}", tokenizer.encode("Hello, how are you?", false).unwrap());
+    return;
     WriteLogger::init(
         LevelFilter::Info, // Set the log level
         Config::default(), // Use the default configuration
