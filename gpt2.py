@@ -276,6 +276,7 @@ class GPT(nn.Module):
 
         # forward the GPT model itself
         tok_emb = self.transformer.wte(idx) # token embeddings of shape (b, t, n_embd)
+        print(tok_emb.item())
         #append_string_to_file("./python_checkfile.txt", "$Toks")
         #write_floats_to_file("./python_checkfile.txt", tok_emb.detach().numpy().flatten().tolist())
         pos_emb = self.transformer.wpe(pos) # position embeddings of shape (t, n_embd)
@@ -862,6 +863,9 @@ if __name__ == "__main__":
 
     # load tokens
     train_loader = DistributedDataLoader(args.input_bin, B, T, ddp_rank, ddp_world_size)
+    x, y = train_loader.next_batch()
+    print(x.shape, y.shape)
+    exit()
     val_loader = None
     if args.input_val_bin:
         val_loader = DistributedDataLoader(args.input_val_bin, B, T, ddp_rank, ddp_world_size)

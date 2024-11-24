@@ -77,6 +77,8 @@ impl Module for Block {
         info!("Block forward");
         let y = self.ln_1.forward(x);
                 // Create or open the file
+        println!("{:?}", y.item());
+        panic!();
         let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
         let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
         info!("LayerNorm 1 done");
@@ -328,6 +330,7 @@ impl Model for GPT {
         info!("GPT forward");
         let toks = self.wte.forward(x);
 
+
         //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Toks");
         //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &toks.item().into_raw_vec());
 
@@ -341,6 +344,7 @@ impl Model for GPT {
 
         info!("WPE done");
         let mut x = toks + pos;
+
         //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$TokPos");
         //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
         info!("Add done");
@@ -379,11 +383,16 @@ fn u8_to_u16(data: &[u8]) -> Vec<u16> {
         .collect() // Collect into a Vec<u16>
 }
 
+use poro::Shape;
+use rand::Rng;
 struct DataLoader {
-    tokens: Tensor
+    tokens: Vec<u16>,
+    batch_size: usize,
+    seq_length: usize,
+    current_position: usize
 }
 impl DataLoader {
-    pub fn new() -> Self {
+    pub fn new(batch_size: usize, seq_length: usize) -> Self {
         // load the file at "./data/tiny_shakespeare/tiny_shakespeare_train.bin"
 
         //read the header which is 256 * 4 bytes
@@ -402,19 +411,87 @@ impl DataLoader {
         
 
 
-        let vec_buffer = vec_buffer.iter().map(|x| *x as f32).collect::<Vec<f32>>();
-        let tokens = Tensor::from_vec(vec_buffer, vec![1, as_vec].into());
+
 
         DataLoader {
-            tokens
+            tokens: vec_buffer,
+            batch_size,
+            seq_length,
+            current_position: 0
         }
     }
+
+    pub fn advance(&mut self) {
+        self.current_position += self.seq_length;
+        if self.current_position + self.seq_length >= self.tokens.len() {
+            self.current_position = 0;
+        }
+    }
+    
+    pub fn next_batch(&mut self) -> (Tensor, Tensor){
+        let mut input_tensor = Tensor::zeroes(Shape::new(vec![self.batch_size, self.seq_length].into()));
+        let mut target_tensor = Tensor::zeroes(Shape::new(vec![self.batch_size, self.seq_length].into()));
+
+        for i in 0..self.batch_size {
+            let input_slice = &self.tokens[self.current_position..self.current_position + self.seq_length];
+            let target_slice = &self.tokens[self.current_position + 1..self.current_position + self.seq_length + 1];
+
+            for j in 0..self.seq_length {
+                input_tensor.set_index([i, j].into(), vec![input_slice[j] as f32].into());
+                target_tensor.set_index([i, j].into(), vec![target_slice[j] as f32].into());
+            }
+        }
+
+            self.current_position += self.batch_size * self.seq_length;
+            if self.current_position + (self.batch_size * self.seq_length) >= self.tokens.len() {
+                self.advance();
+            }
+        
+        (input_tensor, target_tensor)
+
+    }
+    
 }
 use std::fs::File;
 use std::path::Path;
+
+
+fn get_learning_rate(iteration: usize) -> f32 {
+    let num_iterations = 20;
+    let learning_rate =1e-4f32;
+    let learning_rate_decay = 1.0f32;
+    let warumup_iterations = 10;
+    let min_learning_rate = learning_rate * learning_rate_decay;
+
+    if iteration < warumup_iterations {
+        return learning_rate * (iteration as f32 / warumup_iterations as f32);
+    } 
+
+    if iteration < num_iterations {
+        return min_learning_rate;
+    }
+
+    let decay_ratio = (iteration - warumup_iterations) as f32 / (num_iterations as f32 - warumup_iterations as f32);
+
+    assert!(decay_ratio >= 0.0 && decay_ratio <= 1.0);
+
+    let coeff = 0.5 * (1.0 + f32::cos(std::f32::consts::PI * decay_ratio));
+    return min_learning_rate + (learning_rate - min_learning_rate) * coeff;
+}
+
+
 fn main() {
 
-    let data_loead = DataLoader::new();
+
+
+
+    let mut data_loead = DataLoader::new(4, 64);
+    let (x, y) = data_loead.next_batch();
+    println!("{:?}", x.item()[[0, 0]]);
+    println!("{:?}", y.item()[[0, 0]]);
+    let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
+    let test_ouput = gpt.forward(&x);
+    println!("{:?}", test_ouput.item());
     return;
     let tokenizer = Tokenizer::from_pretrained("gpt2", None).unwrap();
     println!("{:?}", tokenizer.encode("Hello, how are you?", false).unwrap());
@@ -436,7 +513,7 @@ fn main() {
     let test_input = Tensor::from_bytestream(&mut File::open(test_input_file_path).unwrap(), false).unwrap();
     println!("{:?}", test_input.shape);
     // open the file "gpt2.bin" and feed it to GPTConfig::from_bytestream
-    let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
+
     let input = Tensor::randn(vec![1, 1, 1].into());
     let output = gpt.forward(&test_input);
     return;
