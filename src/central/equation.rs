@@ -4,7 +4,6 @@ use super::{
     tensor::TensorID,
 };
 use core::panic;
-use ndarray::linalg::general_mat_mul;
 use ndarray::parallel::prelude::{IntoParallelIterator, ParallelIterator};
 use ndarray::prelude::*;
 use rand_distr::{Distribution, Normal};
@@ -18,8 +17,6 @@ use std::{
 use cudarc::driver::{LaunchAsync, LaunchConfig};
 #[cfg(target_os = "windows")]
 use cudarc::nvrtc::{compile_ptx, Ptx};
-
-use cudarc::cublas::*;
 
 use log::info;
 
@@ -505,8 +502,8 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
             return self.standard_matmul(a, b);
         }
     }
-
-    #[cfg(target_os = "macos")]
+    
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     pub fn matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         // I have only done the 2D case for now
         // so even if we have a cuda device, we should default to the standard matmul

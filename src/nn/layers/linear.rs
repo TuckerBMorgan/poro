@@ -1,6 +1,4 @@
 use crate::{central::Tensor, Shape, nn::layers::module::Module};
-use log::info;
-
 
 #[derive(Debug, Default, Copy, Clone)]
 pub struct LinearLayerConfig {

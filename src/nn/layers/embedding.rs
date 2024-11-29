@@ -1,5 +1,3 @@
-use log::info;
-
 use crate::{Shape, Tensor};
 
 use super::Module;

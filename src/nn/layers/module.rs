@@ -1,8 +1,7 @@
-use serde::de;
 
 // This could maybe be its own lib, along with model.rs
-use crate::{central::Tensor, Shape};
-use log::info;
+use crate::central::Tensor;
+
 
 pub trait Module {
     fn forward(&mut self, x: &Tensor) -> Tensor;
