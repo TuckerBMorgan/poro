@@ -59,7 +59,7 @@ impl Equation {
         }
     }
 
-    #[cfg(any(target_os = "macos", target_os = "linux"))]
+    #[cfg(not(target_os = "windows"))]
     pub fn new() -> Equation {
         Equation {
             data_store: Vec::new(),
@@ -504,7 +504,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         }
     }
 
-    #[cfg(any(target_os = "macos", target_os = "linux"))]
+    #[cfg(not(target_os = "windows"))]
     pub fn matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         // I have only done the 2D case for now
         // so even if we have a cuda device, we should default to the standard matmul
