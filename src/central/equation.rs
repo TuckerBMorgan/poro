@@ -58,7 +58,8 @@ impl Equation {
             operation_map: HashMap::new(),
         }
     }
-    #[cfg(target_os = "macos")]
+
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
     pub fn new() -> Equation {
         Equation {
             data_store: Vec::new(),
@@ -502,7 +503,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
             return self.standard_matmul(a, b);
         }
     }
-    
+
     #[cfg(any(target_os = "macos", target_os = "linux"))]
     pub fn matmul(&mut self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         // I have only done the 2D case for now
