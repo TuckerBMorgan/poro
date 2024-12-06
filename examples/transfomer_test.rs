@@ -74,38 +74,41 @@ impl Block {
 
 impl Module for Block {
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        info!("Block forward");
         let y = self.ln_1.forward(x);
                 // Create or open the file
-        println!("{:?}", y.item());
-        panic!();
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+
+ //       let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_1");
+ //       let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
         info!("LayerNorm 1 done");
         
         let y = self.attn.forward(&y);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Attn");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+    //     let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Attn");
+    //    let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("Attention done");
         let x = *x + y;
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Residual");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+ 
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Residual");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("Add done");
         let y = self.ln_2.forward(&x);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_2");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+ 
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Linear_2");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("LayerNorm 2 done");
         let y = self.mlp.forward(&y);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$MLP");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
+
+
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$MLP");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &y.item().into_raw_vec());
 
         info!("MLP done");
         let x = x + y;
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Residual_2");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Residual_2");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
 
         info!("Add done");
         x
@@ -135,10 +138,10 @@ impl GPTConfig {
         // magic number
         
         reader.read_exact(&mut buffer).unwrap();
-        println!("{:?}", buffer);
+        //println!("{:?}", buffer);
         // version
         reader.read_exact(&mut buffer).unwrap();
-        println!("{:?}", buffer);
+        //println!("{:?}", buffer);
 
         reader.read_exact(&mut buffer).unwrap();
         let block_size = u32::from_le_bytes(buffer).try_into().unwrap();
@@ -354,13 +357,15 @@ impl Model for GPT {
             x = block.forward(&x);
             counts += 1;
         }
+
+
+
         info!("Blocks done");
         let x = self.final_layer_norm.forward(&x);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$LN");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
-        let x = x.cross_entropy_loss(x);
-        println!("{:?}", x.item());
-        x.backward();
+
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$LN");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+
         info!("Final layer norm done");
         x
     }
@@ -383,7 +388,7 @@ fn u8_to_u16(data: &[u8]) -> Vec<u16> {
         .collect() // Collect into a Vec<u16>
 }
 
-use poro::Shape;
+use poro::{update_parameters, Shape};
 use rand::Rng;
 struct DataLoader {
     tokens: Vec<u16>,
@@ -428,27 +433,33 @@ impl DataLoader {
         }
     }
     
-    pub fn next_batch(&mut self) -> (Tensor, Tensor){
+    pub fn next_batch(&mut self) -> (Tensor, Tensor) {
         let mut input_tensor = Tensor::zeroes(Shape::new(vec![self.batch_size, self.seq_length].into()));
         let mut target_tensor = Tensor::zeroes(Shape::new(vec![self.batch_size, self.seq_length].into()));
-
+    
         for i in 0..self.batch_size {
-            let input_slice = &self.tokens[self.current_position..self.current_position + self.seq_length];
-            let target_slice = &self.tokens[self.current_position + 1..self.current_position + self.seq_length + 1];
-
+            // Calculate the starting position for the current batch item
+            let batch_start = self.current_position + i * self.seq_length;
+    
+            // Ensure the slices respect the batch's position
+            let input_slice = &self.tokens[batch_start..batch_start + self.seq_length];
+            let target_slice = &self.tokens[batch_start + 1..batch_start + self.seq_length + 1];
+    
             for j in 0..self.seq_length {
                 input_tensor.set_index([i, j].into(), vec![input_slice[j] as f32].into());
                 target_tensor.set_index([i, j].into(), vec![target_slice[j] as f32].into());
             }
         }
-
-            self.current_position += self.batch_size * self.seq_length;
-            if self.current_position + (self.batch_size * self.seq_length) >= self.tokens.len() {
-                self.advance();
-            }
-        
+    
+        // Update the current position by the total tokens consumed
+        self.current_position += self.batch_size * self.seq_length;
+    
+        // Handle wrap-around if the end of tokens is reached
+        if self.current_position + (self.batch_size * self.seq_length) >= self.tokens.len() {
+            self.advance();
+        }
+    
         (input_tensor, target_tensor)
-
     }
     
 }
@@ -481,26 +492,24 @@ fn get_learning_rate(iteration: usize) -> f32 {
 
 
 fn main() {
-
-
-
-
-    let mut data_loead = DataLoader::new(4, 64);
-    let (x, y) = data_loead.next_batch();
-    println!("{:?}", x.item()[[0, 0]]);
-    println!("{:?}", y.item()[[0, 0]]);
-    let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
-    let test_ouput = gpt.forward(&x);
-    println!("{:?}", test_ouput.item());
-    return;
-    let tokenizer = Tokenizer::from_pretrained("gpt2", None).unwrap();
-    println!("{:?}", tokenizer.encode("Hello, how are you?", false).unwrap());
-    return;
     WriteLogger::init(
         LevelFilter::Info, // Set the log level
         Config::default(), // Use the default configuration
         File::create(Path::new("Transfomer_test.log")).unwrap(), // Create or open the log file
     ).unwrap();
+
+    let mut data_loead = DataLoader::new(4, 64);
+    let (x, y) = data_loead.next_batch();
+
+    let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
+    let test_ouput = gpt.forward(&x);
+    let tokenizer = Tokenizer::from_pretrained("gpt2", None).unwrap();
+    //update_parameters(0.01);
+    return;
+
+    println!("{:?}", tokenizer.encode("Hello, how are you?", false).unwrap());
+    return;
+
     let file_path = "./rust_checkfile.txt";
 
     // Open the file with write mode to truncate it (clear contents)

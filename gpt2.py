@@ -180,23 +180,30 @@ class Block(nn.Module):
 
     def forward(self, x):
         y = self.ln_1(x)
-        append_string_to_file("./python_checkfile.txt", "$Linear_1")
-        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+
+        #append_string_to_file("./python_checkfile.txt", "$Linear_1")
+        #write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         y = self.attn(y)
-        append_string_to_file("./python_checkfile.txt", "$Attn")
-        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+
+
+#        append_string_to_file("./python_checkfile.txt", "$Attn")
+#        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         x = x + y
-        append_string_to_file("./python_checkfile.txt", "$Residual")
-        write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
+        #append_string_to_file("./python_checkfile.txt", "$Residual")
+        #write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
         y = self.ln_2(x)
-        append_string_to_file("./python_checkfile.txt", "$Linear_2")
-        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+
+ 
+        #append_string_to_file("./python_checkfile.txt", "$Linear_2")
+        #write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         y = self.mlp(y)
-        append_string_to_file("./python_checkfile.txt", "$MLP")
-        write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
+
+        #append_string_to_file("./python_checkfile.txt", "$MLP")
+        #write_floats_to_file("./python_checkfile.txt", y.detach().numpy().flatten().tolist())
         x = x + y
-        append_string_to_file("./python_checkfile.txt", "$Residual_2")
-        write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
+
+        #append_string_to_file("./python_checkfile.txt", "$Residual_2")
+        #write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
         return x
 
     def add_weights_to_dict(self, weights_dict, id = ""):
@@ -276,7 +283,6 @@ class GPT(nn.Module):
 
         # forward the GPT model itself
         tok_emb = self.transformer.wte(idx) # token embeddings of shape (b, t, n_embd)
-        print(tok_emb.item())
         #append_string_to_file("./python_checkfile.txt", "$Toks")
         #write_floats_to_file("./python_checkfile.txt", tok_emb.detach().numpy().flatten().tolist())
         pos_emb = self.transformer.wpe(pos) # position embeddings of shape (t, n_embd)
@@ -286,18 +292,15 @@ class GPT(nn.Module):
         #append_string_to_file("./python_checkfile.txt", "$TokPos")
         #write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
         count = 0
-        print(x.shape)
-        print(x.mean().shape)
-        print(x.mean())
 
         for block in self.transformer.h:
             x = block(x)
             count += 1
 
         x = self.transformer.ln_f(x)
-        append_string_to_file("./python_checkfile.txt", "$LN")
-        write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
-        exit()
+
+        #append_string_to_file("./python_checkfile.txt", "$LN")
+        #write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
         if targets is not None:
             # if we are given some desired targets also calculate the loss
             logits = self.lm_head(x)
@@ -713,18 +716,22 @@ if __name__ == "__main__":
         "d48": GPTConfig(block_size=1024, vocab_size=50257, n_layer=48, n_head=25, n_embd=1600),
     }['d12']
     
-    
+    torch.manual_seed(42)
     model = GPT(model_config)
     write_model(model, f"gpt2.bin", dtype="float32")
-    torch.manual_seed(42)
-    test_input = torch.randint(0, 50257, (4, 64))
 
+    train_loader = DistributedDataLoader("./data/tinyshakespeare/tiny_shakespeare_val.bin", 4, 64, 0, 1)
+    x, y = train_loader.next_batch()
+    '''
     # save the test_input to file, shape and then the data
     with open("test_input.bin", "wb") as f:
         write_fp32(test_input, f)
+
     # run the model on the test input
-    
-    model(test_input)
+    '''
+
+    logits,loss = model(x, y)
+    loss.backward()
     exit()
 
     # default settings will overfit a tiny batch of data
@@ -862,7 +869,7 @@ if __name__ == "__main__":
     # Our own version of a simple DistributedDataLoader
 
     # load tokens
-    train_loader = DistributedDataLoader(args.input_bin, B, T, ddp_rank, ddp_world_size)
+    train_loader = DistributedDataLoader(args.input_val_bin, B, T, ddp_rank, ddp_world_size)
     x, y = train_loader.next_batch()
     print(x.shape, y.shape)
     exit()

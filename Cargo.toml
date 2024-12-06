@@ -24,3 +24,6 @@ tokenizers = {version = "0.20.3", features = ["http"]}
 cudarc = { version="0.11.1", features = [
     "cuda-version-from-build-system",
 ]}
+
+[target.'cfg(macos)'.dependencies]
+metal = "0.30.0"

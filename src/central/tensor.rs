@@ -447,6 +447,33 @@ impl Tensor {
     }
 
     pub fn mean(&self, axes: Vec<usize>) -> Tensor {
+        // This makes the assumption that axes is already is ascending order
+        let mut data = self.item();
+        let mut new_shape_indices = self.shape.indices.clone();
+        for axis in axes.iter().rev() {
+            data = data.mean_axis(Axis(*axis)).unwrap();
+            new_shape_indices[*axis] = 1;
+        }
+        let data : Vec<f32> = data.into_iter().collect();
+        info!("new_shape_indices: {:?}", new_shape_indices);
+        info!("data length: {:?}", data.len());
+        let mut new_shape_indices_vec = new_shape_indices.to_vec();
+        new_shape_indices_vec.truncate(self.shape.number_of_indices);
+        info!("new_shape_indices_vec: {:?}", new_shape_indices_vec);
+        let mut singleton = get_equation();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            Shape::new(new_shape_indices_vec.clone()),
+            data,
+            Operation::Mean(self.tensor_id),
+        );
+
+        return Tensor {
+            tensor_id,
+            shape: Shape::new(new_shape_indices_vec),
+            operation: Operation::Mean(self.tensor_id),
+            name: ['a'; NAME_LENGTH],
+        };
+
         if axes.len() == 1 {
 
             let item = self.item();
@@ -457,7 +484,7 @@ impl Tensor {
             new_shape_indices[axes[0]] = 1;
             info!("new_shape_indices: {:?}", new_shape_indices);
             info!("data length: {:?}", data.len());
-            let mut new_shape_indices_vec = new_shape_indices.to_vec();
+
             // Cut down new_shape_indices_vec to the correct size
             // which will be the same as the original shape
             new_shape_indices_vec.truncate(self.shape.number_of_indices);

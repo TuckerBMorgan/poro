@@ -119,57 +119,57 @@ impl Module for CasualSelfAttention {
 
 
 
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Query");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Query");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query.item().into_raw_vec());
 
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Key");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Key");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key.item().into_raw_vec());
 
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Value");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &value.item().into_raw_vec());
+        //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Value");
+        //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &value.item().into_raw_vec());
 
         
         let query = query.reshape(vec![b, t, num_heads, c / num_heads].into()).tranpose_with_provided_axis(1, 2);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$QueryT");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$QueryT");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query.item().into_raw_vec());
         let key = key.reshape(vec![b, t, num_heads, c / num_heads].into()).tranpose_with_provided_axis(1, 2);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$KeyT");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$KeyT");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key.item().into_raw_vec());
         let value = value.reshape(vec![b, t, num_heads, c / num_heads].into()).tranpose_with_provided_axis(1, 2);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$ValueT");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &value.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$ValueT");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &value.item().into_raw_vec());
 
         let key_super_tranposed = key.tranpose_with_provided_axis(2, 3);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$KeyST");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key_super_tranposed.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$KeyST");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &key_super_tranposed.item().into_raw_vec());
         let query_key = query << key_super_tranposed;
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$QueryKey");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query_key.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$QueryKey");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query_key.item().into_raw_vec());
         let denom = 1.0 / (key.shape.indices[key.shape.number_of_indices - 1] as f32).sqrt();
         let attn_weights = query_key * denom;
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnWeights");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnWeights");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
         let mask = Tensor::tril(vec![t, t].into()).reshape(vec![1, 1, t, t].into());
 
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Premask");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &mask.item().into_raw_vec());
-        println!("Attn weights {:?}", attn_weights.shape);
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Premask");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &mask.item().into_raw_vec());
+
         let mask_broadcasted = mask.broadcast(vec![b, num_heads, t, t].into());
         let filled = attn_weights.masked_fill(&mask_broadcasted, std::f32::NEG_INFINITY);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Filled");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &filled.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Filled");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &filled.item().into_raw_vec());
         let attn_weights = filled.softmax(attn_weights.shape.number_of_indices - 1);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Softmax");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Softmax");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
         let attn_output = attn_weights << value;
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnOutput");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_output.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnOutput");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_output.item().into_raw_vec());
         let attn_output = attn_output.tranpose_with_provided_axis(1, 2).reshape(vec![b, t, c].into());
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnOutputReshape");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_output.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnOutputReshape");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_output.item().into_raw_vec());
         let x = self.c_proj.forward(&attn_output);
-        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$CProj");
-        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
+//        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$CProj");
+//        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
         x
     }
 

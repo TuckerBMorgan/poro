@@ -187,8 +187,6 @@ impl Tensor {
             Indexable::FromTensor(a) => {
 
                 let indices = singleton.get_tensor_data(a);
-                println!("Indices: {:?}", self.shape.clone().indices);
-                println!("Shape: {:?}", indices.shape());
 
                 let this_shape = self.shape.clone().indices;
                 let other_shape = indices.shape();
@@ -217,7 +215,7 @@ impl Tensor {
                         for j in 0..return_shape[1] {
                             return_tensor[[i, j]] = data_as_array[[indices[[i]] as usize, j]];
                         }
-                    }  
+                    }
                 }
                 else if return_shape.len() == 3  {
                     for i in 0..return_shape[0] {

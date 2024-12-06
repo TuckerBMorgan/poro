@@ -1,866 +1,692 @@
-01:24:12 [INFO] Reading in a tensor with shape: [4, 64]
-01:24:12 [INFO] Reading in a tensor with num_elements: 256
-01:24:12 [INFO] Reading in wte weights
-01:24:12 [INFO] Reading in a tensor with shape: [50304, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 38633472
-01:24:12 [INFO] Reading in wpe weights
-01:24:12 [INFO] Reading in a tensor with shape: [1024, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 786432
-01:24:12 [INFO] Reading in block weights
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in block biases
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in a tensor with shape: [768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 768
-01:24:12 [INFO] Reading in q weights
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in k weights
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:12 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:12 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in v weights
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in q biases
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in k biases
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in v biases
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in c_proj weights
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in a tensor with shape: [768, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 589824
-01:24:13 [INFO] Reading in c_proj biases
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in block weights
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in block biases
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] Reading in a tensor with shape: [768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 768
-01:24:13 [INFO] MLP weights
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [3072, 768]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] MLP biases
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] Reading in a tensor with shape: [3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 3072
-01:24:13 [INFO] MLP weights
-01:24:13 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:13 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:13 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:14 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:14 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:14 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:14 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:14 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:14 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:14 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:14 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:14 [INFO] Reading in a tensor with shape: [768, 3072]
-01:24:14 [INFO] Reading in a tensor with num_elements: 2359296
-01:24:14 [INFO] MLP biases
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in final layer norm weights
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] Reading in final layer norm bias
-01:24:14 [INFO] Reading in a tensor with shape: [768]
-01:24:14 [INFO] Reading in a tensor with num_elements: 768
-01:24:14 [INFO] GPT forward
-01:24:14 [INFO] WTE done
-01:24:14 [INFO] WPE done
-01:24:14 [INFO] Add done
-01:24:14 [INFO] Block 0
-01:24:14 [INFO] Block forward
-01:24:14 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:14 [INFO] data length: 256
-01:24:14 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:14 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:14 [INFO] data length: 256
-01:24:14 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:14 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:14 [INFO] data length: 256
-01:24:14 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:14 [INFO] LayerNorm 1 done
-01:24:14 [INFO] CasualSelfAttention forward
-01:24:14 [INFO] Query start
-01:24:15 [INFO] Softmax
-01:24:15 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:15 [INFO] After max
-01:24:16 [INFO] Attention done
-01:24:16 [INFO] Add done
-01:24:16 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:16 [INFO] data length: 256
-01:24:16 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:16 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:16 [INFO] data length: 256
-01:24:16 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:16 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:16 [INFO] data length: 256
-01:24:16 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:17 [INFO] LayerNorm 2 done
-01:24:17 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:17 [INFO] MLP forward
-01:24:17 [INFO] C_FC done
-01:24:19 [INFO] GELU done
-01:24:20 [INFO] C_PROJ done
-01:24:20 [INFO] MLP done
-01:24:20 [INFO] Add done
-01:24:20 [INFO] Block 1
-01:24:20 [INFO] Block forward
-01:24:20 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:20 [INFO] data length: 256
-01:24:20 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:20 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:20 [INFO] data length: 256
-01:24:20 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:20 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:20 [INFO] data length: 256
-01:24:20 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:20 [INFO] LayerNorm 1 done
-01:24:20 [INFO] CasualSelfAttention forward
-01:24:20 [INFO] Query start
-01:24:22 [INFO] Softmax
-01:24:22 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:22 [INFO] After max
-01:24:23 [INFO] Attention done
-01:24:23 [INFO] Add done
-01:24:23 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:23 [INFO] data length: 256
-01:24:23 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:23 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:23 [INFO] data length: 256
-01:24:23 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:23 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:23 [INFO] data length: 256
-01:24:23 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:23 [INFO] LayerNorm 2 done
-01:24:23 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:23 [INFO] MLP forward
-01:24:23 [INFO] C_FC done
-01:24:24 [INFO] GELU done
-01:24:24 [INFO] C_PROJ done
-01:24:24 [INFO] MLP done
-01:24:24 [INFO] Add done
-01:24:24 [INFO] Block 2
-01:24:24 [INFO] Block forward
-01:24:24 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:24 [INFO] data length: 256
-01:24:24 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:24 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:24 [INFO] data length: 256
-01:24:24 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:24 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:24 [INFO] data length: 256
-01:24:24 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:24 [INFO] LayerNorm 1 done
-01:24:24 [INFO] CasualSelfAttention forward
-01:24:24 [INFO] Query start
-01:24:26 [INFO] Softmax
-01:24:26 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:26 [INFO] After max
-01:24:27 [INFO] Attention done
-01:24:27 [INFO] Add done
-01:24:27 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:27 [INFO] data length: 256
-01:24:27 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:27 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:27 [INFO] data length: 256
-01:24:27 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:27 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:27 [INFO] data length: 256
-01:24:27 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:27 [INFO] LayerNorm 2 done
-01:24:27 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:27 [INFO] MLP forward
-01:24:27 [INFO] C_FC done
-01:24:28 [INFO] GELU done
-01:24:29 [INFO] C_PROJ done
-01:24:29 [INFO] MLP done
-01:24:29 [INFO] Add done
-01:24:29 [INFO] Block 3
-01:24:29 [INFO] Block forward
-01:24:29 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:29 [INFO] data length: 256
-01:24:29 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:29 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:29 [INFO] data length: 256
-01:24:29 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:29 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:29 [INFO] data length: 256
-01:24:29 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:29 [INFO] LayerNorm 1 done
-01:24:29 [INFO] CasualSelfAttention forward
-01:24:29 [INFO] Query start
-01:24:30 [INFO] Softmax
-01:24:30 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:30 [INFO] After max
-01:24:31 [INFO] Attention done
-01:24:31 [INFO] Add done
-01:24:31 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:31 [INFO] data length: 256
-01:24:31 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:31 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:31 [INFO] data length: 256
-01:24:31 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:31 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:31 [INFO] data length: 256
-01:24:31 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:31 [INFO] LayerNorm 2 done
-01:24:31 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:31 [INFO] MLP forward
-01:24:32 [INFO] C_FC done
-01:24:32 [INFO] GELU done
-01:24:33 [INFO] C_PROJ done
-01:24:33 [INFO] MLP done
-01:24:33 [INFO] Add done
-01:24:33 [INFO] Block 4
-01:24:33 [INFO] Block forward
-01:24:33 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:33 [INFO] data length: 256
-01:24:33 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:33 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:33 [INFO] data length: 256
-01:24:33 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:33 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:33 [INFO] data length: 256
-01:24:33 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:33 [INFO] LayerNorm 1 done
-01:24:33 [INFO] CasualSelfAttention forward
-01:24:33 [INFO] Query start
-01:24:34 [INFO] Softmax
-01:24:34 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:34 [INFO] After max
-01:24:35 [INFO] Attention done
-01:24:35 [INFO] Add done
-01:24:35 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:35 [INFO] data length: 256
-01:24:35 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:35 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:35 [INFO] data length: 256
-01:24:35 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:35 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:35 [INFO] data length: 256
-01:24:35 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:35 [INFO] LayerNorm 2 done
-01:24:35 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:35 [INFO] MLP forward
-01:24:36 [INFO] C_FC done
-01:24:37 [INFO] GELU done
-01:24:38 [INFO] C_PROJ done
-01:24:38 [INFO] MLP done
-01:24:38 [INFO] Add done
-01:24:38 [INFO] Block 5
-01:24:38 [INFO] Block forward
-01:24:38 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:38 [INFO] data length: 256
-01:24:38 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:38 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:38 [INFO] data length: 256
-01:24:38 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:38 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:38 [INFO] data length: 256
-01:24:38 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:38 [INFO] LayerNorm 1 done
-01:24:38 [INFO] CasualSelfAttention forward
-01:24:38 [INFO] Query start
-01:24:40 [INFO] Softmax
-01:24:40 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:40 [INFO] After max
-01:24:41 [INFO] Attention done
-01:24:41 [INFO] Add done
-01:24:41 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:41 [INFO] data length: 256
-01:24:41 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:41 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:41 [INFO] data length: 256
-01:24:41 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:41 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:41 [INFO] data length: 256
-01:24:41 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:41 [INFO] LayerNorm 2 done
-01:24:41 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:41 [INFO] MLP forward
-01:24:41 [INFO] C_FC done
-01:24:42 [INFO] GELU done
-01:24:43 [INFO] C_PROJ done
-01:24:43 [INFO] MLP done
-01:24:43 [INFO] Add done
-01:24:43 [INFO] Block 6
-01:24:43 [INFO] Block forward
-01:24:43 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:43 [INFO] data length: 256
-01:24:43 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:43 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:43 [INFO] data length: 256
-01:24:43 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:43 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:43 [INFO] data length: 256
-01:24:43 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:43 [INFO] LayerNorm 1 done
-01:24:43 [INFO] CasualSelfAttention forward
-01:24:43 [INFO] Query start
-01:24:44 [INFO] Softmax
-01:24:44 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:44 [INFO] After max
-01:24:45 [INFO] Attention done
-01:24:45 [INFO] Add done
-01:24:45 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:45 [INFO] data length: 256
-01:24:45 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:45 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:45 [INFO] data length: 256
-01:24:45 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:45 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:45 [INFO] data length: 256
-01:24:45 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:45 [INFO] LayerNorm 2 done
-01:24:45 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:45 [INFO] MLP forward
-01:24:46 [INFO] C_FC done
-01:24:47 [INFO] GELU done
-01:24:47 [INFO] C_PROJ done
-01:24:47 [INFO] MLP done
-01:24:47 [INFO] Add done
-01:24:47 [INFO] Block 7
-01:24:47 [INFO] Block forward
-01:24:47 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:47 [INFO] data length: 256
-01:24:47 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:47 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:47 [INFO] data length: 256
-01:24:47 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:47 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:47 [INFO] data length: 256
-01:24:47 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:47 [INFO] LayerNorm 1 done
-01:24:47 [INFO] CasualSelfAttention forward
-01:24:47 [INFO] Query start
-01:24:49 [INFO] Softmax
-01:24:49 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:49 [INFO] After max
-01:24:50 [INFO] Attention done
-01:24:50 [INFO] Add done
-01:24:50 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:50 [INFO] data length: 256
-01:24:50 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:50 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:50 [INFO] data length: 256
-01:24:50 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:50 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:50 [INFO] data length: 256
-01:24:50 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:50 [INFO] LayerNorm 2 done
-01:24:50 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:50 [INFO] MLP forward
-01:24:50 [INFO] C_FC done
-01:24:51 [INFO] GELU done
-01:24:51 [INFO] C_PROJ done
-01:24:51 [INFO] MLP done
-01:24:52 [INFO] Add done
-01:24:52 [INFO] Block 8
-01:24:52 [INFO] Block forward
-01:24:52 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:52 [INFO] data length: 256
-01:24:52 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:52 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:52 [INFO] data length: 256
-01:24:52 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:52 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:52 [INFO] data length: 256
-01:24:52 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:52 [INFO] LayerNorm 1 done
-01:24:52 [INFO] CasualSelfAttention forward
-01:24:52 [INFO] Query start
-01:24:53 [INFO] Softmax
-01:24:53 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:53 [INFO] After max
-01:24:54 [INFO] Attention done
-01:24:54 [INFO] Add done
-01:24:54 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:54 [INFO] data length: 256
-01:24:54 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:54 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:54 [INFO] data length: 256
-01:24:54 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:54 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:54 [INFO] data length: 256
-01:24:54 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:54 [INFO] LayerNorm 2 done
-01:24:54 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:54 [INFO] MLP forward
-01:24:55 [INFO] C_FC done
-01:24:55 [INFO] GELU done
-01:24:56 [INFO] C_PROJ done
-01:24:56 [INFO] MLP done
-01:24:56 [INFO] Add done
-01:24:56 [INFO] Block 9
-01:24:56 [INFO] Block forward
-01:24:56 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:56 [INFO] data length: 256
-01:24:56 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:56 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:56 [INFO] data length: 256
-01:24:56 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:56 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:56 [INFO] data length: 256
-01:24:56 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:56 [INFO] LayerNorm 1 done
-01:24:56 [INFO] CasualSelfAttention forward
-01:24:56 [INFO] Query start
-01:24:57 [INFO] Softmax
-01:24:57 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:24:57 [INFO] After max
-01:24:58 [INFO] Attention done
-01:24:58 [INFO] Add done
-01:24:58 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:58 [INFO] data length: 256
-01:24:58 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:58 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:58 [INFO] data length: 256
-01:24:58 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:58 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:24:58 [INFO] data length: 256
-01:24:58 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:24:58 [INFO] LayerNorm 2 done
-01:24:58 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:24:58 [INFO] MLP forward
-01:24:59 [INFO] C_FC done
-01:24:59 [INFO] GELU done
-01:25:00 [INFO] C_PROJ done
-01:25:00 [INFO] MLP done
-01:25:00 [INFO] Add done
-01:25:00 [INFO] Block 10
-01:25:00 [INFO] Block forward
-01:25:00 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:00 [INFO] data length: 256
-01:25:00 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:00 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:00 [INFO] data length: 256
-01:25:00 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:00 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:00 [INFO] data length: 256
-01:25:00 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:00 [INFO] LayerNorm 1 done
-01:25:00 [INFO] CasualSelfAttention forward
-01:25:00 [INFO] Query start
-01:25:01 [INFO] Softmax
-01:25:01 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:25:01 [INFO] After max
-01:25:02 [INFO] Attention done
-01:25:02 [INFO] Add done
-01:25:02 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:02 [INFO] data length: 256
-01:25:02 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:02 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:02 [INFO] data length: 256
-01:25:02 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:02 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:02 [INFO] data length: 256
-01:25:02 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:02 [INFO] LayerNorm 2 done
-01:25:02 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:25:02 [INFO] MLP forward
-01:25:03 [INFO] C_FC done
-01:25:03 [INFO] GELU done
-01:25:04 [INFO] C_PROJ done
-01:25:04 [INFO] MLP done
-01:25:04 [INFO] Add done
-01:25:04 [INFO] Block 11
-01:25:04 [INFO] Block forward
-01:25:04 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:04 [INFO] data length: 256
-01:25:04 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:04 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:04 [INFO] data length: 256
-01:25:04 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:04 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:04 [INFO] data length: 256
-01:25:04 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:04 [INFO] LayerNorm 1 done
-01:25:04 [INFO] CasualSelfAttention forward
-01:25:04 [INFO] Query start
-01:25:05 [INFO] Softmax
-01:25:05 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
-01:25:05 [INFO] After max
-01:25:06 [INFO] Attention done
-01:25:06 [INFO] Add done
-01:25:06 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:06 [INFO] data length: 256
-01:25:06 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:06 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:06 [INFO] data length: 256
-01:25:06 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:06 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:06 [INFO] data length: 256
-01:25:06 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:06 [INFO] LayerNorm 2 done
-01:25:06 [INFO] X shape Shape { number_of_indices: 3, indices: [4, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:25:06 [INFO] MLP forward
-01:25:06 [INFO] C_FC done
-01:25:07 [INFO] GELU done
-01:25:07 [INFO] C_PROJ done
-01:25:07 [INFO] MLP done
-01:25:08 [INFO] Add done
-01:25:08 [INFO] Blocks done
-01:25:08 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:08 [INFO] data length: 256
-01:25:08 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:08 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:08 [INFO] data length: 256
-01:25:08 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:08 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
-01:25:08 [INFO] data length: 256
-01:25:08 [INFO] new_shape_indices_vec: [4, 64, 1]
-01:25:08 [INFO] Softmax
-01:25:08 [INFO] new_sssshape: Shape { number_of_indices: 3, indices: [1, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
-01:25:08 [INFO] After max
-01:25:08 [INFO] new_shape_indices: [1, 64, 768, 0, 0, 0, 0, 0, 0, 0]
-01:25:08 [INFO] data length: 49152
-01:25:08 [INFO] new_shape_indices_vec: [1, 64, 768]
+04:59:45 [INFO] Reading in wte weights
+04:59:45 [INFO] Reading in a tensor with shape: [50304, 768]
+04:59:45 [INFO] Reading in a tensor with num_elements: 38633472
+04:59:46 [INFO] Reading in wpe weights
+04:59:46 [INFO] Reading in a tensor with shape: [1024, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 786432
+04:59:46 [INFO] Reading in block weights
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in block biases
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in a tensor with shape: [768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 768
+04:59:46 [INFO] Reading in q weights
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in k weights
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:46 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:46 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in v weights
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in q biases
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in k biases
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in v biases
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in c_proj weights
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in a tensor with shape: [768, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 589824
+04:59:47 [INFO] Reading in c_proj biases
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in block weights
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in block biases
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] Reading in a tensor with shape: [768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 768
+04:59:47 [INFO] MLP weights
+04:59:47 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:47 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:47 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:47 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:47 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:47 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [3072, 768]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] MLP biases
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] Reading in a tensor with shape: [3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 3072
+04:59:48 [INFO] MLP weights
+04:59:48 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:48 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:48 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:49 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:49 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:49 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:49 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:49 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:49 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] Reading in a tensor with shape: [768, 3072]
+04:59:49 [INFO] Reading in a tensor with num_elements: 2359296
+04:59:49 [INFO] MLP biases
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in final layer norm weights
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] Reading in final layer norm bias
+04:59:49 [INFO] Reading in a tensor with shape: [768]
+04:59:49 [INFO] Reading in a tensor with num_elements: 768
+04:59:49 [INFO] GPT forward
+04:59:49 [INFO] WTE done
+04:59:49 [INFO] WPE done
+04:59:49 [INFO] Add done
+04:59:49 [INFO] Block 0
+04:59:49 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:49 [INFO] data length: 256
+04:59:49 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:49 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:49 [INFO] data length: 256
+04:59:49 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:50 [INFO] LayerNorm 1 done
+04:59:50 [INFO] CasualSelfAttention forward
+04:59:50 [INFO] Query start
+04:59:51 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+04:59:52 [INFO] Attention done
+04:59:52 [INFO] Add done
+04:59:52 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:52 [INFO] data length: 256
+04:59:52 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:52 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:52 [INFO] data length: 256
+04:59:52 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:52 [INFO] LayerNorm 2 done
+04:59:56 [INFO] MLP done
+04:59:56 [INFO] Add done
+04:59:56 [INFO] Block 1
+04:59:56 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:56 [INFO] data length: 256
+04:59:56 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:56 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:56 [INFO] data length: 256
+04:59:56 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:57 [INFO] LayerNorm 1 done
+04:59:57 [INFO] CasualSelfAttention forward
+04:59:57 [INFO] Query start
+04:59:58 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+04:59:59 [INFO] Attention done
+04:59:59 [INFO] Add done
+04:59:59 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:59 [INFO] data length: 256
+04:59:59 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:59 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+04:59:59 [INFO] data length: 256
+04:59:59 [INFO] new_shape_indices_vec: [4, 64, 1]
+04:59:59 [INFO] LayerNorm 2 done
+05:00:03 [INFO] MLP done
+05:00:03 [INFO] Add done
+05:00:03 [INFO] Block 2
+05:00:03 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:03 [INFO] data length: 256
+05:00:03 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:03 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:03 [INFO] data length: 256
+05:00:03 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:03 [INFO] LayerNorm 1 done
+05:00:03 [INFO] CasualSelfAttention forward
+05:00:03 [INFO] Query start
+05:00:05 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:06 [INFO] Attention done
+05:00:06 [INFO] Add done
+05:00:06 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:06 [INFO] data length: 256
+05:00:06 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:06 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:06 [INFO] data length: 256
+05:00:06 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:06 [INFO] LayerNorm 2 done
+05:00:10 [INFO] MLP done
+05:00:10 [INFO] Add done
+05:00:10 [INFO] Block 3
+05:00:10 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:10 [INFO] data length: 256
+05:00:10 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:10 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:10 [INFO] data length: 256
+05:00:10 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:10 [INFO] LayerNorm 1 done
+05:00:10 [INFO] CasualSelfAttention forward
+05:00:10 [INFO] Query start
+05:00:12 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:13 [INFO] Attention done
+05:00:13 [INFO] Add done
+05:00:13 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:13 [INFO] data length: 256
+05:00:13 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:13 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:13 [INFO] data length: 256
+05:00:13 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:13 [INFO] LayerNorm 2 done
+05:00:17 [INFO] MLP done
+05:00:17 [INFO] Add done
+05:00:17 [INFO] Block 4
+05:00:17 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:17 [INFO] data length: 256
+05:00:17 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:17 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:17 [INFO] data length: 256
+05:00:17 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:17 [INFO] LayerNorm 1 done
+05:00:17 [INFO] CasualSelfAttention forward
+05:00:17 [INFO] Query start
+05:00:19 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:19 [INFO] Attention done
+05:00:19 [INFO] Add done
+05:00:19 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:19 [INFO] data length: 256
+05:00:19 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:20 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:20 [INFO] data length: 256
+05:00:20 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:20 [INFO] LayerNorm 2 done
+05:00:24 [INFO] MLP done
+05:00:24 [INFO] Add done
+05:00:24 [INFO] Block 5
+05:00:24 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:24 [INFO] data length: 256
+05:00:24 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:24 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:24 [INFO] data length: 256
+05:00:24 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:24 [INFO] LayerNorm 1 done
+05:00:24 [INFO] CasualSelfAttention forward
+05:00:24 [INFO] Query start
+05:00:26 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:26 [INFO] Attention done
+05:00:26 [INFO] Add done
+05:00:26 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:26 [INFO] data length: 256
+05:00:26 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:26 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:26 [INFO] data length: 256
+05:00:26 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:27 [INFO] LayerNorm 2 done
+05:00:31 [INFO] MLP done
+05:00:31 [INFO] Add done
+05:00:31 [INFO] Block 6
+05:00:31 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:31 [INFO] data length: 256
+05:00:31 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:31 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:31 [INFO] data length: 256
+05:00:31 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:31 [INFO] LayerNorm 1 done
+05:00:31 [INFO] CasualSelfAttention forward
+05:00:31 [INFO] Query start
+05:00:33 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:33 [INFO] Attention done
+05:00:33 [INFO] Add done
+05:00:33 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:33 [INFO] data length: 256
+05:00:33 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:33 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:33 [INFO] data length: 256
+05:00:33 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:34 [INFO] LayerNorm 2 done
+05:00:38 [INFO] MLP done
+05:00:38 [INFO] Add done
+05:00:38 [INFO] Block 7
+05:00:38 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:38 [INFO] data length: 256
+05:00:38 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:38 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:38 [INFO] data length: 256
+05:00:38 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:38 [INFO] LayerNorm 1 done
+05:00:38 [INFO] CasualSelfAttention forward
+05:00:38 [INFO] Query start
+05:00:40 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:40 [INFO] Attention done
+05:00:40 [INFO] Add done
+05:00:40 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:40 [INFO] data length: 256
+05:00:40 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:40 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:40 [INFO] data length: 256
+05:00:40 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:41 [INFO] LayerNorm 2 done
+05:00:45 [INFO] MLP done
+05:00:45 [INFO] Add done
+05:00:45 [INFO] Block 8
+05:00:45 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:45 [INFO] data length: 256
+05:00:45 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:45 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:45 [INFO] data length: 256
+05:00:45 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:45 [INFO] LayerNorm 1 done
+05:00:45 [INFO] CasualSelfAttention forward
+05:00:45 [INFO] Query start
+05:00:47 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:47 [INFO] Attention done
+05:00:47 [INFO] Add done
+05:00:47 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:47 [INFO] data length: 256
+05:00:47 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:47 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:47 [INFO] data length: 256
+05:00:47 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:47 [INFO] LayerNorm 2 done
+05:00:52 [INFO] MLP done
+05:00:52 [INFO] Add done
+05:00:52 [INFO] Block 9
+05:00:52 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:52 [INFO] data length: 256
+05:00:52 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:52 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:52 [INFO] data length: 256
+05:00:52 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:52 [INFO] LayerNorm 1 done
+05:00:52 [INFO] CasualSelfAttention forward
+05:00:52 [INFO] Query start
+05:00:53 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:00:54 [INFO] Attention done
+05:00:54 [INFO] Add done
+05:00:54 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:54 [INFO] data length: 256
+05:00:54 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:54 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:54 [INFO] data length: 256
+05:00:54 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:54 [INFO] LayerNorm 2 done
+05:00:58 [INFO] MLP done
+05:00:58 [INFO] Add done
+05:00:58 [INFO] Block 10
+05:00:58 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:58 [INFO] data length: 256
+05:00:58 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:59 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:00:59 [INFO] data length: 256
+05:00:59 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:00:59 [INFO] LayerNorm 1 done
+05:00:59 [INFO] CasualSelfAttention forward
+05:00:59 [INFO] Query start
+05:01:00 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:01:01 [INFO] Attention done
+05:01:01 [INFO] Add done
+05:01:01 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:01 [INFO] data length: 256
+05:01:01 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:01 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:01 [INFO] data length: 256
+05:01:01 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:01 [INFO] LayerNorm 2 done
+05:01:05 [INFO] MLP done
+05:01:05 [INFO] Add done
+05:01:05 [INFO] Block 11
+05:01:05 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:05 [INFO] data length: 256
+05:01:05 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:05 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:05 [INFO] data length: 256
+05:01:05 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:06 [INFO] LayerNorm 1 done
+05:01:06 [INFO] CasualSelfAttention forward
+05:01:06 [INFO] Query start
+05:01:07 [INFO] new_sssshape: Shape { number_of_indices: 4, indices: [4, 12, 64, 1, 0, 0, 0, 0, 0, 0] }
+05:01:08 [INFO] Attention done
+05:01:08 [INFO] Add done
+05:01:08 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:08 [INFO] data length: 256
+05:01:08 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:08 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:08 [INFO] data length: 256
+05:01:08 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:08 [INFO] LayerNorm 2 done
+05:01:12 [INFO] MLP done
+05:01:12 [INFO] Add done
+05:01:12 [INFO] Blocks done
+05:01:12 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:12 [INFO] data length: 256
+05:01:12 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:12 [INFO] new_shape_indices: [4, 64, 1, 0, 0, 0, 0, 0, 0, 0]
+05:01:12 [INFO] data length: 256
+05:01:12 [INFO] new_shape_indices_vec: [4, 64, 1]
+05:01:13 [INFO] new_sssshape: Shape { number_of_indices: 3, indices: [1, 64, 768, 0, 0, 0, 0, 0, 0, 0] }
+05:01:13 [INFO] new_shape_indices: [1, 64, 768, 0, 0, 0, 0, 0, 0, 0]
+05:01:13 [INFO] data length: 49152
+05:01:13 [INFO] new_shape_indices_vec: [1, 64, 768]
+05:03:09 [INFO] Final layer norm done

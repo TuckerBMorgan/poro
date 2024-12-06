@@ -4,6 +4,7 @@ use crate::nn::layers::module::Module;
 pub struct LayerNorm {
     weight: Tensor,
     bias: Tensor,
+    length_of_normalized_shape: usize
 }
 
 impl LayerNorm {
@@ -13,6 +14,7 @@ impl LayerNorm {
         LayerNorm {
             weight,
             bias,
+            length_of_normalized_shape: weight.shape.number_of_indices
         }
     }
 
@@ -20,6 +22,7 @@ impl LayerNorm {
         LayerNorm {
             weight,
             bias,
+            length_of_normalized_shape: weight.shape.number_of_indices
         }
     }
 }
@@ -27,10 +30,19 @@ impl LayerNorm {
 impl Module for LayerNorm {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         
+        let x_shape = x.shape;
+        let mut mean_indices = vec![];
 
-        let mean = x.mean(vec![1]);
+        for i in 0..self.length_of_normalized_shape {
+            mean_indices.push(x_shape.number_of_indices - i - 1);
+        }
+
+        let mean = x.mean(mean_indices.clone());
+
+
+
         let input_minus_mean = *x - mean;
-        let var = (input_minus_mean * input_minus_mean).mean(vec![1]);
+        let var = (input_minus_mean * input_minus_mean).mean(mean_indices);
 
         let std_inv = (var + 1e-05).pow(0.5);
         let normalized_input = input_minus_mean / std_inv;
@@ -43,6 +55,14 @@ impl Module for LayerNorm {
     }
 }
 mod tests {
+    use ndarray::prelude::*;
+    #[test]
+    fn mean_tests() {
+        let array = ArrayD::from_shape_simple_fn(vec![5, 5, 5], ||{return 5.0});        
+        let test = Tensor::from_vec(array.into_iter().collect(), vec![5, 5, 5].into());
+        let test = test.mean(vec![1, 2]);
+        println!("{:?}", test.shape);
+    }
     use ndarray::iter::Axes;
     use ndarray::Axis;
 
