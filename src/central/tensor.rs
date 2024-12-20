@@ -834,11 +834,30 @@ impl Tensor {
     }
 
     pub fn cross_entropy_loss(&self, trues: Tensor) -> Tensor {
-        let softmax = self.softmax(0);
+        let softmax = self.softmax(1);
         let log_softmax = softmax.log();
+
         let loss = trues * log_softmax;
-        let sum = loss.sum(0);
-        let mean = sum.mean(vec![0]);
+        println!("loss shape {:?}", loss.item());
+        // I want to find the first index of greater than 0 in the first row of the loss
+        let item =loss.item();
+        let a = item.rows();
+
+        I NEEWD TO LOG OUT THE ENTIRE FIRST ROW AND SEE IF THERE ARE ANY DIFFERENCE BETWEEN THIS AND THE PYTHOIN VERSIOn
+         
+        for row in a {
+            for (i, val) in row.iter().enumerate() {
+                if *val != -0.0 {
+                    println!("index: {:?}", i);
+                    break;
+                }
+            }
+        }
+        panic!("stop");
+
+        panic!("stop");
+        let sum = loss.sum(1);
+        let mean = sum.mean(vec![1]);//.mean(vec![0]);
         mean
     }
 }

@@ -299,16 +299,20 @@ class GPT(nn.Module):
 
         x = self.transformer.ln_f(x)
 
-        #append_string_to_file("./python_checkfile.txt", "$LN")
-        #write_floats_to_file("./python_checkfile.txt", x.detach().numpy().flatten().tolist())
         if targets is not None:
             # if we are given some desired targets also calculate the loss
             logits = self.lm_head(x)
-            loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1), ignore_index=-1)
+            new_logitcs = logits.view(-1, logits.size(-1))
+            new_targets = targets.view(-1)
+            targets_as_onehot = F.one_hot(new_targets, num_classes=logits.size(-1)).float()
+            test_loss = targets_as_onehot * (new_logitcs.softmax(-1).log())
+            
+            print(test_loss)
+            exit()
+            loss = F.cross_entropy(new_logitcs,new_targets, ignore_index=-1)
         else:
             # inference-time mini-optimization: only forward the lm_head on the very last position
             logits = self.lm_head(x[:, [-1], :]) # note: using list [-1] to preserve the time dim
-            loss = None
 
         # there are performance reasons why not returning logits is prudent, if not needed
         if not return_logits:
@@ -720,7 +724,7 @@ if __name__ == "__main__":
     model = GPT(model_config)
     write_model(model, f"gpt2.bin", dtype="float32")
 
-    train_loader = DistributedDataLoader("./data/tinyshakespeare/tiny_shakespeare_val.bin", 4, 64, 0, 1)
+    train_loader = DistributedDataLoader("./data/tinyshakespeare/tiny_shakespeare_val.bin", 1, 64, 0, 1)
     x, y = train_loader.next_batch()
     '''
     # save the test_input to file, shape and then the data

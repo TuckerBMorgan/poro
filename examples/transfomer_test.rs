@@ -367,6 +367,10 @@ impl Model for GPT {
         //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
 
         info!("Final layer norm done");
+        let mut test = LinearLayer::from_weights_and_bias(self.wte.tensor.clone(), Tensor::zeroes(Shape::new(vec![1].into())));
+
+        let x = test.forward(&x);
+
         x
     }
 
@@ -498,13 +502,35 @@ fn main() {
         File::create(Path::new("Transfomer_test.log")).unwrap(), // Create or open the log file
     ).unwrap();
 
-    let mut data_loead = DataLoader::new(4, 64);
+    let vocab_size = 50304;
+    let batch_size = 1;
+    let seq_length = 64;
+    let mut data_loead = DataLoader::new(batch_size, seq_length);
+
+    
     let (x, y) = data_loead.next_batch();
+
+    let mut one_hot_encoded_trues = Tensor::zeroes(Shape::new(vec![batch_size, seq_length, vocab_size].into()));
+    let y = y.item();
+
+    for i in 0..batch_size {
+        for j in 0..seq_length {
+            let index = y[[i, j]] as usize;
+            one_hot_encoded_trues.set_index([i, j, index].into(), vec![1.0].into());
+        }
+    }
+
+    let one_hot_encoded_trues = one_hot_encoded_trues.reshape(vec![batch_size *  seq_length, vocab_size].into());
 
     let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
     let test_ouput = gpt.forward(&x);
-    let tokenizer = Tokenizer::from_pretrained("gpt2", None).unwrap();
-    //update_parameters(0.01);
+
+    let test_output = test_ouput.reshape(vec![batch_size * seq_length, vocab_size].into());
+    let loss = test_output.cross_entropy_loss(one_hot_encoded_trues);
+    println!("{:?}", loss.item());
+    loss.backward();
+
+
     return;
 
     println!("{:?}", tokenizer.encode("Hello, how are you?", false).unwrap());
