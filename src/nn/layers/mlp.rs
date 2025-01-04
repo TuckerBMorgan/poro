@@ -2,14 +2,15 @@ use crate::central::Tensor;
 use crate::nn::layers::linear::{LinearLayer, LinearLayerConfig};
 use crate::nn::layers::module::Module;
 use std::f32::consts::PI;
-struct NewGLU {
+
+pub struct NewGLU {
 
 }
 
 impl Module for NewGLU {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         let x_pow = x.pow(3.0);
-        let why = 1.0 + ((2.0 / PI).sqrt() * (*x + 0.044715 * x_pow)).tanh_mapped();
+        let why = 1.0 + (((2.0 / PI).sqrt() * (*x + 0.044715 * x_pow)).tanh_mapped());
         return 0.5 * *x * why;
     }
 
@@ -24,8 +25,8 @@ struct MLPConfig {
  }
 
 pub struct MLP {
-    c_fc: LinearLayer,
-    c_proj: LinearLayer,
+    pub c_fc: LinearLayer,
+    pub c_proj: LinearLayer,
     gelu: NewGLU,
 }
 

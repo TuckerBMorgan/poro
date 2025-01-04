@@ -602,11 +602,9 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         let internal_tensor = self.internal_tensor_store.get(&node).unwrap();
         let data = self.get_tensor_data(node);
         let grad = self.get_tensor_grad(node);
-        if self.advanced_logging == true {
-            println!("Node: {:?}", node);
-            println!("Data: {:?}", data);
-            println!("Grad: {:?}", grad);
-        }
+        info!("Node: {:?}", node);
+        info!("Data: {:?}", data);
+        info!("Grad: {:?}", grad);
 
         let operation = internal_tensor.operation.clone();
         let advance_logging = self.advanced_logging;
@@ -620,14 +618,18 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         match operation {
             Operation::Nop => {
                 // Do nothing
+                info!("Nop Backward");
             }
             Operation::Add(_a, _b) => {
+                info!("Add Backward");
                 add_op::backward(backprop_packet);
             }
             Operation::Mul(_a, _b) => {
+                info!("Mul Backward");
                 mul_op::backward(backprop_packet);
             }
             Operation::Exp(a) => {
+                info!("Exp Backward");
                 let power_grad = self.get_tensor_grad(a);
                 if self.advanced_logging {
                     println!("Power Grad: {:?}", power_grad);
@@ -640,6 +642,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(a, final_grad);
             }
             Operation::Pow(base, power) => {
+                info!("Pow Backward");
                 let base_data = self.get_tensor_data(base);
                 let power_data = self.get_tensor_data(power);
                 let base_grad = self.get_tensor_grad(base);
@@ -650,9 +653,11 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(base, base_grad + grad_update);
             }
             Operation::MatMul(_a, _b) => {
+                info!("MatMul Backward");
                 matmul_op::backward(backprop_packet);
             }
             Operation::Sum(a, _axis) => {
+                info!("Sum Backward");
                 let left_hand_grad = self.get_tensor_grad(a);
                 let grad_update =
                     &left_hand_grad + &grad.broadcast(left_hand_grad.shape()).unwrap();
@@ -663,6 +668,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Broadcast(a, _to_shape) => {
+                info!("Broadcast Backward");
                 let left_hand_grad = self.get_tensor_grad(a);
 
                 let mut result = grad.clone();
@@ -694,6 +700,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Log(a) => {
+                info!("Log Backward");
                 let base_data = self.get_tensor_data(a);
                 let local_grad = base_data.map(|x| 1.0 / (x));
                 let existing_grad = self.get_tensor_grad(a);
@@ -701,15 +708,18 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::View(_, _) => {
+                info!("View Backward");
                 view::backward(backprop_packet);
             }
             Operation::Mean(a) => {
+                info!("Mean Backward");
                 let curent_grad = self.get_tensor_grad(a);
                 let local_grad = grad.clone() / (curent_grad.clone().len() as f32);
                 let grad_update = curent_grad + local_grad;
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Concat(a, b) => {
+                info!("Concat Backward");
                 // break apart the incoming grad into the two parts
                 let left_hand_grad = self.get_tensor_grad(a);
                 let right_hand_grad = self.get_tensor_grad(b);
@@ -741,11 +751,15 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(b, right_hand_grad);
             }
             Operation::Reshape(a, _) => {
+                info!("Reshape Backward");
                 let source_grad = self.get_tensor_grad(a);
                 let grad_update = source_grad.clone();
-                self.set_tensor_grad(a, grad_update);
+                println!("grad shape {:?}", grad.shape());
+                println!("Source shape {:?}", source_grad.shape());
+                self.set_tensor_grad(a, grad.into_shape(source_grad.shape()).unwrap());
             }
             Operation::Tanh(a) => {
+                info!("Tanh Backward");
                 let mut source_data = self.get_tensor_data(a);
                 let source_grad = self.get_tensor_grad(a);
                 source_data.par_map_inplace(|x| *x = 1.0 - x.tanh().powf(2.0));
@@ -753,6 +767,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Transpose(a, first_index, second_index) => {
+                info!("Tranpose Backward");
                 let mut grad_clone = grad.clone();
                 grad_clone.swap_axes(first_index, second_index);
                 let source_grad = self.get_tensor_grad(a);
@@ -760,18 +775,21 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Sin(a) => {
+                info!("Sin Backward");
                 let source_data = self.get_tensor_data(a);
                 let source_grad = self.get_tensor_grad(a);
                 let grad_update = source_grad + grad.clone() * source_data.map(|x| x.cos());
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Cos(a) => {
+                info!("Cos Backward");
                 let source_data = self.get_tensor_data(a);
                 let source_grad = self.get_tensor_grad(a);
                 let grad_update = source_grad + grad.clone() * source_data.map(|x| -x.sin());
                 self.set_tensor_grad(a, grad_update);
             },
             Operation::MaskedFill(origin_tensor, mask, mask_value) => {
+                info!("Masked Fill Backward");
                 let source_data = self.get_item(origin_tensor);
                 let source_grad = self.get_item(origin_tensor);
                 let source_grad_for_shape = self.get_tensor_grad(origin_tensor);
@@ -942,6 +960,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
     }
 
     pub fn set_tensor_grad(&mut self, tensor_id: TensorID, grad: ArrayD<f32>) {
+        info!("Tensor Grad Set {:?}", grad);
         assert!(
             grad.shape()
                 == self

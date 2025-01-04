@@ -16,6 +16,6 @@ pub use embedding::Embedding;
 pub use attention::*;
 pub use dropout::Dropout;
 pub use linear::{LinearLayer, LinearLayerConfig};
-pub use mlp::MLP;
+pub use mlp::{MLP, NewGLU};
 pub use layer_norm::LayerNorm; 
 pub use casual_self_attention::{CasualSelfAttention, CasualSelfAttentionConfig};

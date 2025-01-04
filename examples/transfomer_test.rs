@@ -3,6 +3,7 @@ use poro::nn::model::DecoderOnlyTransformer;
 use poro::central::Tensor;
 use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module, MLP, LayerNorm, CasualSelfAttention, CasualSelfAttentionConfig};
 use poro::nn::model::PositionalEncoding;
+use poro::nn::layers::NewGLU;
 use std::io::{Read, Seek};
 use std::convert::TryInto;
 use simplelog::*;
@@ -506,8 +507,15 @@ fn main() {
     let batch_size = 1;
     let seq_length = 64;
     let mut data_loead = DataLoader::new(batch_size, seq_length);
+    /*
+    let test = Tensor::ones(Shape::new(vec![batch_size, seq_length, vocab_size].into()));
+    let mut gelu = NewGLU {};
+    let test_output = gelu.forward(&test);
+    test_output.sum(0).backward();
+    println!("{:?}", test.grad());
 
-    
+    return;
+    */
     let (x, y) = data_loead.next_batch();
 
     let mut one_hot_encoded_trues = Tensor::zeroes(Shape::new(vec![batch_size, seq_length, vocab_size].into()));
@@ -521,19 +529,31 @@ fn main() {
     }
 
     let one_hot_encoded_trues = one_hot_encoded_trues.reshape(vec![batch_size *  seq_length, vocab_size].into());
-
-    let mut gpt = GPT::build_from_checkpoint_file("gpt2.bin");
+    println!("--");
+    let mut gpt = GPT::build_from_checkpoint_file("./gpt2.bin");
+    println!("--");
     let test_ouput = gpt.forward(&x);
 
     let test_output = test_ouput.reshape(vec![batch_size * seq_length, vocab_size].into());
     let loss = test_output.cross_entropy_loss(one_hot_encoded_trues);
-    println!("{:?}", loss.item());
+
     loss.backward();
+    println!("{:?}", gpt.final_layer_norm.weight.grad());
+    return;
+    let mut iters = 0;
+    for block in &gpt.blocks {
+        if iters == 11 {
+            println!("{:?}", block.mlp.c_proj.weights.grad());
+            panic!("");
+        }
+        iters += 1;
+    }
+
 
 
     return;
 
-    println!("{:?}", tokenizer.encode("Hello, how are you?", false).unwrap());
+    //println!("{:?}", tokenizer.encode("Hello, how are you?", false).unwrap());
     return;
 
     let file_path = "./rust_checkfile.txt";

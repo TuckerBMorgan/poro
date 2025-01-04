@@ -298,17 +298,11 @@ class GPT(nn.Module):
             count += 1
 
         x = self.transformer.ln_f(x)
-
         if targets is not None:
             # if we are given some desired targets also calculate the loss
             logits = self.lm_head(x)
             new_logitcs = logits.view(-1, logits.size(-1))
             new_targets = targets.view(-1)
-            targets_as_onehot = F.one_hot(new_targets, num_classes=logits.size(-1)).float()
-            test_loss = targets_as_onehot * (new_logitcs.softmax(-1).log())
-            
-            print(test_loss)
-            exit()
             loss = F.cross_entropy(new_logitcs,new_targets, ignore_index=-1)
         else:
             # inference-time mini-optimization: only forward the lm_head on the very last position
@@ -733,9 +727,26 @@ if __name__ == "__main__":
 
     # run the model on the test input
     '''
-
+    '''
+    test = torch.ones(1, 64, 50304)
+    test.requires_grad = True
+    glu = NewGELU()
+    test_output = glu(test)
+    test_output.sum().backward()
+    print(test.grad)
+    exit()
+    '''
     logits,loss = model(x, y)
+    model.transformer.wte.weight.retain_grad()
     loss.backward()
+    iters = 0
+    print(model.transformer.ln_f.weight.grad)
+    exit()
+    for block in model.transformer.h:
+        if iters == 11:
+            print(block.mlp.c_proj.weight.grad)
+            exit()
+        iters += 1
     exit()
 
     # default settings will overfit a tiny batch of data

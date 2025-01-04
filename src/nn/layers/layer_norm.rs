@@ -2,7 +2,7 @@ use crate::central::Tensor;
 use crate::nn::layers::module::Module;
 
 pub struct LayerNorm {
-    weight: Tensor,
+    pub weight: Tensor,
     bias: Tensor,
     length_of_normalized_shape: usize
 }
@@ -31,18 +31,19 @@ impl Module for LayerNorm {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         
         let x_shape = x.shape;
-        let mut mean_indices = vec![];
+        let mut mean_indices = vec![2];
 
         for i in 0..self.length_of_normalized_shape {
-            mean_indices.push(x_shape.number_of_indices - i - 1);
+            //mean_indices.push(x_shape.number_of_indices - i - 1);
         }
 
         let mean = x.mean(mean_indices.clone());
 
-
-
         let input_minus_mean = *x - mean;
+
         let var = (input_minus_mean * input_minus_mean).mean(mean_indices);
+        println!("{:?}", var.item());
+        panic!("-0-00-0-0");
 
         let std_inv = (var + 1e-05).pow(0.5);
         let normalized_input = input_minus_mean / std_inv;
@@ -118,9 +119,7 @@ mod tests {
         let diff = output - fake_target;
 
 
-
-
-        let mse_loss = diff.pow(2.0).reshape(vec![2 * 768].into()).mean(vec![0]); 
+        let mse_loss = diff.pow(2.0).reshape(vec![4 * 64 * 768].into()).mean(vec![0]); 
 
         let expected_mse_loss = expected_loss.item();
         for (loss, expected) in mse_loss.item().iter().zip(expected_mse_loss.iter()) {
@@ -143,11 +142,7 @@ mod tests {
             assert!((g - eg).abs() < 1e-2, "Gradient {} is not approximately equal to expected gradient {}", g, eg);
         }
 
-
-
-        
-
-
-
+        println!("{:?}", test_input.grad());
+        panic!("---");
     }
 }
