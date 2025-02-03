@@ -497,7 +497,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
         // so even if we have a cuda device, we should default to the standard matmul
         // for any case of 2dx2d
         if cudarc::driver::CudaDevice::new(0).is_ok() && a.ndim() == 2 && b.ndim() == 2 {
-            // return self.standard_matmul(a, b);
+             //return self.standard_matmul(a, b);
             return self.cuda_matmul(a, b);
         } else {
             return self.standard_matmul(a, b);
@@ -711,11 +711,14 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 info!("View Backward");
                 view::backward(backprop_packet);
             }
-            Operation::Mean(a) => {
+            Operation::Mean(a, axes) => {
                 info!("Mean Backward");
                 let curent_grad = self.get_tensor_grad(a);
-                let local_grad = grad.clone() / (curent_grad.clone().len() as f32);
-                let grad_update = curent_grad + local_grad;
+
+                let local_grad = grad.clone() * (1.0 / (curent_grad.shape()[axes] as f32));
+                info!("Mean length {}", local_grad);                
+                let grad_update = curent_grad + local_grad;    
+                info!("{:?}", grad_update);
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Concat(a, b) => {
@@ -753,10 +756,10 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
             Operation::Reshape(a, _) => {
                 info!("Reshape Backward");
                 let source_grad = self.get_tensor_grad(a);
-                let grad_update = source_grad.clone();
-                println!("grad shape {:?}", grad.shape());
-                println!("Source shape {:?}", source_grad.shape());
+//                let grad_update = source_grad.clone();
+
                 self.set_tensor_grad(a, grad.into_shape(source_grad.shape()).unwrap());
+                
             }
             Operation::Tanh(a) => {
                 info!("Tanh Backward");
@@ -960,7 +963,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
     }
 
     pub fn set_tensor_grad(&mut self, tensor_id: TensorID, grad: ArrayD<f32>) {
-        info!("Tensor Grad Set {:?}", grad);
+        info!("Tensor Grad Set {:?} for {:?}", grad, tensor_id);
         assert!(
             grad.shape()
                 == self

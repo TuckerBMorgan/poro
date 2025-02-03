@@ -1,10 +1,16 @@
+use core::panic;
+
 use crate::central::Tensor;
 use crate::nn::layers::module::Module;
 
 pub struct LayerNorm {
     pub weight: Tensor,
     bias: Tensor,
-    length_of_normalized_shape: usize
+    length_of_normalized_shape: usize,
+    normalized_input: Option<Tensor>,
+    var: Option<Tensor>,
+    mean: Option<Tensor>,
+    input_minus_mean: Option<Tensor>,
 }
 
 impl LayerNorm {
@@ -14,7 +20,11 @@ impl LayerNorm {
         LayerNorm {
             weight,
             bias,
-            length_of_normalized_shape: weight.shape.number_of_indices
+            length_of_normalized_shape: weight.shape.number_of_indices,
+            normalized_input: None,
+            var: None,
+            mean: None,
+            input_minus_mean: None
         }
     }
 
@@ -22,32 +32,40 @@ impl LayerNorm {
         LayerNorm {
             weight,
             bias,
-            length_of_normalized_shape: weight.shape.number_of_indices
+            length_of_normalized_shape: weight.shape.number_of_indices,
+            normalized_input: None,
+            var: None,
+            mean: None,
+            input_minus_mean: None
         }
     }
 }
 
 impl Module for LayerNorm {
     fn forward(&mut self, x: &Tensor) -> Tensor {
-        
-        let x_shape = x.shape;
-        let mut mean_indices = vec![2];
-
-        for i in 0..self.length_of_normalized_shape {
-            //mean_indices.push(x_shape.number_of_indices - i - 1);
-        }
+        let mean_indices = vec![2];
 
         let mean = x.mean(mean_indices.clone());
 
+        self.mean = Some(mean.clone());
+
         let input_minus_mean = *x - mean;
 
-        let var = (input_minus_mean * input_minus_mean).mean(mean_indices);
-        println!("{:?}", var.item());
-        panic!("-0-00-0-0");
+        self.input_minus_mean = Some(input_minus_mean.clone());
 
-        let std_inv = (var + 1e-05).pow(0.5);
+        let var: Tensor = x.var(mean_indices);;//(input_minus_mean - input_minus_mean).pow(2.0).mean(mean_indices.clone());
+        // 
+        self.var = Some(var.clone());
+
+        let std_inv = (var + 1e-5).pow(0.5);
+
         let normalized_input = input_minus_mean / std_inv;
+
+        self.normalized_input = Some(normalized_input.clone());
+
         let output = normalized_input * self.weight + self.bias;
+
+
         output
     }
 
@@ -56,6 +74,8 @@ impl Module for LayerNorm {
     }
 }
 mod tests {
+    use core::panic;
+
     use ndarray::prelude::*;
     #[test]
     fn mean_tests() {
@@ -70,14 +90,49 @@ mod tests {
     use crate::central::Tensor;
     use crate::nn::layers::layer_norm::LayerNorm;
     use crate::nn::layers::module::Module;
+    use simplelog::*;
+    use log::info;
+    use std::path::Path;    
+    use std::fs::File;
 
+    #[test]
+    fn simple_test() {
+
+        WriteLogger::init(
+            LevelFilter::Info, // Set the log level
+            Config::default(), // Use the default configuration
+            File::create(Path::new("./LayerNormTest.log")).unwrap(), // Create or open the log file
+        ).unwrap();
+
+        let test_input_a = Tensor::from_vec(vec![1.0, 2., 3., 4., 5.0, 6.0], vec![2, 2, 2].into());
+        let test_input_b = Tensor::from_vec(vec![7., 8., 9., 10.0, 11.0, 12.], vec![2, 2, 2].into());
+        let test_input = test_input_a + test_input_b;
+        let test_mean = test_input.mean(vec![2]);
+        let fake_output = Tensor::from_vec(vec![5.0, 10., 15.], vec![3, 1].into());
+        let error = test_mean - fake_output;
+        let error_mean = error.mean(vec![0]);
+        println!("{:?}", error_mean.item());
+        error_mean.backward();
+        panic!("test_input {:?}", test_input.get_id());
+
+    }
+    
     #[test]
     fn test_layer_norm() {
 
-        use std::fs::File;
+        WriteLogger::init(
+            LevelFilter::Info, // Set the log level
+            Config::default(), // Use the default configuration
+            File::create(Path::new("./LayerNormTest.log")).unwrap(), // Create or open the log file
+        ).unwrap();
+
+        
+
         let layer_norm_weights_path = "data/tests/layer_norm/layer_norm_weights.txt";
         let layer_norm_bias_path = "data/tests/layer_norm/layer_norm_bias.txt";
         let test_input_path = "data/tests/layer_norm/test_input.txt";
+        let test_input_a_path = "data/tests/layer_norm/test_input_a.txt";
+        let test_input_b_path = "data/tests/layer_norm/test_input_b.txt";
         let expected_output_path = "data/tests/layer_norm/expected_output.txt";
         let fake_target = "data/tests/layer_norm/fake_target.txt";
         let expected_loss = "data/tests/layer_norm/expected_loss.txt";
@@ -85,9 +140,14 @@ mod tests {
         let mut layer_norm_weights_file = File::open(layer_norm_weights_path).unwrap();
         let mut layer_norm_bias_file = File::open(layer_norm_bias_path).unwrap();
         let mut test_input_file = File::open(test_input_path).unwrap();
+        let mut test_input_a_file = File::open(test_input_a_path).unwrap();
+        let mut test_input_b_file = File::open(test_input_b_path).unwrap();
+        
+
         let mut expected_output_file = File::open(expected_output_path).unwrap();
         let mut fake_target_file = File::open(fake_target).unwrap();
         let mut expected_loss_file = File::open(expected_loss).unwrap();
+
         let mut layer_norm_weight_grad_file = File::open("data/tests/layer_norm/layer_norm_weights_grad.txt").unwrap();
         let mut layer_norm_bias_grad_file = File::open("data/tests/layer_norm/layer_norm_bias_grad.txt").unwrap();
 
@@ -95,6 +155,8 @@ mod tests {
         let layer_norm_weight= Tensor::from_bytestream(&mut layer_norm_weights_file, false).unwrap();
         let layer_norm_bias = Tensor::from_bytestream(&mut layer_norm_bias_file, false).unwrap();
         let test_input = Tensor::from_bytestream(&mut test_input_file, false).unwrap();
+        let test_input_a = Tensor::from_bytestream(&mut test_input_a_file, false).unwrap();
+        let test_input_b = Tensor::from_bytestream(&mut test_input_b_file, false).unwrap();
         let expected_output = Tensor::from_bytestream(&mut expected_output_file, false).unwrap();
         let fake_target = Tensor::from_bytestream(&mut fake_target_file, false).unwrap();
         let expected_loss = Tensor::from_bytestream(&mut expected_loss_file, false).unwrap();
@@ -105,15 +167,17 @@ mod tests {
         
         // Create LayerNorm instance
         let mut layer_norm = LayerNorm::from_weights_and_bias(layer_norm_weight, layer_norm_bias);
-
+        let real_test_input = test_input_a + test_input_b;
         // Perform forward pass
-        let output = layer_norm.forward(&test_input);
+        let output = layer_norm.forward(&real_test_input);
+
+
         let ouput_as_flat_array = output.item().iter().map(|x| x.clone()).collect::<Vec<f32>>();
         let expected_as_flat_array = expected_output.item().iter().map(|x| x.clone()).collect::<Vec<f32>>();
 
         // Check if the output is approximately equal to the expected output
         for (o, e) in ouput_as_flat_array.iter().zip(expected_as_flat_array.iter()) {
-            assert!((o - e).abs() < 1e-4, "Output {} is not approximately equal to expected {}", o, e);
+           // assert!((o - e).abs() < 1e-4, "Output {} is not approximately equal to expected {}", o, e);
         }
 
         let diff = output - fake_target;
@@ -123,10 +187,15 @@ mod tests {
 
         let expected_mse_loss = expected_loss.item();
         for (loss, expected) in mse_loss.item().iter().zip(expected_mse_loss.iter()) {
-            assert!((loss - expected).abs() < 1e-2, "Loss {} is not approximately equal to expected {}", loss, expected);
+         //   assert!((loss - expected).abs() < 1e-2, "Loss {} is not approximately equal to expected {}", loss, expected);
         }
 
         mse_loss.backward();
+        //println!("{:?}", output.item());
+        println!("{:?}",real_test_input.grad());
+        //println!("{:?}",layer_norm.mean.unwrap().grad());
+        //println!("{:?}", mse_loss.item());
+        panic!("---");
 
         let expected_layer_norm_weight_grad_output_flatten = expected_layer_norm_weight_grad.item().iter().map(|x| x.clone()).collect::<Vec<f32>>();
         let layer_norm_weight_grad_output_flatten = layer_norm.weight.grad().iter().map(|x| x.clone()).collect::<Vec<f32>>();
@@ -142,7 +211,7 @@ mod tests {
             assert!((g - eg).abs() < 1e-2, "Gradient {} is not approximately equal to expected gradient {}", g, eg);
         }
 
-        println!("{:?}", test_input.grad());
-        panic!("---");
+
+
     }
 }

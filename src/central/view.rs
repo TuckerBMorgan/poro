@@ -208,8 +208,6 @@ impl Tensor {
 
                 let return_shape = return_tensor.shape().to_vec();
 
-                println!("Return Shape: {:?}", return_shape);
-
                 if return_shape.len() == 2 {
                     for i in 0..return_shape[0] {
                         for j in 0..return_shape[1] {

@@ -304,6 +304,7 @@ class GPT(nn.Module):
             new_logitcs = logits.view(-1, logits.size(-1))
             new_targets = targets.view(-1)
             loss = F.cross_entropy(new_logitcs,new_targets, ignore_index=-1)
+            
         else:
             # inference-time mini-optimization: only forward the lm_head on the very last position
             logits = self.lm_head(x[:, [-1], :]) # note: using list [-1] to preserve the time dim
@@ -738,13 +739,19 @@ if __name__ == "__main__":
     '''
     logits,loss = model(x, y)
     model.transformer.wte.weight.retain_grad()
+    model.transformer.ln_f.weight.retain_grad()
     loss.backward()
+    
+    #print(model.transformer.ln_f.weight.grad)
+    #print(model.transformer.ln_f.weight.grad.shape)
+    #exit()
+    
     iters = 0
-    print(model.transformer.ln_f.weight.grad)
-    exit()
+
     for block in model.transformer.h:
         if iters == 11:
-            print(block.mlp.c_proj.weight.grad)
+            print(block.mlp.c_proj.bias.grad)
+            print(block.mlp.c_proj.bias.shape)
             exit()
         iters += 1
     exit()

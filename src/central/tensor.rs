@@ -447,6 +447,9 @@ impl Tensor {
     }
 
     pub fn mean(&self, axes: Vec<usize>) -> Tensor {
+        if axes.len() > 1 {
+            panic!("Time to implement multi-axis mean\n or do .mean().mean()");
+        }
         // This makes the assumption that axes is already is ascending order
         let mut data = self.item();
         let mut new_shape_indices = self.shape.indices.clone();
@@ -464,80 +467,24 @@ impl Tensor {
         let tensor_id = singleton.allocate_tensor_from_operation(
             Shape::new(new_shape_indices_vec.clone()),
             data,
-            Operation::Mean(self.tensor_id),
+            Operation::Mean(self.tensor_id, axes[0]),
         );
 
         return Tensor {
             tensor_id,
             shape: Shape::new(new_shape_indices_vec),
-            operation: Operation::Mean(self.tensor_id),
+            operation: Operation::Mean(self.tensor_id, axes[0]),
             name: ['a'; NAME_LENGTH],
         };
+    }
 
-        if axes.len() == 1 {
-
-            let item = self.item();
-            let mean = item.mean_axis(Axis(axes[0])).unwrap();
-            let mut singleton = get_equation();
-            let data : Vec<f32> = mean.into_iter().collect();
-            let mut new_shape_indices = self.shape.indices.clone();
-            new_shape_indices[axes[0]] = 1;
-            info!("new_shape_indices: {:?}", new_shape_indices);
-            info!("data length: {:?}", data.len());
-
-            // Cut down new_shape_indices_vec to the correct size
-            // which will be the same as the original shape
-            new_shape_indices_vec.truncate(self.shape.number_of_indices);
-            info!("new_shape_indices_vec: {:?}", new_shape_indices_vec);
-            let tensor_id = singleton.allocate_tensor_from_operation(
-                Shape::new(new_shape_indices_vec.clone()),
-                data,
-                Operation::Mean(self.tensor_id),
-            );
-
-            return Tensor {
-                tensor_id,
-                shape: Shape::new(new_shape_indices_vec),
-                operation: Operation::Mean(self.tensor_id),
-                name: ['a'; NAME_LENGTH],
-            };
-        }
-        if axes.len() == 2 {
-            let item = self.item();
-            let sum = item.sum_axis(Axis(axes[0])).sum_axis(Axis(axes[1]));
-            let mean = item.mean();
-            println!("Wait is this the mean {:?}", mean);
-            let mut singleton = get_equation();
-
-            let data = mean.into_iter().collect();
-
-            let mut new_shape_indices = self.shape.indices.clone();
-            new_shape_indices[axes[0]] = 1;
-            new_shape_indices[axes[1]] = 1;
-
-            let tensor_id = singleton.allocate_tensor_from_operation(
-                Shape::new(vec![
-                    new_shape_indices[0],
-                    new_shape_indices[1],
-                    new_shape_indices[2],
-                ]),
-                data,
-                Operation::Mean(self.tensor_id),
-            );
-
-            return Tensor {
-                tensor_id,
-                shape: Shape::new(vec![
-                    new_shape_indices[0],
-                    new_shape_indices[1],
-                    new_shape_indices[2],
-                ]),
-                operation: Operation::Mean(self.tensor_id),
-                name: ['a'; NAME_LENGTH],
-            };
-        } else {
-            panic!("Mean only supports 1 or 2 axes")
-        }
+    pub fn var(&self, axis: Vec<usize>) -> Tensor {
+        let mean = self.mean(axis.clone());
+        let mean_broadcast = mean.broadcast(self.shape.clone());
+        let diff = *self - mean_broadcast;
+        let diff_squared = diff.pow(2.0);
+        let variance = diff_squared.mean(axis);
+        return variance;
     }
 
     pub fn std(&self, axis: Vec<usize>) -> Tensor {

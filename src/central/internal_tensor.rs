@@ -39,7 +39,7 @@ impl InternalTensor {
             Operation::Broadcast(a, _) => vec![a],
             Operation::Log(a) => vec![a],
             Operation::View(a, _index) => vec![a],
-            Operation::Mean(a) => vec![a],
+            Operation::Mean(a, _axes) => vec![a],
             Operation::Concat(a, b) => vec![a, b],
             Operation::Reshape(a, _) => vec![a],
             Operation::Tanh(a) => vec![a],
