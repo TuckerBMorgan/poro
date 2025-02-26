@@ -756,7 +756,9 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
             Operation::Reshape(a, _) => {
                 info!("Reshape Backward");
                 let source_grad = self.get_tensor_grad(a);
-//                let grad_update = source_grad.clone();
+                
+                println!("source_grad: {:?}", source_grad.shape());
+                println!("grad: {:?}", grad.shape());
 
                 self.set_tensor_grad(a, grad.into_shape(source_grad.shape()).unwrap());
                 
@@ -772,9 +774,13 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
             Operation::Transpose(a, first_index, second_index) => {
                 info!("Tranpose Backward");
                 let mut grad_clone = grad.clone();
-                grad_clone.swap_axes(first_index, second_index);
+                grad_clone.swap_axes(second_index, first_index);
                 let source_grad = self.get_tensor_grad(a);
+                info!("source_grad_shape: {:?}", source_grad.shape());
+                info!("grad_clone_shape: {:?}", grad_clone.shape());
+                info!("grad_shape: {:?}", grad.shape());
                 let grad_update = source_grad + grad_clone;
+
                 self.set_tensor_grad(a, grad_update);
             }
             Operation::Sin(a) => {
@@ -792,12 +798,16 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 self.set_tensor_grad(a, grad_update);
             },
             Operation::MaskedFill(origin_tensor, mask, mask_value) => {
+                
                 info!("Masked Fill Backward");
+
                 let source_data = self.get_item(origin_tensor);
-                let source_grad = self.get_item(origin_tensor);
+                let source_grad = self.get_tensor_grad(origin_tensor).into_raw_vec();
+                
                 let source_grad_for_shape = self.get_tensor_grad(origin_tensor);
+
                 let mask_data = self.get_item(mask);
-                let mut grad_update = source_grad.clone();
+                let mut grad_update = grad.clone().into_raw_vec();
                 for i in 0..source_data.len() {
                     if mask_data[i] == mask_value as f32 {
                         grad_update[i] = 0.0;
@@ -805,6 +815,67 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 }
                 let grad_update_as_array = ArrayD::from_shape_vec(source_grad_for_shape.shape(), grad_update).unwrap();
                 self.set_tensor_grad(origin_tensor,  grad_update_as_array);
+            },
+            Operation::Embedding(embedding_tensor, indices_tensor) => {
+                info!("Embedding Backward");
+                let indices: ArrayD<f32> = self.get_tensor_data(indices_tensor); // shape: [batch, token]
+               // let grad: ArrayD<f32> = grad; // shape: [batch, token, embedding_dim]
+                
+                // Determine the embedding dimension
+                let grad_shape = grad.shape();
+                let embedding_dim = grad_shape[2]; // assuming shape is [batch, token, embedding_dim]
+                info!("Grad shape: {:?}", grad_shape);
+                // Flatten the first two dimensions of grad so that each row corresponds to one token's gradient vector
+                let batch_token = indices.len(); // number of indices (batch * token)
+                let grad_flat = grad
+                    .into_shape((batch_token, embedding_dim))
+                    .expect("Failed to reshape grad");
+                
+                // Flatten the indices to match the first dimension of grad_flat
+                let index_flat: Vec<usize> = indices
+                    .iter()
+                    .map(|&i| i as usize)
+                    .collect();
+                
+                // Create a zeroed gradient array for the embedding weights.
+                // Assuming you can get the shape from the embedding tensor.
+                let shape = self.get_tensor_grad(embedding_tensor);
+                
+                info!("Shape: {:?}", shape.shape());
+                info!("Indices shape: {:?}", indices.shape());
+
+                let embedding_grad_shape = shape.shape();
+                let num_embeddings = embedding_grad_shape[0]; // first dimension is the vocabulary size
+                // Here, we create a 2D array: shape (num_embeddings, embedding_dim)
+                let mut zeroes = Array2::<f32>::zeros((num_embeddings, embedding_dim));
+                // Now, accumulate the gradients
+                for i in 0..batch_token {
+                    let index = index_flat[i];
+                    // Get the i-th gradient vector (1D array of length embedding_dim)
+                    let grad_vec = grad_flat.row(i);
+                    
+                    // Add grad_vec to the corresponding row in zeroes. If the index appears more than once,
+                    // this will sum the gradients.
+                    let mut zeroes_row = zeroes
+                    .row_mut(index);
+                    
+                    zeroes_row.iter_mut()
+                    .zip(grad_vec.iter())
+                    .for_each(|(dest, &src)| *dest += src);
+                }
+                
+                let current_grad = self.get_tensor_grad(embedding_tensor);
+                let zeroes = zeroes.into_dyn();
+                // Assert that the shapes match
+                assert_eq!(zeroes.shape(), current_grad.shape(), "Shapes do not match: {:?} vs {:?}", zeroes.shape(), current_grad.shape());
+                info!("Current grad shape: {:?}", current_grad);
+                info!("Zeros: {:?}", zeroes);
+
+                let zeroes = zeroes + current_grad;
+                
+                // Finally, set the accumulated gradient as the gradient for the embedding tensor.
+                self.set_tensor_grad(embedding_tensor, zeroes.into_dyn());
+
             }
         }
 

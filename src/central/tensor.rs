@@ -101,7 +101,7 @@ impl Tensor {
         }
     }
 
-    pub fn randn(shape: Shape) -> Tensor {
+    pub fn randn(shape: Shape) -> Tensor {        
         let mut singleton = get_equation();
         let tensor_id = singleton.allocate_randn_tensor(shape.clone(), Operation::Nop);
         Tensor {
@@ -680,6 +680,7 @@ impl Tensor {
     }
 
     pub fn max(&self, axis: usize) -> Tensor {
+        println!("{:?}", axis);
         let mut shape = self.shape.clone().indices;
         let number_of_indices = self.shape.number_of_indices;
 
@@ -772,6 +773,7 @@ impl Tensor {
     }
 
     pub fn softmax(&self, axis: usize) -> Tensor {
+
         let max = self.max(axis);
         let counts = (*self - max).exp();
         let sum = counts.sum(axis);
@@ -787,5 +789,40 @@ impl Tensor {
         let sum = loss.sum(1);
         let mean = sum.mean(vec![0]);
         -mean
+    }
+
+    pub fn embbeding(&self, input: &Tensor, model_dimension: usize) -> Tensor {
+        let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![input.shape.indices[0], input.shape.indices[1], model_dimension]));
+        let data = self.item();
+
+        for b in 0..input.shape.indices[0] {
+            for t in 0..input.shape.indices[1] {
+                let view = input.view([b, t].into());
+                let index = view.item()[[0]] as usize;
+                for i in 0..model_dimension {
+                    let datum = data[[index, i]];
+                    test_index_tensor.set_index(
+                        [b,t, i].into(),
+                        vec![datum]
+                    );
+                }
+            }
+        }
+
+        let data = test_index_tensor.item().into_iter().collect();
+        let mut singleton = get_equation();
+        let tensor_id = singleton.allocate_tensor_from_operation(
+            test_index_tensor.shape.clone(),
+            data,
+            Operation::Embedding(self.tensor_id, input.tensor_id),
+        );
+
+        Tensor {
+            tensor_id,
+            shape: test_index_tensor.shape,
+            operation: Operation::Embedding(self.tensor_id, input.tensor_id),
+            name: ['a'; NAME_LENGTH],
+        }
+
     }
 }

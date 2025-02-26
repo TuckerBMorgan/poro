@@ -49,10 +49,14 @@ pub struct CasualSelfAttentionConfig {
 }
 
 pub struct CasualSelfAttention {
-    query_attention: LinearLayer,
-    key_attention: LinearLayer,
-    value_attention: LinearLayer,
-    c_proj: LinearLayer,
+    pub query_attention: LinearLayer,
+    pub key_attention: LinearLayer,
+    pub value_attention: LinearLayer,
+    pub c_proj: LinearLayer,
+    pub y: Option<Tensor>,
+    pub attn_weights: Option<Tensor>,
+    pub filled: Option<Tensor>,
+    pub mask: Option<Tensor>,
 }
 
 impl CasualSelfAttention {
@@ -82,6 +86,10 @@ impl CasualSelfAttention {
             key_attention,
             value_attention,
             c_proj,
+            y: None,
+            attn_weights: None,
+            filled: None,
+            mask: None,
         }
     }
 
@@ -96,6 +104,10 @@ impl CasualSelfAttention {
             key_attention,
             value_attention,
             c_proj,
+            y: None,
+            attn_weights: None,
+            filled: None,
+            mask: None,
         }
     }
 }
@@ -147,21 +159,25 @@ impl Module for CasualSelfAttention {
 //        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &query_key.item().into_raw_vec());
         let denom = 1.0 / (key.shape.indices[key.shape.number_of_indices - 1] as f32).sqrt();
         let attn_weights = query_key * denom;
+        self.attn_weights = Some(attn_weights.clone());
+
 //        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnWeights");
 //        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
         let mask = Tensor::tril(vec![t, t].into()).reshape(vec![1, 1, t, t].into());
-
+        self.mask = Some(mask.clone());
 //        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Premask");
 //        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &mask.item().into_raw_vec());
 
         let mask_broadcasted = mask.broadcast(vec![b, num_heads, t, t].into());
         let filled = attn_weights.masked_fill(&mask_broadcasted, std::f32::NEG_INFINITY);
+        self.filled = Some(filled.clone());
 //        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Filled");
 //        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &filled.item().into_raw_vec());
         let attn_weights = filled.softmax(attn_weights.shape.number_of_indices - 1);
 //        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Softmax");
 //        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_weights.item().into_raw_vec());
         let attn_output = attn_weights << value;
+        self.y = Some(attn_output.clone());
 //        let _ = write_string_vector_to_file("./rust_checkfile.txt", "$AttnOutput");
 //        let _ = write_f32_vector_to_file("./rust_checkfile.txt", &attn_output.item().into_raw_vec());
         let attn_output = attn_output.tranpose_with_provided_axis(1, 2).reshape(vec![b, t, c].into());
@@ -177,7 +193,7 @@ impl Module for CasualSelfAttention {
         let mut parameters = Vec::new();
         parameters.extend(self.query_attention.get_parameters());
         parameters.extend(self.key_attention.get_parameters());
-    parameters.extend(self.value_attention.get_parameters());
+        parameters.extend(self.value_attention.get_parameters());
         parameters.extend(self.c_proj.get_parameters());
         parameters
     }
@@ -245,7 +261,7 @@ mod tests {
             assert!((o - e).abs() < 1e-6, "Mismatch at index {}", i);
         }
 
-        let mse_loss = (output - tenors[8]).pow(2.0).reshape(vec![1024 * 768].into()).mean(vec![0]);
+        let mse_loss = (output - tenors[8]).pow(2.0).reshape(vec![2 * 8 * 768].into()).mean(vec![0]);
 
         let expected_loss_flatten = tenors[9].item().into_raw_vec();
         let loss_flatten = mse_loss.item().into_raw_vec();
@@ -255,6 +271,7 @@ mod tests {
             assert!((l - e).abs() < 1e-4, "Mismatch at index {}", i);
         }
         mse_loss.backward();
+
 
         let grad = casual_self_attention.c_proj.weights.grad();
         let expected_grad = tenors[12].clone();

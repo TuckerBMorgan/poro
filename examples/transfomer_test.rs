@@ -332,8 +332,8 @@ impl GPT {
 impl Model for GPT {
     fn forward(&mut self, x: &Tensor) -> Tensor {
         info!("GPT forward");
-        let toks = self.wte.forward(x);
 
+        let toks = self.wte.forward(x);
 
         //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Toks");
         //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &toks.item().into_raw_vec());
@@ -341,6 +341,7 @@ impl Model for GPT {
         info!("WTE done");
         let pos_arange = Tensor::arange(0, x.shape.indices[1], 1).reshape(vec![1, x.shape.indices[1]].into());
         let pos = self.wpe.forward(&pos_arange);
+
 
 
         //let _ = write_string_vector_to_file("./rust_checkfile.txt", "$Pos");
@@ -368,7 +369,7 @@ impl Model for GPT {
         //let _ = write_f32_vector_to_file("./rust_checkfile.txt", &x.item().into_raw_vec());
 
         info!("Final layer norm done");
-        let mut test = LinearLayer::from_weights_and_bias(self.wte.tensor.clone(), Tensor::zeroes(Shape::new(vec![1].into())));
+        let mut test = LinearLayer::from_weights_and_bias(self.wte.tensor.clone(), Tensor::zeroes(Shape::new(vec![0].into())));
 
         let x = test.forward(&x);
 
@@ -510,7 +511,7 @@ fn main() {
 
     let (x, y) = data_loead.next_batch();
 
-    let mut one_hot_encoded_trues = Tensor::zeroes(Shape::new(vec![batch_size, seq_length, vocab_size].into()));
+    let mut one_hot_encoded_trues = Tensor::zeroes(Shape::new(vec![batch_size, seq_length, 50257].into()));
     let y = y.item();
 
     for i in 0..batch_size {
@@ -520,29 +521,26 @@ fn main() {
         }
     }
 
-    let one_hot_encoded_trues = one_hot_encoded_trues.reshape(vec![batch_size *  seq_length, vocab_size].into());
+    let one_hot_encoded_trues = one_hot_encoded_trues.reshape(vec![batch_size *  seq_length, 50257].into());
+
     let mut gpt = GPT::build_from_checkpoint_file("./gpt2.bin");
     let test_ouput = gpt.forward(&x);
+    println!("{:?}", gpt.wte.tensor.shape);
+    panic!("");
 
-    let test_output = test_ouput.reshape(vec![batch_size * seq_length, vocab_size].into());
+    let test_output = test_ouput.reshape(vec![batch_size * seq_length, 50257].into());
+
     let loss = test_output.cross_entropy_loss(one_hot_encoded_trues);
     loss.backward();
-
-  //  println!("{:?}", gpt.final_layer_norm.weight.grad());
-//return;
-
-
-    let mut iters = 0;
-    for block in &gpt.blocks {
-        if iters == 11 {
-            println!("{:?}", block.mlp.c_proj.bias.grad());
-            println!("{:?}", block.mlp.c_proj.bias.grad().shape());
-            panic!("");
+    println!("{:?}", gpt.wte.tensor.grad());
+    let mut index = 0;
+    for row in gpt.wte.tensor.grad().rows() {
+        if index == 11 {
+            println!("{:?}", row);
         }
-        iters += 1;
+        index += 1;
     }
-
-
+    panic!("");
 
     return;
 
@@ -559,6 +557,7 @@ fn main() {
 
     let test_input_file_path = "./test_input.bin";
     let test_input = Tensor::from_bytestream(&mut File::open(test_input_file_path).unwrap(), false).unwrap();
+    
     println!("{:?}", test_input.shape);
     // open the file "gpt2.bin" and feed it to GPTConfig::from_bytestream
 

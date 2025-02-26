@@ -47,6 +47,7 @@ impl InternalTensor {
             Operation::Sin(a) => vec![a],
             Operation::Cos(a) => vec![a],
             Operation::MaskedFill(a, _, _) => vec![a],
+            Operation::Embedding(a, _) => vec![a],
         }
     }
 }

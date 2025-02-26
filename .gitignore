@@ -3,3 +3,4 @@
 *.json
 *.txt
 *.log
+*/data/*

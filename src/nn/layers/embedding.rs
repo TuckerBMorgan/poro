@@ -25,6 +25,9 @@ impl Embedding {
 
 impl Module for Embedding {
     fn forward(&mut self, input: &Tensor) -> Tensor {
+
+        return self.tensor.embbeding(input, self.model_dimension);
+        
         let mut test_index_tensor = Tensor::zeroes(Shape::new(vec![input.shape.indices[0], input.shape.indices[1], self.model_dimension]));
         let data = self.tensor.item();
 

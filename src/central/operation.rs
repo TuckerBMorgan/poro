@@ -24,6 +24,7 @@ pub enum Operation {
     Sin(TensorID),
     Cos(TensorID),
     MaskedFill(TensorID, TensorID, isize),
+    Embedding(TensorID, TensorID),
 }
 
 impl Operation {
@@ -47,6 +48,7 @@ impl Operation {
             Operation::Sin(a) => Some(*a),
             Operation::Cos(a) => Some(*a),
             Operation::MaskedFill(a, _, _) => Some(*a),
+            Operation::Embedding(a, _) => Some(*a),
         }
     }
 }
@@ -72,6 +74,7 @@ impl fmt::Display for Operation {
             Operation::Sin(_a) => write!(f, "Sin()"),
             Operation::Cos(_a) => write!(f, "Cos()"),
             Operation::MaskedFill(_a, _b, _c) => write!(f, "MaskedFill()"),
+            Operation::Embedding(_a, _b) => write!(f, "Embedding()"),
         }
     }
 }

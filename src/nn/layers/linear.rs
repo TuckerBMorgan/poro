@@ -33,6 +33,9 @@ impl Module for LinearLayer {
     
     fn forward(&mut self, x: &Tensor) -> Tensor {
         let weight_transpose = self.weights.transpose();
+        if self.bias.shape.number_of_indices == 1 && self.bias.shape.indices[0] == 0 {
+            return *x << weight_transpose;
+        }
         (*x << weight_transpose) + self.bias
     }
 

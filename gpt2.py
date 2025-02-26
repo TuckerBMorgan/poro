@@ -74,6 +74,7 @@ class CausalSelfAttention(nn.Module):
                                      .view(1, 1, config.block_size, config.block_size))
 
     def forward(self, x):
+
         B, T, C = x.size() # batch size, sequence length, embedding dimensionality (n_embd)
         # calculate query, key, values for all heads in batch and move head forward to be the batch dim
         q = self.q(x)
@@ -241,6 +242,7 @@ class GPT(nn.Module):
             ln_f = nn.LayerNorm(config.n_embd),
         ))
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
+
         self.lm_head.LLMC_SKIP_INIT = 1 # don't init this one, we will tie weights
         self.transformer.wte.weight = self.lm_head.weight # https://paperswithcode.com/method/weight-tying
 
@@ -282,10 +284,13 @@ class GPT(nn.Module):
         pos = torch.arange(0, t, dtype=torch.long, device=device) # shape (t)
 
         # forward the GPT model itself
+
         tok_emb = self.transformer.wte(idx) # token embeddings of shape (b, t, n_embd)
+
         #append_string_to_file("./python_checkfile.txt", "$Toks")
         #write_floats_to_file("./python_checkfile.txt", tok_emb.detach().numpy().flatten().tolist())
         pos_emb = self.transformer.wpe(pos) # position embeddings of shape (t, n_embd)
+
         #append_string_to_file("./python_checkfile.txt", "$Pos")
         #write_floats_to_file("./python_checkfile.txt", pos_emb.detach().numpy().flatten().tolist())
         x = tok_emb + pos_emb
@@ -303,6 +308,8 @@ class GPT(nn.Module):
             logits = self.lm_head(x)
             new_logitcs = logits.view(-1, logits.size(-1))
             new_targets = targets.view(-1)
+
+
             loss = F.cross_entropy(new_logitcs,new_targets, ignore_index=-1)
             
         else:
@@ -717,8 +724,15 @@ if __name__ == "__main__":
     
     torch.manual_seed(42)
     model = GPT(model_config)
-    write_model(model, f"gpt2.bin", dtype="float32")
+    #Embedding(50257, 768)
+    grad_container = {}
+    def capture_grad(grad):
+        # Save a clone of the gradient to avoid in-place modifications later
+        grad_container['end_grad'] = grad.clone()
+    model.lm_head.weight.register_hook(capture_grad)
 
+            # Register the hook to the parameter.
+    write_model(model, f"gpt2.bin", dtype="float32")
     train_loader = DistributedDataLoader("./data/tinyshakespeare/tiny_shakespeare_val.bin", 1, 64, 0, 1)
     x, y = train_loader.next_batch()
     '''
@@ -741,17 +755,18 @@ if __name__ == "__main__":
     model.transformer.wte.weight.retain_grad()
     model.transformer.ln_f.weight.retain_grad()
     loss.backward()
-    
-    #print(model.transformer.ln_f.weight.grad)
+    print(model.transformer.wte.weight.grad.shape)
+    exit()
+    #print(model.transformer.wte.weight.grad[10])
+
     #print(model.transformer.ln_f.weight.grad.shape)
     #exit()
-    
+
     iters = 0
 
     for block in model.transformer.h:
-        if iters == 11:
-            print(block.mlp.c_proj.bias.grad)
-            print(block.mlp.c_proj.bias.shape)
+        if iters == 0:
+            print(block.ln_1.weight.grad)
             exit()
         iters += 1
     exit()
