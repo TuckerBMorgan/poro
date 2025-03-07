@@ -3,6 +3,8 @@
 
 pub mod central;
 pub mod nn;
+pub mod optimizers;
+pub use optimizers::*;
 pub use central::*;
 pub use ndarray::prelude::*;
 

@@ -1071,7 +1071,7 @@ pub fn standard_matmul(&self, a: &ArrayD<f32>, b: &ArrayD<f32>) -> ArrayD<f32> {
                 ids_to_update.insert(internal_tensor.tensor_id);
             }
         }
-
+        
         for id in ids_to_update {
             let grad = self.get_tensor_grad(id);
             let data = self.get_tensor_data(id);

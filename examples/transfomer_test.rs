@@ -3,6 +3,7 @@ use poro::nn::model::DecoderOnlyTransformer;
 use poro::central::Tensor;
 use poro::nn::{AttentionHead, Embedding, LinearLayer, Model, Module, MLP, LayerNorm, CasualSelfAttention, CasualSelfAttentionConfig};
 use poro::nn::model::PositionalEncoding;
+use poro::optimizers::adam::Adam;
 use poro::nn::layers::NewGLU;
 use std::io::{Read, Seek};
 use std::convert::TryInto;

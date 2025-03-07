@@ -77,11 +77,11 @@ impl Shape {
         }
 
         if self.number_of_indices == 2 && other.number_of_indices == 1 {
-            assert!(self.indices[1] == other.indices[0]);
+            assert!(self.indices[1] == other.indices[0], "{} != {}", self.indices[1], other.indices[0]);
             return Shape::new(vec![self.indices[0]]);
         }
         if self.number_of_indices == 2 && other.number_of_indices == 2 {
-            assert!(self.indices[1] == other.indices[0]);
+            assert!(self.indices[1] == other.indices[0], "{} != {}", self.indices[1], other.indices[0]);
             let mut new_indices = Vec::new();
             new_indices.push(self.indices[0]);
             new_indices.push(other.indices[1]);
