@@ -1,3 +1,4 @@
+# NO LONGER MANTAINED GO TO [Cant](github.com/TuckerBMorgan/can-t)
 # Poro
 [![Current Crates.io Version](https://img.shields.io/crates/v/poro.svg?style=for-the-badge&logo=rust)](https://crates.io/crates/poro)
 ![Professor Poro](./icon.webp)
